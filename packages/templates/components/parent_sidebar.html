@@ -1,0 +1,197 @@
+<!-- ==================================================
+     BRAND
+=================================================== -->
+
+<div class="parent-brand">
+
+    <img src="{{ url_for('static', filename='img/logo.png') }}"
+         alt="reInsight">
+
+    <div class="parent-brand-text">
+
+        <h5>reInsight</h5>
+
+        <small>Parent Portal</small>
+
+    </div>
+
+</div>
+
+<!-- ==================================================
+     PARENT PROFILE
+=================================================== -->
+
+<div class="parent-user">
+
+    <img src="https://ui-avatars.com/api/?name=Parent&background=2563EB&color=fff"
+         alt="Parent"
+         class="avatar">
+
+    <div class="parent-user-info">
+
+        <h6>Parent</h6>
+
+        <small>Linked Account</small>
+
+    </div>
+
+</div>
+
+<!-- ==================================================
+     NAVIGATION
+=================================================== -->
+
+<nav class="parent-menu">
+
+    <!-- Dashboard -->
+    <div class="parent-menu-section">Overview</div>
+
+    <a class="nav-link active"
+       href="{{ url_for('parent.parent_dashboard') }}">
+
+        <i class="bi bi-grid-1x2-fill"></i>
+
+        <span>Dashboard</span>
+
+    </a>
+
+    <!-- Children -->
+    <div class="parent-menu-section">Children</div>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.children_home') }}">
+
+        <i class="bi bi-people-fill"></i>
+
+        <span>My Children</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.child_profile', id=1) }}">
+
+        <i class="bi bi-person-badge-fill"></i>
+
+        <span>Child Profile</span>
+
+    </a>
+
+    <!-- Attendance -->
+    <div class="parent-menu-section">Attendance</div>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.attendance_home') }}">
+
+        <i class="bi bi-calendar-check-fill"></i>
+
+        <span>Attendance Summary</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.attendance_history') }}">
+
+        <i class="bi bi-clock-history"></i>
+
+        <span>Attendance History</span>
+
+    </a>
+
+    <!-- Academics -->
+    <div class="parent-menu-section">Academics</div>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.academics_home') }}">
+
+        <i class="bi bi-book-fill"></i>
+
+        <span>Academic Summary</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.academics_results') }}">
+
+        <i class="bi bi-bar-chart-fill"></i>
+
+        <span>Results</span>
+
+    </a>
+
+    <!-- Behaviour -->
+    <div class="parent-menu-section">Behaviour</div>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.behaviour_home') }}">
+
+        <i class="bi bi-emoji-smile-fill"></i>
+
+        <span>Behaviour Report</span>
+
+    </a>
+
+    <!-- Reports -->
+    <div class="parent-menu-section">Reports</div>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.report_cards_home') }}">
+
+        <i class="bi bi-file-earmark-text-fill"></i>
+
+        <span>Report Cards</span>
+
+    </a>
+
+    <!-- Communication -->
+    <div class="parent-menu-section">Communication</div>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.notifications_home') }}">
+
+        <i class="bi bi-bell-fill"></i>
+
+        <span>Notifications</span>
+
+    </a>
+
+    <!-- Account -->
+    <div class="parent-menu-section">Account</div>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.profile') }}">
+
+        <i class="bi bi-person-circle"></i>
+
+        <span>My Profile</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('parent.settings') }}">
+
+        <i class="bi bi-gear-fill"></i>
+
+        <span>Settings</span>
+
+    </a>
+
+    <a class="nav-link text-danger"
+       href="#">
+
+        <i class="bi bi-box-arrow-right"></i>
+
+        <span>Logout</span>
+
+    </a>
+
+</nav>
+
+<!-- ==================================================
+     FOOTER
+=================================================== -->
+
+<div class="parent-sidebar-footer">
+
+    Academic Session 2026
+
+</div>

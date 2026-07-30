@@ -1,0 +1,473 @@
+{% extends "parent_dash/parent_base.html" %}
+
+{% block title %}reInsight | Parent Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Welcome back, {{ current_user.first_name if current_user.is_authenticated else 'Parent' }}</h2>
+
+        <p class="text-muted mb-0">Track attendance, academics, behaviour, and school updates for your children.</p>
+
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <button class="btn btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#childSelectorModal">
+
+            <i class="bi bi-people me-2"></i>Switch Child
+
+        </button>
+
+        <button class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#downloadReportModal">
+
+            <i class="bi bi-download me-2"></i>Download Report
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+ALERTS
+========================================================= -->
+
+{% if alerts %}
+
+<div class="row g-3 mb-4">
+
+    {% for alert in alerts %}
+
+    <div class="col-12">
+
+        <div class="alert alert-{{ alert.category }} d-flex align-items-start gap-3 shadow-sm border-0 rounded-4 mb-0">
+
+            <i class="{{ alert.icon }} fs-4 mt-1"></i>
+
+            <div class="flex-grow-1">
+
+                <div class="fw-semibold">{{ alert.title }}</div>
+
+                <div class="small">{{ alert.message }}</div>
+
+            </div>
+
+            {% if alert.url %}
+
+            <a href="{{ alert.url }}" class="btn btn-sm btn-light">View</a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+<!-- =========================================================
+CHILD SUMMARY CARDS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    {% for child in children %}
+
+    <div class="col-12 col-md-6 col-xl-4">
+
+        <div class="card shadow-sm border-0 h-100 rounded-4">
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-center gap-3 mb-3">
+
+                    <img src="{{ child.avatar or 'https://ui-avatars.com/api/?name=' ~ child.name|replace(' ', '+') ~ '&background=2563EB&color=fff' }}"
+                         alt="{{ child.name }}"
+                         class="rounded-circle"
+                         width="56"
+                         height="56">
+
+                    <div class="flex-grow-1">
+
+                        <h5 class="mb-0 fw-semibold">{{ child.name }}</h5>
+
+                        <small class="text-muted">{{ child.class_name }}</small>
+
+                    </div>
+
+                    <span class="badge bg-success-subtle text-success">Active</span>
+
+                </div>
+
+                <div class="row text-center g-3">
+
+                    <div class="col-4">
+
+                        <div class="fw-bold text-primary">{{ child.attendance }}%</div>
+
+                        <small class="text-muted">Attendance</small>
+
+                    </div>
+
+                    <div class="col-4">
+
+                        <div class="fw-bold text-success">{{ child.average }}</div>
+
+                        <small class="text-muted">Average</small>
+
+                    </div>
+
+                    <div class="col-4">
+
+                        <div class="fw-bold text-warning">{{ child.behaviour }}</div>
+
+                        <small class="text-muted">Behaviour</small>
+
+                    </div>
+
+                </div>
+
+                <div class="d-grid mt-4">
+
+                    <a href="{{ url_for('parent.child_profile', id=child.id) }}"
+                       class="btn btn-outline-primary">
+
+                        View Profile
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<!-- =========================================================
+ATTENDANCE & ACADEMICS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <!-- Attendance -->
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100 rounded-4">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0 fw-semibold">Attendance Overview</h5>
+
+                    <small class="text-muted">Current term performance</small>
+
+                </div>
+
+                <a href="{{ url_for('parent.attendance_home') }}"
+                   class="btn btn-sm btn-outline-primary">Details</a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span>Present</span>
+
+                    <strong>{{ attendance.present }}%</strong>
+
+                </div>
+
+                <div class="progress mb-3" style="height: 8px;">
+
+                    <div class="progress-bar bg-success" style="width: {{ attendance.present }}%"></div>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span>Late</span>
+
+                    <strong>{{ attendance.late }}%</strong>
+
+                </div>
+
+                <div class="progress mb-3" style="height: 8px;">
+
+                    <div class="progress-bar bg-warning" style="width: {{ attendance.late }}%"></div>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-2">
+
+                    <span>Absent</span>
+
+                    <strong>{{ attendance.absent }}%</strong>
+
+                </div>
+
+                <div class="progress" style="height: 8px;">
+
+                    <div class="progress-bar bg-danger" style="width: {{ attendance.absent }}%"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Academics -->
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100 rounded-4">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0 fw-semibold">Academic Snapshot</h5>
+
+                    <small class="text-muted">Latest subject averages</small>
+
+                </div>
+
+                <a href="{{ url_for('parent.academics_home') }}"
+                   class="btn btn-sm btn-outline-primary">View All</a>
+
+            </div>
+
+            <div class="card-body">
+
+                {% for subject in subjects %}
+
+                <div class="mb-3">
+
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+
+                        <span>{{ subject.name }}</span>
+
+                        <strong>{{ subject.score }}%</strong>
+
+                    </div>
+
+                    <div class="progress" style="height: 8px;">
+
+                        <div class="progress-bar bg-primary" style="width: {{ subject.score }}%"></div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+BEHAVIOUR & EVENTS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <!-- Behaviour -->
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100 rounded-4">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0 fw-semibold">Behaviour Summary</h5>
+
+                    <small class="text-muted">Recent observations</small>
+
+                </div>
+
+                <a href="{{ url_for('parent.behaviour_home') }}"
+                   class="btn btn-sm btn-outline-primary">History</a>
+
+            </div>
+
+            <div class="card-body">
+
+                {% for item in behaviour_records %}
+
+                <div class="d-flex align-items-start gap-3 py-3 {% if not loop.last %}border-bottom{% endif %}">
+
+                    <div class="rounded-circle d-flex align-items-center justify-content-center
+                                {% if item.type == 'positive' %}bg-success-subtle text-success{% else %}bg-warning-subtle text-warning{% endif %}"
+                         style="width:44px;height:44px;">
+
+                        <i class="bi {% if item.type == 'positive' %}bi-hand-thumbs-up-fill{% else %}bi-exclamation-triangle-fill{% endif %}"></i>
+
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <div class="fw-semibold">{{ item.title }}</div>
+
+                        <div class="small text-muted">{{ item.date }}</div>
+
+                        <div class="small mt-1">{{ item.note }}</div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Events -->
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100 rounded-4">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0 fw-semibold">Upcoming Events</h5>
+
+                    <small class="text-muted">School calendar</small>
+
+                </div>
+
+                <a href="#" class="btn btn-sm btn-outline-primary">Calendar</a>
+
+            </div>
+
+            <div class="card-body">
+
+                {% for event in events %}
+
+                <div class="d-flex align-items-center gap-3 py-3 {% if not loop.last %}border-bottom{% endif %}">
+
+                    <div class="text-center">
+
+                        <div class="fw-bold text-primary">{{ event.day }}</div>
+
+                        <small class="text-muted">{{ event.month }}</small>
+
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <div class="fw-semibold">{{ event.title }}</div>
+
+                        <div class="small text-muted">{{ event.time }}</div>
+
+                    </div>
+
+                    <i class="bi bi-chevron-right text-muted"></i>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+RECENT NOTIFICATIONS
+========================================================= -->
+
+<div class="card shadow-sm border-0 rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Recent Notifications</h5>
+
+            <small class="text-muted">Latest messages from the school</small>
+
+        </div>
+
+        <a href="{{ url_for('parent.notifications_home') }}"
+           class="btn btn-sm btn-outline-primary">View All</a>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        {% for notification in notifications %}
+
+        <div class="d-flex align-items-start gap-3 p-4 {% if not loop.last %}border-bottom{% endif %}">
+
+            <div class="rounded-circle d-flex align-items-center justify-content-center
+                        {% if notification.type == 'academic' %}bg-primary-subtle text-primary
+                        {% elif notification.type == 'attendance' %}bg-success-subtle text-success
+                        {% elif notification.type == 'event' %}bg-info-subtle text-info
+                        {% else %}bg-warning-subtle text-warning{% endif %}"
+                 style="width:44px;height:44px;">
+
+                <i class="{{ notification.icon }}"></i>
+
+            </div>
+
+            <div class="flex-grow-1">
+
+                <div class="d-flex justify-content-between align-items-start gap-3">
+
+                    <div>
+
+                        <div class="fw-semibold">{{ notification.title }}</div>
+
+                        <div class="small text-muted">{{ notification.message }}</div>
+
+                    </div>
+
+                    <small class="text-muted text-nowrap">{{ notification.time }}</small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

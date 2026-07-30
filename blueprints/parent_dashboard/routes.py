@@ -5,97 +5,205 @@ from blueprints.attendance.services import attendance_summary
 from . import parent_bp
 
 
+
 # ==========================================================
 # PARENT DASHBOARD
 # ==========================================================
 
 @parent_bp.route("/", endpoint="parent_dashboard")
 def parent_dashboard():
-    return render_template("parent_dash/parent_dashboard.html")
+
+    # Demo / placeholder data
+    alerts = [
+        {
+            "category": "warning",
+            "icon": "bi bi-exclamation-triangle-fill",
+            "title": "Low Attendance Alert",
+            "message": "David James has missed 3 classes this week.",
+            "url": "#"
+        },
+        {
+            "category": "info",
+            "icon": "bi bi-info-circle-fill",
+            "title": "New Report Card Available",
+            "message": "Third term report card is ready for download.",
+            "url": "#"
+        }
+    ]
+
+    children = [
+        {
+            "id": 1,
+            "name": "David James",
+            "class_name": "JSS 2A",
+            "attendance": 92,
+            "average": 78,
+            "behaviour": "Good",
+            "avatar": None
+        },
+        {
+            "id": 2,
+            "name": "Sarah James",
+            "class_name": "Primary 5",
+            "attendance": 96,
+            "average": 84,
+            "behaviour": "Excellent",
+            "avatar": None
+        }
+    ]
+
+    attendance = {
+        "present": 92,
+        "late": 5,
+        "absent": 3
+    }
+
+    subjects = [
+        {"name": "Mathematics", "score": 82},
+        {"name": "English", "score": 76},
+        {"name": "Basic Science", "score": 88},
+        {"name": "ICT", "score": 91}
+    ]
+
+    behaviour_records = [
+        {
+            "type": "positive",
+            "title": "Excellent Participation",
+            "date": "28 Jul 2026",
+            "note": "Actively contributed during class discussion."
+        },
+        {
+            "type": "warning",
+            "title": "Homework Reminder",
+            "date": "26 Jul 2026",
+            "note": "Homework submitted late."
+        }
+    ]
+
+    events = [
+        {"day": "02", "month": "AUG", "title": "Parents Meeting", "time": "10:00 AM"},
+        {"day": "05", "month": "AUG", "title": "Mathematics Test", "time": "9:00 AM"},
+        {"day": "08", "month": "AUG", "title": "Sports Day", "time": "8:00 AM"}
+    ]
+
+    notifications = [
+        {
+            "type": "academic",
+            "icon": "bi bi-book-fill",
+            "title": "Mathematics Result Published",
+            "message": "David scored 82% in Mathematics.",
+            "time": "1h ago"
+        },
+        {
+            "type": "attendance",
+            "icon": "bi bi-calendar-check-fill",
+            "title": "Attendance Updated",
+            "message": "Attendance for today has been recorded.",
+            "time": "3h ago"
+        },
+        {
+            "type": "event",
+            "icon": "bi bi-calendar-event-fill",
+            "title": "Upcoming Parents Meeting",
+            "message": "Parents meeting scheduled for 2 Aug 2026.",
+            "time": "Yesterday"
+        }
+    ]
+
+    return render_template(
+        "parent_dash/parent_dashboard.html",
+        alerts=alerts,
+        children=children,
+        attendance=attendance,
+        subjects=subjects,
+        behaviour_records=behaviour_records,
+        events=events,
+        notifications=notifications
+    )
 
 
 # ==========================================================
 # CHILDREN
 # ==========================================================
 
-@parent_bp.route("/children<int:student_id>", endpoint="parent_children")
-def parent_child():
-    return render_template("children/home.html")
+@parent_bp.route("/children", endpoint="children_home")
+def children_home():
+    return render_template("parent_dash/children/home.html")
 
 
-@parent_bp.route("/children/profile")
-def child_profile():
-    return render_template("children/profile.html")
+@parent_bp.route("/children/<int:id>", endpoint="child_profile")
+def child_profile(id):
+    return render_template("parent_dash/children/profile.html", child_id=id)
 
 
 # ==========================================================
 # ATTENDANCE
 # ==========================================================
 
-@parent_bp.route("/attendance")
-def attendance():
-    return render_template("attendance/home.html")
+@parent_bp.route("/attendance", endpoint="attendance_home")
+def attendance_home():
+    return render_template("parent_dash/attendance/home.html")
+
+
+@parent_bp.route("/attendance/history", endpoint="attendance_history")
+def attendance_history():
+    return render_template("parent_dash/attendance/history.html")
 
 
 # ==========================================================
 # ACADEMICS
 # ==========================================================
 
-@parent_bp.route("/academics")
-def academics():
-    return render_template("academics/home.html")
+@parent_bp.route("/academics", endpoint="academics_home")
+def academics_home():
+    return render_template("parent_dash/academics/home.html")
 
 
-@parent_bp.route("/academics/results")
-def results():
-    return render_template("academics/results.html")
-
-
-@parent_bp.route("/academics/subject-analysis")
-def subject_analysis():
-    return render_template("academics/subject_analysis.html")
+@parent_bp.route("/academics/results", endpoint="academics_results")
+def academics_results():
+    return render_template("parent_dash/academics/results.html")
 
 
 # ==========================================================
 # BEHAVIOUR
 # ==========================================================
 
-@parent_bp.route("/behaviour")
-def behaviour():
-    return render_template("behaviour/home.html")
+@parent_bp.route("/behaviour", endpoint="behaviour_home")
+def behaviour_home():
+    return render_template("parent_dash/behaviour/home.html")
 
 
 # ==========================================================
 # REPORT CARDS
 # ==========================================================
 
-@parent_bp.route("/report-cards")
-def report_cards():
-    return render_template("report_cards/home.html")
+@parent_bp.route("/report-cards", endpoint="report_cards_home")
+def report_cards_home():
+    return render_template("parent_dash/report_cards/home.html")
 
 
 # ==========================================================
 # NOTIFICATIONS
 # ==========================================================
 
-@parent_bp.route("/notifications")
-def notifications():
-    return render_template("notifications/home.html")
+@parent_bp.route("/notifications", endpoint="notifications_home")
+def notifications_home():
+    return render_template("parent_dash/notifications/home.html")
 
 
 # ==========================================================
 # PROFILE
 # ==========================================================
 
-@parent_bp.route("/profile")
+@parent_bp.route("/profile", endpoint="profile")
 def profile():
-    return render_template("profile/home.html")
+    return render_template("parent_dash/profile/home.html")
 
 
 # ==========================================================
 # SETTINGS
 # ==========================================================
 
-@parent_bp.route("/settings")
+@parent_bp.route("/settings", endpoint="settings")
 def settings():
-    return render_template("settings/home.html")
+    return render_template("parent_dash/settings/home.html")

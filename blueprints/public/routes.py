@@ -1,19 +1,10 @@
 from flask import render_template, redirect, request, flash, url_for
-from datetime import datetime
 
 from . import public_bp
 
 
-# ======================================================
-# Context Processor
-# ======================================================
 
-@public_bp.context_processor
-def inject_now():
-    return {
-        "current_year": datetime.now().year,
-        "current_datetime": datetime.now()
-    }
+
 
 
 # ======================================================

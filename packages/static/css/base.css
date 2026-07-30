@@ -13,28 +13,28 @@
 
     /* Brand Colors */
 
-    --primary:#2563EB;
-    --primary-dark:#1D4ED8;
-    --secondary:#10B981;
+    --primary:#ff0a54;
+    --primary-dark:#0b0c0c;
+    --secondary:#11296b;
 
-    --dark:#0F172A;
+    --dark:#02020a;
     --dark-light:#1E293B;
 
-    --text:#475569;
+    --text:#001d3d;
 
-    --white:#FFFFFF;
+    --white:#eed7c5;
 
-    --background:#F8FAFC;
+    --background:#eee2df;
 
-    --light:#F1F5F9;
+    --light:#fefae0;
 
-    --border:#E2E8F0;
+    --border:#c97c5d;
 
-    --danger:#EF4444;
+    --danger:#e31313;
 
     --warning:#F59E0B;
 
-    --success:#22C55E;
+    --success:#2b9348;
 
     /* Typography */
 
@@ -349,15 +349,15 @@ p{
 
     display:inline-block;
 
-    background:#DBEAFE;
+    background:#f2f2f2;
 
     color:var(--primary);
 
-    padding:8px 18px;
+    padding:10px 18px;
 
     border-radius:50px;
 
-    font-weight:600;
+    font-weight:1000;
 
 }
 

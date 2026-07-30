@@ -3,6 +3,7 @@ from instance.config import Config
 
 from packages.extensions import db, migrate, login_manager
 from packages.authentication import auth_bp
+from datetime import datetime
 
 from blueprints.public import public_bp
 from blueprints.dashboard import dashboard_bp
@@ -42,6 +43,12 @@ def create_app():
     app.register_blueprint(superadmin_bp)
     app.register_blueprint(teacher_bp)
     app.register_blueprint(parent_bp)
+    
+    @app.context_processor
+    def inject_global_variables():
+        return {
+            "current_year": datetime.now().year
+        }
 
     return app
 
