@@ -1,0 +1,1839 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}
+Super Admin Dashboard
+{% endblock %}
+
+{% block content %}
+
+<!-- =======================================================
+PAGE HEADER
+======================================================= -->
+
+<div class="row align-items-center mb-4">
+
+    <div class="col-lg-8">
+
+        <h2 class="fw-bold mb-2">
+            Welcome,
+            {% if current_user.is_authenticated %}
+                {{ current_user.username }}
+            {% else %}
+                Super Administrator
+            {% endif %}
+        </h2>
+
+        <p class="text-muted mb-0">
+
+            Manage schools, subscriptions, users and the entire
+            reInsight platform from one centralized dashboard.
+
+        </p>
+
+    </div>
+
+    <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+
+        <button class="btn btn-primary me-2 mb-3">
+
+            <i class="bi bi-building-add me-2"></i>
+
+            Register School
+
+        </button>
+
+        <button class="btn btn-outline-primary mb-3">
+
+            <i class="bi bi-file-earmark-bar-graph me-2"></i>
+
+            Generate Report
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+QUICK ACTIONS
+======================================================= -->
+
+<div class="card shadow-sm border-0 mb-4 me-5">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+
+            Quick Actions
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <a href="{{ url_for('superadmin.create_school') }}"
+                   class="btn btn-light border w-100 py-3">
+
+                    <i class="bi bi-building-add fs-3 d-block mb-2"></i>
+
+                    Register School
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <a href="{{ url_for('superadmin.create_school_admin') }}"
+                   class="btn btn-light border w-100 py-3">
+
+                    <i class="bi bi-person-plus fs-3 d-block mb-2"></i>
+
+                    School Admin
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <a href="{{ url_for('superadmin.subscription_create') }}"
+                   class="btn btn-light border w-100 py-3">
+
+                    <i class="bi bi-credit-card fs-3 d-block mb-2"></i>
+
+                    Subscription
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <a href="{{ url_for('superadmin.users') }}"
+                   class="btn btn-light border w-100 py-3">
+
+                    <i class="bi bi-people fs-3 d-block mb-2"></i>
+
+                    Users
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <a href="{{ url_for('superadmin.reports') }}"
+                   class="btn btn-light border w-100 py-3">
+
+                    <i class="bi bi-bar-chart fs-3 d-block mb-2"></i>
+
+                    Reports
+
+                </a>
+
+            </div>
+
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <a href="{{ url_for('superadmin.settings') }}"
+                   class="btn btn-light border w-100 py-3">
+
+                    <i class="bi bi-gear fs-3 d-block mb-2"></i>
+
+                    Settings
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+PLATFORM STATISTICS
+======================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <!-- Total Schools -->
+
+    <div class="col-xl-3 col-md-6">
+
+        {% include "components/superadmin_stat_card.html" %}
+
+    </div>
+
+
+    <!-- Active Users -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card stat-card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <small class="text-muted">
+
+                            Active Users
+
+                        </small>
+
+                        <h3 class="fw-bold mt-2 counter"
+                            data-target="12458">
+
+                            0
+
+                        </h3>
+
+                        <small class="text-success">
+
+                            <i class="bi bi-arrow-up"></i>
+
+                            +12%
+
+                        </small>
+
+                    </div>
+
+                    <div class="icon-box bg-success">
+
+                        <i class="bi bi-people-fill"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Revenue -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card stat-card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <small class="text-muted">
+
+                            Monthly Revenue
+
+                        </small>
+
+                        <h3 class="fw-bold mt-2">
+
+                            ₦4.8M
+
+                        </h3>
+
+                        <small class="text-success">
+
+                            <i class="bi bi-arrow-up"></i>
+
+                            +8%
+
+                        </small>
+
+                    </div>
+
+                    <div class="icon-box bg-warning">
+
+                        <i class="bi bi-cash-stack"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Active Subscriptions -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="card stat-card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <small class="text-muted">
+
+                            Active Plans
+
+                        </small>
+
+                        <h3 class="fw-bold mt-2 counter"
+                            data-target="247">
+
+                            0
+
+                        </h3>
+
+                        <small class="text-primary">
+
+                            Enterprise SaaS
+
+                        </small>
+
+                    </div>
+
+                    <div class="icon-box bg-danger">
+
+                        <i class="bi bi-award-fill"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+PLATFORM SUMMARY
+======================================================= -->
+
+<div class="card shadow-sm border-0 mb-5">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+
+            Platform Overview
+
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+
+            <div class="col-lg-3 text-center border-end">
+
+                <h3 class="fw-bold text-primary">
+
+                    132
+
+                </h3>
+
+                <p class="text-muted mb-0">
+
+                    Registered Schools
+
+                </p>
+
+            </div>
+
+            <div class="col-lg-3 text-center border-end">
+
+                <h3 class="fw-bold text-success">
+
+                    95%
+
+                </h3>
+
+                <p class="text-muted mb-0">
+
+                    Renewal Rate
+
+                </p>
+
+            </div>
+
+            <div class="col-lg-3 text-center border-end">
+
+                <h3 class="fw-bold text-warning">
+
+                    98.9%
+
+                </h3>
+
+                <p class="text-muted mb-0">
+
+                    System Uptime
+
+                </p>
+
+            </div>
+
+            <div class="col-lg-3 text-center">
+
+                <h3 class="fw-bold text-danger">
+
+                    ₦18.2M
+
+                </h3>
+
+                <p class="text-muted mb-0">
+
+                    Total Revenue
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================================================
+SECTION 2
+ANALYTICS & PLATFORM HEALTH
+=========================================================== -->
+
+<div class="row g-4 mb-4">
+
+    <!-- ==========================================
+         REVENUE OVERVIEW
+    =========================================== -->
+
+    <div class="col-xl-8">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-1 fw-semibold">
+                        Revenue Overview
+                    </h5>
+
+                    <small class="text-muted">
+                        Monthly subscription revenue
+                    </small>
+
+                </div>
+
+                <select class="form-select w-auto">
+
+                    <option>This Year</option>
+
+                    <option>Last Year</option>
+
+                    <option>Last 6 Months</option>
+
+                </select>
+
+            </div>
+
+            <div class="card-body">
+
+                <canvas
+                    id="revenueChart"
+                    height="120">
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         SCHOOL GROWTH
+    =========================================== -->
+
+    <div class="col-xl-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-1 fw-semibold">
+
+                    School Growth
+
+                </h5>
+
+                <small class="text-muted">
+
+                    New schools this year
+
+                </small>
+
+            </div>
+
+            <div class="card-body">
+
+                <canvas
+                    id="schoolGrowthChart"
+                    height="260">
+                </canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================================
+PLATFORM HEALTH
+=========================================================== -->
+
+<div class="row g-4 mb-5">
+
+    <!-- Database -->
+
+    <div class="col-xl-2 col-md-4 col-6">
+
+        <div class="card border-0 shadow-sm text-center h-100">
+
+            <div class="card-body">
+
+                <div class="display-6 text-success mb-2">
+
+                    <i class="bi bi-database-fill-check"></i>
+
+                </div>
+
+                <h6 class="fw-semibold">
+
+                    Database
+
+                </h6>
+
+                <span class="badge bg-success">
+
+                    Online
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Server -->
+
+    <div class="col-xl-2 col-md-4 col-6">
+
+        <div class="card border-0 shadow-sm text-center h-100">
+
+            <div class="card-body">
+
+                <div class="display-6 text-primary mb-2">
+
+                    <i class="bi bi-hdd-network-fill"></i>
+
+                </div>
+
+                <h6 class="fw-semibold">
+
+                    Server
+
+                </h6>
+
+                <span class="badge bg-primary">
+
+                    Healthy
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Storage -->
+
+    <div class="col-xl-2 col-md-4 col-6">
+
+        <div class="card border-0 shadow-sm text-center h-100">
+
+            <div class="card-body">
+
+                <div class="display-6 text-warning mb-2">
+
+                    <i class="bi bi-device-hdd-fill"></i>
+
+                </div>
+
+                <h6 class="fw-semibold">
+
+                    Storage
+
+                </h6>
+
+                <span class="badge bg-warning text-dark">
+
+                    72%
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mail -->
+
+    <div class="col-xl-2 col-md-4 col-6">
+
+        <div class="card border-0 shadow-sm text-center h-100">
+
+            <div class="card-body">
+
+                <div class="display-6 text-info mb-2">
+
+                    <i class="bi bi-envelope-check-fill"></i>
+
+                </div>
+
+                <h6 class="fw-semibold">
+
+                    Mail Queue
+
+                </h6>
+
+                <span class="badge bg-info">
+
+                    2 Pending
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- API -->
+
+    <div class="col-xl-2 col-md-4 col-6">
+
+        <div class="card border-0 shadow-sm text-center h-100">
+
+            <div class="card-body">
+
+                <div class="display-6 text-success mb-2">
+
+                    <i class="bi bi-cloud-check-fill"></i>
+
+                </div>
+
+                <h6 class="fw-semibold">
+
+                    API
+
+                </h6>
+
+                <span class="badge bg-success">
+
+                    99.9%
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Backup -->
+
+    <div class="col-xl-2 col-md-4 col-6">
+
+        <div class="card border-0 shadow-sm text-center h-100">
+
+            <div class="card-body">
+
+                <div class="display-6 text-danger mb-2">
+
+                    <i class="bi bi-cloud-arrow-down-fill"></i>
+
+                </div>
+
+                <h6 class="fw-semibold">
+
+                    Backup
+
+                </h6>
+
+                <span class="badge bg-danger">
+
+                    Yesterday
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================================
+SUBSCRIPTION DISTRIBUTION
+=========================================================== -->
+
+<div class="row mb-5">
+
+    <div class="col-lg-12">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-1 fw-semibold">
+
+                        Subscription Distribution
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Current plans across registered schools
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row text-center">
+
+                    <div class="col-md-3">
+
+                        <h2 class="fw-bold text-primary">
+
+                            32
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Trial
+
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <h2 class="fw-bold text-success">
+
+                            74
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Basic
+
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <h2 class="fw-bold text-warning">
+
+                            19
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Premium
+
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <h2 class="fw-bold text-danger">
+
+                            7
+
+                        </h2>
+
+                        <p class="text-muted mb-0">
+
+                            Enterprise
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================================================
+SECTION 3
+RECENT OPERATIONS
+========================================================== -->
+
+<div class="row g-4 mb-4">
+
+    <!-- ======================================================
+    RECENT SCHOOLS
+    ======================================================= -->
+
+    <div class="col-xl-8">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="fw-semibold mb-1">
+                        Recently Registered Schools
+                    </h5>
+
+                    <small class="text-muted">
+                        Latest schools added to the platform
+                    </small>
+
+                </div>
+
+                <a href="{{ url_for('superadmin.schools') }}"
+                   class="btn btn-sm btn-outline-primary">
+
+                    View All
+
+                </a>
+
+            </div>
+
+            <div class="card-body p-0">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>School</th>
+
+                                <th>Administrator</th>
+
+                                <th>Plan</th>
+
+                                <th>Status</th>
+
+                                <th>Students</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>Unity College</td>
+
+                                <td>John Okoro</td>
+
+                                <td>Premium</td>
+
+                                <td>
+
+                                    <span class="badge bg-success">
+
+                                        Active
+
+                                    </span>
+
+                                </td>
+
+                                <td>1,240</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Royal Academy</td>
+
+                                <td>Grace Bello</td>
+
+                                <td>Enterprise</td>
+
+                                <td>
+
+                                    <span class="badge bg-success">
+
+                                        Active
+
+                                    </span>
+
+                                </td>
+
+                                <td>890</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Excel High School</td>
+
+                                <td>David Musa</td>
+
+                                <td>Basic</td>
+
+                                <td>
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Trial
+
+                                    </span>
+
+                                </td>
+
+                                <td>615</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Future Leaders Academy</td>
+
+                                <td>Mary Ibrahim</td>
+
+                                <td>Premium</td>
+
+                                <td>
+
+                                    <span class="badge bg-danger">
+
+                                        Suspended
+
+                                    </span>
+
+                                </td>
+
+                                <td>0</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================================================
+    QUICK MANAGEMENT
+    ======================================================= -->
+
+    <div class="col-xl-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="fw-semibold mb-1">
+
+                    Management Panel
+
+                </h5>
+
+                <small class="text-muted">
+
+                    Frequently used tools
+
+                </small>
+
+            </div>
+
+            <div class="card-body d-grid gap-3">
+
+                <a href="{{ url_for('superadmin.create_school') }}"
+                   class="btn btn-primary">
+
+                    <i class="bi bi-building-add me-2"></i>
+
+                    Register School
+
+                </a>
+
+                <a href="{{ url_for('superadmin.create_school_admin') }}"
+                   class="btn btn-success">
+
+                    <i class="bi bi-person-plus me-2"></i>
+
+                    Create School Admin
+
+                </a>
+
+                <a href="{{ url_for('superadmin.subscription_create') }}"
+                   class="btn btn-warning text-white">
+
+                    <i class="bi bi-credit-card me-2"></i>
+
+                    New Subscription
+
+                </a>
+
+                <a href="{{ url_for('superadmin.users') }}"
+                   class="btn btn-info text-white">
+
+                    <i class="bi bi-people me-2"></i>
+
+                    Manage Users
+
+                </a>
+
+                <a href="{{ url_for('superadmin.system') }}"
+                   class="btn btn-dark">
+
+                    <i class="bi bi-gear-wide-connected me-2"></i>
+
+                    System Settings
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================================
+PAYMENTS & ACTIVITY
+========================================================== -->
+
+<div class="row g-4">
+
+    <!-- ======================================================
+    RECENT PAYMENTS
+    ======================================================= -->
+
+    <div class="col-xl-6">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-header bg-white d-flex justify-content-between">
+
+                <h5 class="fw-semibold mb-0">
+
+                    Recent Payments
+
+                </h5>
+
+                <a href="{{ url_for('superadmin.payments') }}"
+                   class="btn btn-sm btn-outline-primary">
+
+                    View All
+
+                </a>
+
+            </div>
+
+            <div class="card-body p-0">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>School</th>
+
+                            <th>Amount</th>
+
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>Unity College</td>
+
+                            <td>₦120,000</td>
+
+                            <td>Today</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>Royal Academy</td>
+
+                            <td>₦85,000</td>
+
+                            <td>Yesterday</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>Excel High School</td>
+
+                            <td>₦65,000</td>
+
+                            <td>3 Days Ago</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>Future Leaders</td>
+
+                            <td>₦210,000</td>
+
+                            <td>Last Week</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ======================================================
+    RECENT ACTIVITIES
+    ======================================================= -->
+
+    <div class="col-xl-6">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-header bg-white">
+
+                <h5 class="fw-semibold mb-0">
+
+                    Platform Activities
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item">
+
+                        <i class="bi bi-building text-primary me-2"></i>
+
+                        New school registered
+
+                        <small class="text-muted float-end">
+
+                            5 mins ago
+
+                        </small>
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        <i class="bi bi-credit-card text-success me-2"></i>
+
+                        Subscription renewed
+
+                        <small class="text-muted float-end">
+
+                            18 mins ago
+
+                        </small>
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        <i class="bi bi-person-plus text-info me-2"></i>
+
+                        School Admin created
+
+                        <small class="text-muted float-end">
+
+                            40 mins ago
+
+                        </small>
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        <i class="bi bi-envelope text-warning me-2"></i>
+
+                        Broadcast announcement sent
+
+                        <small class="text-muted float-end">
+
+                            Today
+
+                        </small>
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        <i class="bi bi-cloud-check text-success me-2"></i>
+
+                        Nightly backup completed
+
+                        <small class="text-muted float-end">
+
+                            Today
+
+                        </small>
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        <i class="bi bi-arrow-repeat text-primary me-2"></i>
+
+                        Platform updated successfully
+
+                        <small class="text-muted float-end">
+
+                            Yesterday
+
+                        </small>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ==========================================================
+SECTION 4
+SYSTEM MONITORING & PLATFORM INSIGHTS
+========================================================== -->
+
+<div class="row g-4 mt-2">
+
+    <!-- ===========================================
+         SYSTEM STATUS
+    ============================================ -->
+
+    <div class="col-xl-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="fw-semibold mb-0">
+
+                    System Status
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between mb-4">
+
+                    <span>
+
+                        Database
+
+                    </span>
+
+                    <span class="badge bg-success">
+
+                        Online
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-4">
+
+                    <span>
+
+                        Web Server
+
+                    </span>
+
+                    <span class="badge bg-success">
+
+                        Healthy
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-4">
+
+                    <span>
+
+                        API Service
+
+                    </span>
+
+                    <span class="badge bg-success">
+
+                        Running
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-4">
+
+                    <span>
+
+                        Storage
+
+                    </span>
+
+                    <span class="badge bg-warning text-dark">
+
+                        72%
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <span>
+
+                        Last Backup
+
+                    </span>
+
+                    <strong>
+
+                        Yesterday
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===========================================
+         SUBSCRIPTION SUMMARY
+    ============================================ -->
+
+    <div class="col-xl-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="fw-semibold mb-0">
+
+                    Subscription Overview
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>Trial</span>
+
+                        <strong>24</strong>
+
+                    </div>
+
+                    <div class="progress mt-2">
+
+                        <div class="progress-bar bg-secondary"
+                             style="width:20%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>Basic</span>
+
+                        <strong>78</strong>
+
+                    </div>
+
+                    <div class="progress mt-2">
+
+                        <div class="progress-bar bg-primary"
+                             style="width:60%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>Premium</span>
+
+                        <strong>35</strong>
+
+                    </div>
+
+                    <div class="progress mt-2">
+
+                        <div class="progress-bar bg-warning"
+                             style="width:40%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>Enterprise</span>
+
+                        <strong>12</strong>
+
+                    </div>
+
+                    <div class="progress mt-2">
+
+                        <div class="progress-bar bg-success"
+                             style="width:15%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===========================================
+         PLATFORM STATISTICS
+    ============================================ -->
+
+    <div class="col-xl-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="fw-semibold mb-0">
+
+                    Platform Statistics
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row text-center">
+
+                    <div class="col-6 mb-4">
+
+                        <h3 class="fw-bold text-primary">
+
+                            132
+
+                        </h3>
+
+                        <small class="text-muted">
+
+                            Schools
+
+                        </small>
+
+                    </div>
+
+                    <div class="col-6 mb-4">
+
+                        <h3 class="fw-bold text-success">
+
+                            124
+
+                        </h3>
+
+                        <small class="text-muted">
+
+                            Active
+
+                        </small>
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <h3 class="fw-bold text-warning">
+
+                            18K
+
+                        </h3>
+
+                        <small class="text-muted">
+
+                            Users
+
+                        </small>
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <h3 class="fw-bold text-danger">
+
+                            ₦18M
+
+                        </h3>
+
+                        <small class="text-muted">
+
+                            Revenue
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================================
+SECOND ROW
+========================================================== -->
+
+<div class="row g-4 mt-2">
+
+    <!-- Audit Logs -->
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-header bg-white d-flex justify-content-between">
+
+                <h5 class="fw-semibold mb-0">
+
+                    Recent Audit Logs
+
+                </h5>
+
+                <a href="{{ url_for('superadmin.audit_logs') }}"
+                   class="btn btn-sm btn-outline-primary">
+
+                    View All
+
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item">
+
+                        Super Admin logged in
+
+                        <small class="float-end text-muted">
+
+                            Today
+
+                        </small>
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        School created
+
+                        <small class="float-end text-muted">
+
+                            Today
+
+                        </small>
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        Subscription updated
+
+                        <small class="float-end text-muted">
+
+                            Yesterday
+
+                        </small>
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        Platform settings modified
+
+                        <small class="float-end text-muted">
+
+                            Yesterday
+
+                        </small>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Notifications -->
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-header bg-white d-flex justify-content-between">
+
+                <h5 class="fw-semibold mb-0">
+
+                    Notifications
+
+                </h5>
+
+                <a href="{{ url_for('superadmin.notifications') }}"
+                   class="btn btn-sm btn-outline-primary">
+
+                    View All
+
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="alert alert-success">
+
+                    Database backup completed successfully.
+
+                </div>
+
+                <div class="alert alert-warning">
+
+                    Three schools will expire within 7 days.
+
+                </div>
+
+                <div class="alert alert-info">
+
+                    New platform update available.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================================
+DASHBOARD FOOTER PANEL
+========================================================== -->
+
+<div class="card border-0 shadow-sm mt-4">
+
+    <div class="card-body">
+
+        <div class="row text-center">
+
+            <div class="col-lg-3">
+
+                <h6 class="fw-semibold">
+
+                    reInsight Platform
+
+                </h6>
+
+                <small class="text-muted">
+
+                    Version 1.0.0
+
+                </small>
+
+            </div>
+
+            <div class="col-lg-3">
+
+                <h6 class="fw-semibold">
+
+                    Uptime
+
+                </h6>
+
+                <small class="text-success">
+
+                    99.98%
+
+                </small>
+
+            </div>
+
+            <div class="col-lg-3">
+
+                <h6 class="fw-semibold">
+
+                    Last Deployment
+
+                </h6>
+
+                <small class="text-muted">
+
+                    10 July 2026
+
+                </small>
+
+            </div>
+
+            <div class="col-lg-3">
+
+                <h6 class="fw-semibold">
+
+                    Support
+
+                </h6>
+
+                <small>
+
+                    support@reinsight.com
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

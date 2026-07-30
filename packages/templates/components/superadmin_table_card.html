@@ -1,0 +1,165 @@
+<!-- ==========================================================
+     SUPER ADMIN TABLE CARD
+=========================================================== -->
+
+<div class="card shadow-sm border-0 h-100">
+
+    <!-- ==========================================
+         CARD HEADER
+    =========================================== -->
+
+    <div class="card-header bg-white">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <h5 class="fw-bold mb-1">
+
+                    {{ table_title|default("Data Table") }}
+
+                </h5>
+
+                {% if table_subtitle %}
+
+                <small class="text-muted">
+
+                    {{ table_subtitle }}
+
+                </small>
+
+                {% endif %}
+
+            </div>
+
+            <div>
+
+                {% if add_button %}
+
+                <a
+                    href="{{ add_url|default('#') }}"
+                    class="btn btn-primary btn-sm">
+
+                    <i class="bi bi-plus-circle me-1"></i>
+
+                    {{ add_button }}
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         TABLE
+    =========================================== -->
+
+    <div class="table-responsive">
+
+        <table
+            class="table table-hover align-middle mb-0">
+
+            <thead class="table-light">
+
+                <tr>
+
+                    {% for column in columns %}
+
+                    <th>
+
+                        {{ column }}
+
+                    </th>
+
+                    {% endfor %}
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% if rows %}
+
+                    {% for row in rows %}
+
+                    <tr>
+
+                        {% for cell in row %}
+
+                        <td>
+
+                            {{ cell }}
+
+                        </td>
+
+                        {% endfor %}
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="{{ columns|length }}"
+                            class="text-center text-muted py-5">
+
+                            <i class="bi bi-database fs-1 d-block mb-3"></i>
+
+                            No records found.
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    {% if footer_text or footer_button %}
+
+    <div class="card-footer bg-white">
+
+        <div
+            class="d-flex justify-content-between align-items-center">
+
+            <small class="text-muted">
+
+                {{ footer_text|default("") }}
+
+            </small>
+
+            {% if footer_button %}
+
+            <a
+                href="{{ footer_url|default('#') }}"
+                class="btn btn-outline-primary btn-sm">
+
+                {{ footer_button }}
+
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>

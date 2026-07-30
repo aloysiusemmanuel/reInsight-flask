@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us | reInsight{% endblock %}
+
+{% block content %}
+
+<!-- ==========================================
+     PAGE HEADER
+=========================================== -->
+
+<section class="py-5 bg-light mt-5">
+
+    <div class="container text-center">
+
+        <span class="hero-badge">
+
+            Contact Us
+
+        </span>
+
+        <h1 class="mt-4">
+
+            We'd Love to Hear From You
+
+        </h1>
+
+        <p class="lead mt-3 mx-auto" style="max-width:800px;">
+
+            Whether you have a question, need a personalized demonstration,
+            or would like to learn more about reInsight, our team is ready
+            to help.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     CONTACT SECTION
+=========================================== -->
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="row g-5">
+
+            <!-- CONTACT DETAILS -->
+
+            <div class="col-lg-5">
+
+                <div class="feature-card h-100">
+
+                    <h3 class="mb-4">
+
+                        Get in Touch
+
+                    </h3>
+
+                    <p>
+
+                        We'd be happy to discuss how reInsight can support
+                        your school's digital transformation.
+
+                    </p>
+
+                    <hr>
+
+                    <div class="d-flex mb-4">
+
+                        <div class="me-3">
+
+                            <i class="bi bi-geo-alt-fill feature-icon"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>Office</h5>
+
+                            <p class="mb-0">
+
+                                Lagos, Nigeria
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex mb-4">
+
+                        <div class="me-3">
+
+                            <i class="bi bi-envelope-fill feature-icon"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>Email</h5>
+
+                            <p class="mb-0">
+
+                               emmelactutorial@gmail.com
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex mb-4">
+
+                        <div class="me-3">
+
+                            <i class="bi bi-telephone-fill feature-icon"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>Phone</h5>
+
+                            <p class="mb-0">
+
+                                +234 802 653 4964
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex">
+
+                        <div class="me-3">
+
+                            <i class="bi bi-clock-fill feature-icon"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h5>Working Hours</h5>
+
+                            <p class="mb-0">
+
+                                Monday – Friday<br>
+
+                                9:00 AM – 5:00 PM
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CONTACT FORM -->
+
+            <div class="col-lg-7">
+
+                <div class="feature-card">
+
+                    <h3 class="mb-4">
+
+                        Send Us a Message
+
+                    </h3>
+
+                    <form   id="contactForm" 
+                            method="POST"
+                            action="{{ url_for('public.contact') }}"
+                            novalidate>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Full Name
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="full_name"
+                                    name="full_name"
+                                    placeholder="Enter your name"
+                                    required>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Email Address
+
+                                </label>
+
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                School Name
+
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="school_name"
+                                name="school_name"
+                                placeholder="Your school">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Subject
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                class="form-control"
+                                placeholder="Subject"
+                                required>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Message
+
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                rows="6"
+                                id="message"
+                                name="message"
+                                placeholder="Tell us how we can help..."
+                                required></textarea>
+
+                        </div>
+
+                        <button
+                            class="btn btn-primary btn-lg"
+                            type="submit">
+
+                            <i class="bi bi-send-fill me-2"></i>
+
+                            Send Message
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     CTA
+=========================================== -->
+
+<section class="cta-section">
+
+    <div class="container text-center">
+
+        <h2>
+
+            Prefer a Live Demonstration?
+
+        </h2>
+
+        <p class="mt-3">
+
+            Schedule a personalized demo and discover how reInsight
+            can help your school make better data-driven decisions.
+
+        </p>
+
+        <a href="{{ url_for('public.demo') }}"
+           class="btn btn-light btn-lg mt-4">
+
+            Request a Demo
+
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static',
+filename='js/contact.js') }}"></script>
+
+{% endblock %}

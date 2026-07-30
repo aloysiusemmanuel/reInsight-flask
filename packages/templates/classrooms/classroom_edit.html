@@ -1,0 +1,374 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Edit Classroom | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Edit Classroom",
+        page_subtitle="Update classroom information and assignments.",
+        button_text="Back to Classrooms",
+        button_url=url_for('classroom_home'),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <!-- ==========================================================
+            CLASSROOM INFORMATION
+        =========================================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-building me-2"></i>
+
+                    Classroom Information
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Educational Level
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="level"
+                            required>
+
+                            <option value="Creche" {% if classroom.level == "Creche" %}selected{% endif %}>Creche</option>
+                            <option value="Nursery" {% if classroom.level == "Nursery" %}selected{% endif %}>Nursery</option>
+                            <option value="Primary" {% if classroom.level == "Primary" %}selected{% endif %}>Primary</option>
+                            <option value="Junior Secondary" {% if classroom.level == "Junior Secondary" %}selected{% endif %}>Junior Secondary</option>
+                            <option value="Senior Secondary" {% if classroom.level == "Senior Secondary" %}selected{% endif %}>Senior Secondary</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Class
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="class_name"
+                            required>
+
+                            <option value="Creche" {% if classroom.class_name=="Creche" %}selected{% endif %}>Creche</option>
+                            <option value="Nursery 1" {% if classroom.class_name=="Nursery 1" %}selected{% endif %}>Nursery 1</option>
+                            <option value="Nursery 2" {% if classroom.class_name=="Nursery 2" %}selected{% endif %}>Nursery 2</option>
+                            <option value="Primary 1" {% if classroom.class_name=="Primary 1" %}selected{% endif %}>Primary 1</option>
+                            <option value="Primary 2" {% if classroom.class_name=="Primary 2" %}selected{% endif %}>Primary 2</option>
+                            <option value="Primary 3" {% if classroom.class_name=="Primary 3" %}selected{% endif %}>Primary 3</option>
+                            <option value="Primary 4" {% if classroom.class_name=="Primary 4" %}selected{% endif %}>Primary 4</option>
+                            <option value="Primary 5" {% if classroom.class_name=="Primary 5" %}selected{% endif %}>Primary 5</option>
+                            <option value="Primary 6" {% if classroom.class_name=="Primary 6" %}selected{% endif %}>Primary 6</option>
+                            <option value="JSS 1" {% if classroom.class_name=="JSS 1" %}selected{% endif %}>JSS 1</option>
+                            <option value="JSS 2" {% if classroom.class_name=="JSS 2" %}selected{% endif %}>JSS 2</option>
+                            <option value="JSS 3" {% if classroom.class_name=="JSS 3" %}selected{% endif %}>JSS 3</option>
+                            <option value="SSS 1" {% if classroom.class_name=="SSS 1" %}selected{% endif %}>SSS 1</option>
+                            <option value="SSS 2" {% if classroom.class_name=="SSS 2" %}selected{% endif %}>SSS 2</option>
+                            <option value="SSS 3" {% if classroom.class_name=="SSS 3" %}selected{% endif %}>SSS 3</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Stream
+
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="stream"
+                            value="{{ classroom.stream }}">
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Capacity
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="capacity"
+                            value="{{ classroom.capacity }}">
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="status">
+
+                            <option value="Active" {% if classroom.status=="Active" %}selected{% endif %}>Active</option>
+                            <option value="Inactive" {% if classroom.status=="Inactive" %}selected{% endif %}>Inactive</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================================
+            ACADEMIC INFORMATION
+        =========================================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-calendar-event me-2"></i>
+
+                    Academic Information
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Academic Session
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="academic_session">
+
+                            {% for session in sessions %}
+
+                                <option
+                                    value="{{ session.id }}"
+                                    {% if classroom.academic_session == session.name %}selected{% endif %}>
+
+                                    {{ session.name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Term
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="term">
+
+                            <option value="First Term" {% if classroom.term=="First Term" %}selected{% endif %}>First Term</option>
+                            <option value="Second Term" {% if classroom.term=="Second Term" %}selected{% endif %}>Second Term</option>
+                            <option value="Third Term" {% if classroom.term=="Third Term" %}selected{% endif %}>Third Term</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================================
+            CLASS TEACHER
+        =========================================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-person-workspace me-2"></i>
+
+                    Class Teacher
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <label class="form-label">
+
+                    Assigned Teacher
+
+                </label>
+
+                <select
+                    class="form-select"
+                    name="teacher_id">
+
+                    <option value="">Select Teacher</option>
+
+                    {% for teacher in teachers %}
+
+                        <option
+                            value="{{ teacher.id }}"
+                            {% if classroom.class_teacher and classroom.class_teacher.id == teacher.id %}selected{% endif %}>
+
+                            {{ teacher.staff_id }} -
+                            {{ teacher.full_name }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================================
+            DESCRIPTION
+        =========================================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-card-text me-2"></i>
+
+                    Description
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <textarea
+                    class="form-control"
+                    rows="4"
+                    name="description">{{ classroom.description }}</textarea>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================================
+            ACTION BUTTONS
+        =========================================================== -->
+
+        <div class="d-flex justify-content-between mb-5">
+
+            <div>
+
+                <button
+                    type="button"
+                    class="btn btn-outline-danger">
+
+                    <i class="bi bi-archive me-2"></i>
+
+                    Archive Classroom
+
+                </button>
+
+            </div>
+
+            <div>
+
+                <a
+                    href="{{ url_for('classroom_home') }}"
+                    class="btn btn-light">
+
+                    Cancel
+
+                </a>
+
+                <button
+                    type="reset"
+                    class="btn btn-warning">
+
+                    Reset
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                    <i class="bi bi-save me-2"></i>
+
+                    Update Classroom
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

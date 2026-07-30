@@ -1,0 +1,372 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}Take Attendance | reInsight{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+         PAGE HEADER
+    ========================================== -->
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                Take Attendance
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Record today's attendance for all students.
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <a href="{{ url_for('attendance.attendance') }}"
+               class="btn btn-outline-secondary">
+
+                <i class="bi bi-arrow-left me-2"></i>
+
+                Back to Attendance
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         ATTENDANCE DETAILS
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Attendance Information
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            Attendance Date
+
+                        </label>
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            name="attendance_date"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            Class
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="classroom_id"
+                            onchange="this.form.submit()">
+
+                            <option value="">
+                                Select Class
+                            </option>
+
+                            {% for classroom in classrooms %}
+
+                                <option
+                                    value="{{ classroom.id }}"
+                                    {% if selected_classroom == classroom.id %}
+                                        selected
+                                    {% endif %}>
+
+                                    {{ classroom.name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+
+                            Session
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="session">
+
+                            <option>Morning</option>
+
+                            <option>Afternoon</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         STUDENT ATTENDANCE TABLE
+    ========================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">
+
+                Student Attendance Register
+
+            </h5>
+
+            <button
+                class="btn btn-success">
+
+                <i class="bi bi-check2-all me-2"></i>
+
+                Mark All Present
+
+            </button>
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <form method="POST">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Admission No.</th>
+
+                            <th>Student Name</th>
+
+                            <th>Gender</th>
+
+                            <th>Status</th>
+
+                            <th>Remark</th>
+
+                        </tr>
+
+                    </thead>
+
+                            <tbody>
+
+                                {% if students %}
+
+                                        {% for student in students %}
+
+                                        <tr>
+
+                                            <td>{{ loop.index }}</td>
+
+                                            <td>
+
+                                                {{ student.admission_number }}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{ student.last_name }}
+                                                {{ student.first_name }}
+
+                                                {% if student.other_name %}
+                                                    {{ student.other_name }}
+                                                {% endif %}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{ student.gender }}
+
+                                            </td>
+
+                                            <td>
+
+                                                <select
+                                                    class="form-select"
+                                                    name="attendance_{{ student.id }}">
+
+                                                    <option value="Present">
+                                                        Present
+                                                    </option>
+
+                                                    <option value="Absent">
+                                                        Absent
+                                                    </option>
+
+                                                    <option value="Late">
+                                                        Late
+                                                    </option>
+
+                                                    <option value="Excused">
+                                                        Excused
+                                                    </option>
+
+                                                </select>
+
+                                            </td>
+
+                                            <td>
+
+                                                <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    name="remark_{{ student.id }}"
+                                                    placeholder="Remark">
+
+                                            </td>
+
+                                        </tr>
+
+                                        {% endfor %}
+
+                                    {% else %}
+
+                                    <tr>
+
+                                        <td colspan="6" class="text-center text-muted py-5">
+
+                                            <i class="bi bi-people fs-1 d-block mb-3"></i>
+
+                                            Select a class to display students.
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endif %}
+
+                            </tbody>
+
+                </table>
+
+                <div class="mt-4 text-end">
+
+                    <button
+                        type="reset"
+                        class="btn btn-outline-secondary">
+
+                        <i class="bi bi-arrow-counterclockwise me-2"></i>
+
+                        Reset
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-save me-2"></i>
+
+                        Save Attendance
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         ATTENDANCE LEGEND
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mt-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Attendance Status Guide
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <span class="badge bg-success me-2">
+
+                Present
+
+            </span>
+
+            <span class="badge bg-danger me-2">
+
+                Absent
+
+            </span>
+
+            <span class="badge bg-warning text-dark me-2">
+
+                Late
+
+            </span>
+
+            <span class="badge bg-info">
+
+                Excused
+
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

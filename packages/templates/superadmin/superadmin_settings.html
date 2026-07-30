@@ -1,0 +1,282 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block page_title %}
+Platform Settings
+{% endblock %}
+
+{% block header_title %}
+Platform Settings
+{% endblock %}
+
+{% block header_subtitle %}
+Configure the global settings for the reInsight platform.
+{% endblock %}
+
+{% block page_actions %}
+
+<button
+    type="submit"
+    form="settingsForm"
+    class="btn btn-primary">
+
+    <i class="bi bi-check-circle me-2"></i>
+
+    Save Settings
+
+</button>
+
+{% endblock %}
+
+{% block superadmin_content %}
+
+<form
+    id="settingsForm"
+    method="POST">
+
+    {{ form.hidden_tag() }}
+
+    <div class="row">
+
+        <!-- ==========================================
+             PLATFORM INFORMATION
+        =========================================== -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="fw-bold mb-0">
+
+                        Platform Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        {{ form.platform_name.label(class="form-label") }}
+
+                        {{ form.platform_name(class="form-control") }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        {{ form.platform_email.label(class="form-label") }}
+
+                        {{ form.platform_email(class="form-control") }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        {{ form.platform_phone.label(class="form-label") }}
+
+                        {{ form.platform_phone(class="form-control") }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        {{ form.platform_address.label(class="form-label") }}
+
+                        {{ form.platform_address(class="form-control", rows="3") }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================
+             SECURITY SETTINGS
+        =========================================== -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="fw-bold mb-0">
+
+                        Security
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="form-check form-switch mb-3">
+
+                        {{ form.enable_two_factor(class="form-check-input") }}
+
+                        {{ form.enable_two_factor.label(class="form-check-label") }}
+
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+
+                        {{ form.require_email_verification(class="form-check-input") }}
+
+                        {{ form.require_email_verification.label(class="form-check-label") }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        {{ form.maximum_login_attempts.label(class="form-label") }}
+
+                        {{ form.maximum_login_attempts(class="form-control") }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        {{ form.session_timeout.label(class="form-label") }}
+
+                        {{ form.session_timeout(class="form-control") }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <!-- ==========================================
+             EMAIL SETTINGS
+        =========================================== -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="fw-bold mb-0">
+
+                        Email Configuration
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        {{ form.smtp_host.label(class="form-label") }}
+
+                        {{ form.smtp_host(class="form-control") }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        {{ form.smtp_port.label(class="form-label") }}
+
+                        {{ form.smtp_port(class="form-control") }}
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        {{ form.smtp_ssl(class="form-check-input") }}
+
+                        {{ form.smtp_ssl.label(class="form-check-label") }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================
+             SYSTEM SETTINGS
+        =========================================== -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="fw-bold mb-0">
+
+                        System Configuration
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="form-check form-switch mb-3">
+
+                        {{ form.maintenance_mode(class="form-check-input") }}
+
+                        {{ form.maintenance_mode.label(class="form-check-label") }}
+
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+
+                        {{ form.registration_open(class="form-check-input") }}
+
+                        {{ form.registration_open.label(class="form-check-label") }}
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        {{ form.debug_mode(class="form-check-input") }}
+
+                        {{ form.debug_mode.label(class="form-check-label") }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         SAVE BUTTON
+    =========================================== -->
+
+    <div class="text-end">
+
+        <button
+            type="submit"
+            class="btn btn-primary">
+
+            <i class="bi bi-save me-2"></i>
+
+            Save Changes
+
+        </button>
+
+    </div>
+
+</form>
+
+{% endblock %}

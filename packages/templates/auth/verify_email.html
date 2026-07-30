@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Email | reInsight{% endblock %}
+
+{% block content %}
+
+<section class="py-5 bg-light min-vh-100 d-flex align-items-center">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-6 col-md-8">
+
+                <div class="card shadow-lg border-0 rounded-4">
+
+                    <div class="card-body p-5">
+
+                        <!-- Header -->
+
+                        <div class="text-center mb-4">
+
+                            <div class="mb-3">
+
+                                <i class="fas fa-envelope-open-text fa-3x text-primary"></i>
+
+                            </div>
+
+                            <h2 class="fw-bold">
+
+                                Verify Your Email
+
+                            </h2>
+
+                            <p class="text-muted">
+
+                                We've sent a verification link to your registered
+                                email address. Please verify your email before
+                                continuing.
+
+                            </p>
+
+                        </div>
+
+                        <!-- Flash Messages -->
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+
+                                    <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                                        {{ message }}
+
+                                        <button
+                                            type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="alert">
+                                        </button>
+
+                                    </div>
+
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+
+                        <!-- Information -->
+
+                        <div class="alert alert-info">
+
+                            <strong>Email:</strong>
+
+                            {% if current_user.is_authenticated %}
+                                {{ current_user.email }}
+                            {% elif email %}
+                                {{ email }}
+                            {% else %}
+                                Your registered email address
+                            {% endif %}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <p class="mb-2">
+
+                                Didn't receive the email?
+
+                            </p>
+
+                            <ul class="small text-muted">
+
+                                <li>Check your Spam or Junk folder.</li>
+
+                                <li>Ensure your email address is correct.</li>
+
+                                <li>Wait a few minutes for delivery.</li>
+
+                            </ul>
+
+                        </div>
+
+                        <!-- Resend Verification -->
+
+                        <div class="d-grid mb-3">
+
+                            <a
+                                href="{{ url_for('auth.resend_verification') }}"
+                                class="btn btn-primary btn-lg">
+
+                                Resend Verification Email
+
+                            </a>
+
+                        </div>
+
+                        <!-- Login -->
+
+                        <div class="text-center">
+
+                            <a
+                                href="{{ url_for('auth.login') }}"
+                                class="text-decoration-none">
+
+                                Back to Login
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+
+                    <div class="card-footer bg-light">
+
+                        <h6 class="fw-bold text-primary">
+
+                            Why verify your email?
+
+                        </h6>
+
+                        <ul class="small text-muted mb-0">
+
+                            <li>Protects your account from unauthorized access.</li>
+
+                            <li>Allows secure password recovery.</li>
+
+                            <li>Ensures you receive important school notifications.</li>
+
+                            <li>Helps keep student and school data secure.</li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

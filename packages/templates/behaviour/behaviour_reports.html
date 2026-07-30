@@ -1,0 +1,440 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Behaviour Reports | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Behaviour Reports",
+        page_subtitle="Generate, analyse and export student behaviour reports.",
+        button_text="Back to Behaviour",
+        button_url=url_for('behaviour.behaviour_home'),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <!-- ==========================================================
+        FILTER CARD
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Report Filters
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Academic Session
+
+                        </label>
+
+                        <select
+                            name="session"
+                            class="form-select">
+
+                            <option value="">All Sessions</option>
+
+                            {% for session in sessions %}
+                            <option value="{{ session.id }}">
+                                {{ session.session_name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Term
+
+                        </label>
+
+                        <select
+                            name="term"
+                            class="form-select">
+
+                            <option value="">All Terms</option>
+
+                            {% for term in terms %}
+                            <option value="{{ term.id }}">
+                                {{ term.term_name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Classroom
+
+                        </label>
+
+                        <select
+                            name="classroom"
+                            class="form-select">
+
+                            <option value="">All Classes</option>
+
+                            {% for classroom in classrooms %}
+                            <option value="{{ classroom.id }}">
+                                {{ classroom.name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Student
+
+                        </label>
+
+                        <select
+                            name="student"
+                            class="form-select">
+
+                            <option value="">All Students</option>
+
+                            {% for student in students %}
+                            <option value="{{ student.id }}">
+                                {{ student.full_name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Teacher
+
+                        </label>
+
+                        <select
+                            name="teacher"
+                            class="form-select">
+
+                            <option value="">All Teachers</option>
+
+                            {% for teacher in teachers %}
+                            <option value="{{ teacher.id }}">
+                                {{ teacher.full_name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Behaviour Category
+
+                        </label>
+
+                        <select
+                            name="category"
+                            class="form-select">
+
+                            <option value="">All Categories</option>
+
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">
+                                {{ category.name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Type
+
+                        </label>
+
+                        <select
+                            name="type"
+                            class="form-select">
+
+                            <option value="">All</option>
+                            <option>Positive</option>
+                            <option>Negative</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            From
+
+                        </label>
+
+                        <input
+                            type="date"
+                            name="from_date"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            To
+
+                        </label>
+
+                        <input
+                            type="date"
+                            name="to_date"
+                            class="form-control">
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <button
+                        class="btn btn-primary">
+
+                        <i class="bi bi-search me-2"></i>
+
+                        Generate Report
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+        SUMMARY
+    =========================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+        <div class="col-md-3">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+        <div class="col-md-3">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+        <div class="col-md-3">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+        REPORT TABLE
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">
+
+                Behaviour Report
+
+            </h5>
+
+            <div>
+
+                <button class="btn btn-outline-success btn-sm">
+
+                    <i class="bi bi-file-earmark-excel"></i>
+
+                    Excel
+
+                </button>
+
+                <button class="btn btn-outline-danger btn-sm">
+
+                    <i class="bi bi-file-earmark-pdf"></i>
+
+                    PDF
+
+                </button>
+
+                <button class="btn btn-outline-secondary btn-sm">
+
+                    <i class="bi bi-printer"></i>
+
+                    Print
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Student</th>
+                        <th>Class</th>
+                        <th>Teacher</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for behaviour in behaviours %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ behaviour.incident_datetime.strftime('%d %b %Y') }}
+
+                        </td>
+
+                        <td>
+
+                            {{ behaviour.incident_datetime.strftime('%I:%M %p') }}
+
+                        </td>
+
+                        <td>
+
+                            {{ behaviour.student.full_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ behaviour.classroom.name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ behaviour.teacher.full_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ behaviour.category.name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ behaviour.category.category_type }}
+
+                        </td>
+
+                        <td>
+
+                            {{ behaviour.status }}
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="8"
+                            class="text-center py-5">
+
+                            No behaviour records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

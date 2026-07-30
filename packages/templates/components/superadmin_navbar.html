@@ -1,0 +1,330 @@
+<!-- ======================================================
+SUPER ADMIN NAVBAR
+======================================================= -->
+
+<nav class="top-navbar">
+
+    <div class="navbar-left">
+
+        <!-- Sidebar Toggle -->
+
+        <button
+            id="sidebarToggle"
+            class="icon-btn">
+
+            <i class="bi bi-list"></i>
+
+        </button>
+
+        <!-- Breadcrumb -->
+
+        <div class="page-heading">
+
+            <h4>
+
+                {% block page_title %}
+
+                    Dashboard
+
+                {% endblock %}
+
+            </h4>
+
+            <small>
+
+                {% block page_description %}
+
+                    Welcome to the reInsight Platform
+
+                {% endblock %}
+
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==============================================
+    RIGHT SIDE
+    =============================================== -->
+
+    <div class="navbar-right">
+
+        <!-- Search -->
+
+        <div class="search-box">
+
+            <i class="bi bi-search"></i>
+
+            <input
+                type="text"
+                placeholder="Search anything...">
+
+        </div>
+
+
+        <!-- Quick Actions -->
+
+        <div class="dropdown">
+
+            <button
+                class="icon-btn"
+                data-bs-toggle="dropdown">
+
+                <i class="bi bi-plus-circle"></i>
+
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                <li>
+
+                    <h6 class="dropdown-header">
+
+                        Quick Actions
+
+                    </h6>
+
+                </li>
+
+                <li>
+
+                    <a
+                        class="dropdown-item"
+                        href="{{ url_for('superadmin.create_school') }}">
+
+                        <i class="bi bi-building-add me-2"></i>
+
+                        Register School
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a
+                        class="dropdown-item"
+                        href="{{ url_for('superadmin.create_school_admin') }}">
+
+                        <i class="bi bi-person-plus me-2"></i>
+
+                        Create School Admin
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a
+                        class="dropdown-item"
+                        href="{{ url_for('superadmin.create_user') }}">
+
+                        <i class="bi bi-people me-2"></i>
+
+                        Create User
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a
+                        class="dropdown-item"
+                        href="{{ url_for('superadmin.subscription_create') }}">
+
+                        <i class="bi bi-credit-card me-2"></i>
+
+                        New Subscription
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- Notifications -->
+
+        <div class="dropdown">
+
+            <button
+                class="icon-btn position-relative"
+                data-bs-toggle="dropdown">
+
+                <i class="bi bi-bell"></i>
+
+                {% if unread_notifications|default(0) > 0 %}
+
+                <span class="notification-badge">
+
+                    {{ unread_notifications }}
+
+                </span>
+
+                {% endif %}
+
+            </button>
+
+            <div
+                class="dropdown-menu dropdown-menu-end shadow notification-menu">
+
+                <h6 class="dropdown-header">
+
+                    Notifications
+
+                </h6>
+
+                <hr>
+
+                <div class="px-3 py-2 text-muted">
+
+                    No new notifications.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- User Profile -->
+
+        <div class="dropdown">
+
+            <button
+                class="profile-button"
+                data-bs-toggle="dropdown">
+
+                <img
+
+                    src="{% if current_user.is_authenticated and current_user.photo %}
+
+                            {{ current_user.photo }}
+
+                         {% else %}
+
+                            {{ url_for('static', filename='images/default-avatar.png') }}
+
+                         {% endif %}"
+
+                    alt="Profile">
+
+                <div class="profile-info">
+
+                    <strong>
+
+                        {% if current_user.is_authenticated %}
+
+                            {{ current_user.username }}
+
+                        {% else %}
+
+                            Development Mode
+
+                        {% endif %}
+
+                    </strong>
+
+                    <small>
+
+                        Super Administrator
+
+                    </small>
+
+                </div>
+
+                <i class="bi bi-chevron-down"></i>
+
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                <li>
+
+                    <a
+                        class="dropdown-item"
+                        href="{{ url_for('superadmin.profile') }}">
+
+                        <i class="bi bi-person me-2"></i>
+
+                        My Profile
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a
+                        class="dropdown-item"
+                        href="{{ url_for('superadmin.settings') }}">
+
+                        <i class="bi bi-gear me-2"></i>
+
+                        Settings
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a
+                        class="dropdown-item"
+                        href="{{ url_for('superadmin.security') }}">
+
+                        <i class="bi bi-shield-lock me-2"></i>
+
+                        Security
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a
+                        class="dropdown-item"
+                        href="{{ url_for('superadmin.change_password') }}">
+
+                        <i class="bi bi-key me-2"></i>
+
+                        Change Password
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <hr class="dropdown-divider">
+
+                </li>
+
+                <li>
+
+                    <a
+                        class="dropdown-item text-danger"
+                        href="{{ url_for('auth.logout') }}">
+
+                        <i class="bi bi-box-arrow-right me-2"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>

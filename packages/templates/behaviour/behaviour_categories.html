@@ -1,0 +1,377 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Behaviour Categories | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Behaviour Categories",
+        page_subtitle="Create and manage positive and negative behaviour categories used throughout the school.",
+        button_text="New Category",
+        button_url=url_for('behaviour_category_create'),
+        button_icon="bi bi-plus-circle"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <!-- ==========================================================
+        SUMMARY CARDS
+    =========================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+        FILTERS
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Filter Categories
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Behaviour Type
+
+                        </label>
+
+                        <select
+                            name="category_type"
+                            class="form-select">
+
+                            <option value="">
+                                All
+                            </option>
+
+                            <option value="Positive">
+                                Positive
+                            </option>
+
+                            <option value="Negative">
+                                Negative
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Severity
+
+                        </label>
+
+                        <select
+                            name="severity"
+                            class="form-select">
+
+                            <option value="">
+                                All
+                            </option>
+
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                            <option>Critical</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select
+                            name="status"
+                            class="form-select">
+
+                            <option value="">
+                                All
+                            </option>
+
+                            <option value="1">
+                                Active
+                            </option>
+
+                            <option value="0">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+        CATEGORY TABLE
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">
+
+                Behaviour Categories
+
+            </h5>
+
+            <span class="badge bg-primary">
+
+                {{ categories|length }} Categories
+
+            </span>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Type</th>
+
+                        <th>Severity</th>
+
+                        <th>Points</th>
+
+                        <th>Notify Parent</th>
+
+                        <th>Admin Review</th>
+
+                        <th>Status</th>
+
+                        <th class="text-center">
+
+                            Actions
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for category in categories %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ category.name }}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {% if category.category_type == "Positive" %}
+
+                                <span class="badge bg-success">
+
+                                    Positive
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Negative
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ category.severity }}
+
+                        </td>
+
+                        <td>
+
+                            {{ category.points }}
+
+                        </td>
+
+                        <td>
+
+                            {% if category.requires_parent_notification %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Yes
+
+                                </span>
+
+                            {% else %}
+
+                                No
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if category.requires_admin_review %}
+
+                                <span class="badge bg-info">
+
+                                    Required
+
+                                </span>
+
+                            {% else %}
+
+                                No
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if category.is_active %}
+
+                                <span class="badge bg-success">
+
+                                    Active
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Inactive
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td class="text-center">
+
+                            <a href="{{ url_for('behaviour_category_profile',
+                                    category_id=category.id) }}"
+                               class="btn btn-sm btn-outline-primary">
+
+                                View
+
+                            </a>
+
+                            <a href="{{ url_for('behaviour_category_edit',
+                                    category_id=category.id) }}"
+                               class="btn btn-sm btn-outline-warning">
+
+                                Edit
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="8"
+                            class="text-center py-5">
+
+                            No behaviour categories have been created.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,316 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Behaviour Record | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Behaviour Record",
+        page_subtitle="View the complete details of a recorded behaviour incident.",
+        button_text="Back to Behaviour",
+        button_url=url_for('behaviour.behaviour_home'),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <div class="row">
+
+        <!-- ======================================================
+            LEFT COLUMN
+        ======================================================= -->
+
+        <div class="col-lg-8">
+
+            <!-- Behaviour Details -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Behaviour Details
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row gy-3">
+
+                        <div class="col-md-6">
+
+                            <strong>Student</strong><br>
+
+                            {{ behaviour.student.full_name }}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Admission Number</strong><br>
+
+                            {{ behaviour.student.admission_number }}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Classroom</strong><br>
+
+                            {{ behaviour.classroom.name }}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Teacher</strong><br>
+
+                            {{ behaviour.teacher.full_name }}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Academic Session</strong><br>
+
+                            {{ behaviour.academic_session.session_name }}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Term</strong><br>
+
+                            {{ behaviour.term.term_name }}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Category</strong><br>
+
+                            {{ behaviour.category.name }}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Type</strong><br>
+
+                            {{ behaviour.category.category_type }}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Severity</strong><br>
+
+                            {{ behaviour.category.severity }}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Date & Time</strong><br>
+
+                            {{ behaviour.incident_datetime.strftime("%d %B %Y") }}
+
+                            <br>
+
+                            {{ behaviour.incident_datetime.strftime("%I:%M %p") }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Description -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Incident Description
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {{ behaviour.description }}
+
+                </div>
+
+            </div>
+
+            <!-- Action Taken -->
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Action Taken
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if behaviour.action_taken %}
+
+                        {{ behaviour.action_taken }}
+
+                    {% else %}
+
+                        <span class="text-muted">
+
+                            No action recorded.
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ======================================================
+            RIGHT COLUMN
+        ======================================================= -->
+
+        <div class="col-lg-4">
+
+            <!-- Status -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Incident Status
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+
+                        <strong>Status:</strong>
+
+                        <span class="badge bg-success">
+
+                            {{ behaviour.status }}
+
+                        </span>
+
+                    </p>
+
+                    <p>
+
+                        <strong>Recorded By:</strong><br>
+
+                        {{ behaviour.teacher.full_name }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Recorded On:</strong><br>
+
+                        {{ behaviour.created_at.strftime("%d %B %Y") }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Last Updated:</strong><br>
+
+                        {{ behaviour.updated_at.strftime("%d %B %Y") }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Quick Actions -->
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Quick Actions
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-2">
+
+                    <a href="{{ url_for('behaviour_edit',
+                                        behaviour_id=behaviour.id) }}"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-pencil-square me-2"></i>
+
+                        Edit Record
+
+                    </a>
+
+                    <a href="{{ url_for('student_profile',
+                                        student_id=behaviour.student.id) }}"
+                       class="btn btn-outline-secondary">
+
+                        <i class="bi bi-person me-2"></i>
+
+                        View Student
+
+                    </a>
+
+                    <a href="{{ url_for('behaviour_reports') }}"
+                       class="btn btn-outline-success">
+
+                        <i class="bi bi-file-earmark-text me-2"></i>
+
+                        Behaviour Reports
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

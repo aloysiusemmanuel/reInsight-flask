@@ -1,0 +1,441 @@
+{% extends "base.html" %}
+
+{% block title %}Request a Demo | reInsight{% endblock %}
+
+{% block content %}
+
+<!-- ==========================================
+     HERO
+========================================== -->
+
+<section class="py-5 bg-light mt-5">
+
+    <div class="container text-center">
+
+        <span class="hero-badge">
+
+            Request a Personalized Demo
+
+        </span>
+
+        <h1 class="mt-4">
+
+            Experience reInsight in Action
+
+        </h1>
+
+        <p class="lead mt-3 mx-auto" style="max-width:800px;">
+
+            Schedule a free, personalized demonstration and discover how
+            reInsight can help your school improve attendance,
+            academic performance, behaviour management and
+            decision-making through intelligent analytics.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     DEMO SECTION
+========================================== -->
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="row g-5">
+
+            <!-- LEFT COLUMN -->
+
+            <div class="col-lg-5">
+
+                <div class="feature-card h-100">
+
+                    <h3 class="mb-4">
+
+                        What You'll See
+
+                    </h3>
+
+                    <div class="mb-4">
+
+                        <h5>
+
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                            Platform Walkthrough
+
+                        </h5>
+
+                        <p>
+
+                            Explore the complete reInsight platform and
+                            understand how it supports your school.
+
+                        </p>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <h5>
+
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                            Live Dashboard
+
+                        </h5>
+
+                        <p>
+
+                            See attendance, academics, behaviour and
+                            analytics working together in real time.
+
+                        </p>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <h5>
+
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                            Questions & Answers
+
+                        </h5>
+
+                        <p>
+
+                            Ask questions about implementation,
+                            customization and pricing.
+
+                        </p>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <h5>
+
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+
+                            No Obligation
+
+                        </h5>
+
+                        <p>
+
+                            Requesting a demo is completely free.
+
+                        </p>
+
+                    </div>
+
+                    <hr>
+
+                    <p class="mb-0">
+
+                        <strong>Typical Demo Duration:</strong>
+
+                        30–45 minutes
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- FORM -->
+
+            <div class="col-lg-7">
+
+                <div class="feature-card">
+
+                    <h3 class="mb-4">
+
+                        Book Your Demo
+
+                    </h3>
+
+                    <form method="POST">
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Full Name
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="full_name"
+                                    required>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Position
+
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    name="position"
+                                    required>
+
+                                    <option value="">Select Position</option>
+
+                                    <option>Proprietor</option>
+
+                                    <option>Principal</option>
+
+                                    <option>Vice Principal</option>
+
+                                    <option>Administrator</option>
+
+                                    <option>ICT Administrator</option>
+
+                                    <option>Head Teacher</option>
+
+                                    <option>Other</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    School Name
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="school_name"
+                                    required>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Email Address
+
+                                </label>
+
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    name="email"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Phone Number
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="phone">
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Country
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="country">
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Number of Students
+
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    name="students">
+
+                                    <option>Less than 100</option>
+
+                                    <option>100 - 300</option>
+
+                                    <option>301 - 600</option>
+
+                                    <option>601 - 1000</option>
+
+                                    <option>1000+</option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Number of Campuses
+
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    name="campuses">
+
+                                    <option>1</option>
+
+                                    <option>2</option>
+
+                                    <option>3</option>
+
+                                    <option>4+</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Preferred Demo Date
+
+                            </label>
+
+                            <input
+                                type="date"
+                                class="form-control"
+                                name="demo_date">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Preferred Demo Time
+
+                            </label>
+
+                            <input
+                                type="time"
+                                class="form-control"
+                                name="demo_time">
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Additional Information
+
+                            </label>
+
+                            <textarea
+                                rows="5"
+                                class="form-control"
+                                name="message"
+                                placeholder="Tell us anything that will help us prepare for the demo..."></textarea>
+
+                        </div>
+
+                        <button
+                            class="btn btn-primary btn-lg">
+
+                            <i class="bi bi-calendar-check me-2"></i>
+
+                            Request Demo
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================
+     CTA
+========================================== -->
+
+<section class="cta-section">
+
+    <div class="container text-center">
+
+        <h2>
+
+            Looking Forward to Meeting You
+
+        </h2>
+
+        <p class="mt-3">
+
+            We'll contact you to confirm your preferred date and arrange
+            a personalized demonstration for your school.
+
+        </p>
+
+        <a href="{{ url_for('public.contact') }}"
+           class="btn btn-light btn-lg mt-3">
+
+            Have Questions? Contact Us
+
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

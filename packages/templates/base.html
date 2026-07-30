@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- =====================================================
+         META
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        {% block title %}
+            reInsight | AI-Powered School Intelligence Platform
+        {% endblock %}
+    </title>
+
+    <meta name="description"
+          content="{% block description %}
+          reInsight is an AI-powered School Intelligence Platform for managing students, attendance, academics, behaviour and analytics.
+          {% endblock %}">
+
+    <meta name="keywords"
+          content="School Management System, Education Software, Student Analytics, Attendance, Behaviour, AI">
+
+    <meta name="author" content="Emmelac Tutorial">
+
+    <link rel="icon"
+          href="{{ url_for('static', filename='images/favicon.png') }}">
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+
+    <!-- =====================================================
+         CUSTOM CSS
+    ====================================================== -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/base.css') }}">
+
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         LOADER (Optional)
+    ====================================================== -->
+
+    <div id="pageLoader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    {% include "layouts/navbar_public.html" %}
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    {% include "layouts/footer_public.html" %}
+
+    <!-- =====================================================
+         BACK TO TOP
+    ====================================================== -->
+
+    <button
+        id="backToTop"
+        class="btn btn-primary shadow">
+
+        <i class="bi bi-arrow-up"></i>
+
+    </button>
+
+    <!-- =====================================================
+         BOOTSTRAP JS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- =====================================================
+         CUSTOM JS
+    ====================================================== -->
+
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+
+    {% block extra_js %}
+
+    {% endblock %}
+
+</body>
+
+</html>

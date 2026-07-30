@@ -1,0 +1,327 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Edit Behaviour | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Edit Behaviour Record",
+        page_subtitle="Update an existing student behaviour record.",
+        button_text="Back to Profile",
+        button_url=url_for('behaviour_profile', behaviour_id=behaviour.id),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    Behaviour Details
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <!-- Academic Session -->
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Academic Session
+                        </label>
+
+                        <select
+                            name="academic_session_id"
+                            class="form-select"
+                            required>
+
+                            {% for session in sessions %}
+
+                            <option
+                                value="{{ session.id }}"
+                                {% if session.id == behaviour.academic_session_id %}selected{% endif %}>
+
+                                {{ session.session_name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Term -->
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Term
+
+                        </label>
+
+                        <select
+                            name="term_id"
+                            class="form-select"
+                            required>
+
+                            {% for term in terms %}
+
+                            <option
+                                value="{{ term.id }}"
+                                {% if term.id == behaviour.term_id %}selected{% endif %}>
+
+                                {{ term.term_name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Incident Date -->
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Incident Date & Time
+
+                        </label>
+
+                        <input
+                            type="datetime-local"
+                            name="incident_datetime"
+                            class="form-control"
+                            value="{{ behaviour.incident_datetime.strftime('%Y-%m-%dT%H:%M') }}"
+                            required>
+
+                    </div>
+
+                    <!-- Student -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Student
+
+                        </label>
+
+                        <select
+                            name="student_id"
+                            class="form-select"
+                            required>
+
+                            {% for student in students %}
+
+                            <option
+                                value="{{ student.id }}"
+                                {% if student.id == behaviour.student_id %}selected{% endif %}>
+
+                                {{ student.full_name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Classroom -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Classroom
+
+                        </label>
+
+                        <select
+                            name="classroom_id"
+                            class="form-select"
+                            required>
+
+                            {% for classroom in classrooms %}
+
+                            <option
+                                value="{{ classroom.id }}"
+                                {% if classroom.id == behaviour.classroom_id %}selected{% endif %}>
+
+                                {{ classroom.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Teacher -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Recorded By
+
+                        </label>
+
+                        <select
+                            name="teacher_id"
+                            class="form-select"
+                            required>
+
+                            {% for teacher in teachers %}
+
+                            <option
+                                value="{{ teacher.id }}"
+                                {% if teacher.id == behaviour.teacher_id %}selected{% endif %}>
+
+                                {{ teacher.full_name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Category -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Behaviour Category
+
+                        </label>
+
+                        <select
+                            name="behaviour_category_id"
+                            class="form-select"
+                            required>
+
+                            {% for category in categories %}
+
+                            <option
+                                value="{{ category.id }}"
+                                {% if category.id == behaviour.behaviour_category_id %}selected{% endif %}>
+
+                                {{ category.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Description -->
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+
+                            Incident Description
+
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            name="description"
+                            rows="5"
+                            required>{{ behaviour.description }}</textarea>
+
+                    </div>
+
+                    <!-- Action Taken -->
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+
+                            Immediate Action Taken
+
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            name="action_taken"
+                            rows="4">{{ behaviour.action_taken }}</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ======================================================
+                FOOTER
+            ======================================================= -->
+
+            <div class="card-footer bg-white d-flex justify-content-between">
+
+                <div class="text-muted small">
+
+                    Created:
+                    {{ behaviour.created_at.strftime("%d %b %Y %I:%M %p") }}
+
+                    <br>
+
+                    Last Updated:
+                    {{ behaviour.updated_at.strftime("%d %b %Y %I:%M %p") }}
+
+                </div>
+
+                <div>
+
+                    <a
+                        href="{{ url_for('behaviour_profile',
+                        behaviour_id=behaviour.id) }}"
+                        class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success">
+
+                        <i class="bi bi-check-circle me-2"></i>
+
+                        Update Behaviour
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

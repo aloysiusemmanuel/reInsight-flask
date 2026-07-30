@@ -1,0 +1,377 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Report Cards | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+         PAGE HEADER
+    ========================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                Report Cards
+
+            </h2>
+
+            <p class="text-muted">
+
+                Generate, preview and print students' report cards.
+
+            </p>
+
+        </div>
+
+        <a href="#"
+           class="btn btn-primary">
+
+            <i class="bi bi-printer-fill me-2"></i>
+
+            Print Selected
+
+        </a>
+
+    </div>
+
+    <!-- ==========================================
+         FILTER CARD
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Report Card Filters
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+                    <!-- Session -->
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+
+                            Academic Session
+
+                        </label>
+
+                        <select
+                            name="session"
+                            class="form-select">
+
+                            {% for session in sessions %}
+
+                            <option
+                                value="{{ session.id }}">
+
+                                {{ session.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Term -->
+
+                    <div class="col-lg-2">
+
+                        <label class="form-label">
+
+                            Term
+
+                        </label>
+
+                        <select
+                            name="term"
+                            class="form-select">
+
+                            {% for term in terms %}
+
+                            <option
+                                value="{{ term.id }}">
+
+                                {{ term.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Class -->
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+
+                            Class
+
+                        </label>
+
+                        <select
+                            name="classroom"
+                            class="form-select">
+
+                            {% for classroom in classrooms %}
+
+                            <option
+                                value="{{ classroom.id }}">
+
+                                {{ classroom.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Student -->
+
+                    <div class="col-lg-4">
+
+                        <label class="form-label">
+
+                            Student
+
+                        </label>
+
+                        <select
+                            name="student"
+                            class="form-select">
+
+                            <option value="">
+
+                                All Students
+
+                            </option>
+
+                            {% for student in students %}
+
+                            <option
+                                value="{{ student.id }}">
+
+                                {{ student.first_name }}
+                                {{ student.last_name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-search me-2"></i>
+
+                        Load Report Cards
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         REPORT CARD TABLE
+    ========================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">
+
+                Available Report Cards
+
+            </h5>
+
+            <span class="badge bg-primary">
+
+                {{ students|length }} Students
+
+            </span>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>
+
+                            Student
+
+                        </th>
+
+                        <th>
+
+                            Admission No.
+
+                        </th>
+
+                        <th>
+
+                            Class
+
+                        </th>
+
+                        <th>
+
+                            Average
+
+                        </th>
+
+                        <th>
+
+                            Position
+
+                        </th>
+
+                        <th>
+
+                            Status
+
+                        </th>
+
+                        <th class="text-center">
+
+                            Actions
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for student in students %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ student.admission_number }}
+
+                        </td>
+
+                        <td>
+
+                            {{ student.classroom.name if student.classroom else "-" }}
+
+                        </td>
+
+                        <td>
+
+                            --
+
+                        </td>
+
+                        <td>
+
+                            --
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                Ready
+
+                            </span>
+
+                        </td>
+
+                        <td class="text-center">
+
+                            <div class="btn-group">
+
+                                <a href="#"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    <i class="bi bi-eye-fill"></i>
+
+                                </a>
+
+                                <a href="#"
+                                   class="btn btn-sm btn-outline-success">
+
+                                    <i class="bi bi-download"></i>
+
+                                </a>
+
+                                <a href="#"
+                                   class="btn btn-sm btn-outline-secondary">
+
+                                    <i class="bi bi-printer"></i>
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

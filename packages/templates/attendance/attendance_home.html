@@ -1,0 +1,411 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}Attendance | reInsight{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+         PAGE HEADER
+    ========================================== -->
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                Attendance Management
+            </h2>
+
+            <p class="text-muted mb-0">
+                Monitor, record and analyse daily student attendance.
+            </p>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a href="{{ url_for('attendance.attendance_take') }}"
+               class="btn btn-primary">
+
+                <i class="bi bi-calendar-check me-2"></i>
+
+                Take Attendance
+
+            </a>
+
+            <a href="{{ url_for('attendance.attendance_report') }}"
+               class="btn btn-outline-primary">
+
+                <i class="bi bi-file-earmark-bar-graph me-2"></i>
+
+                Attendance Report
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         ATTENDANCE SUMMARY
+    ========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+                title="Present",
+                value="1,126",
+                counter_id="presentCounter",
+                icon="bi bi-person-check-fill",
+                subtitle="Students Present",
+                progress=91,
+                trend="up",
+                trend_value="+2%"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+                title="Absent",
+                value="86",
+                counter_id="absentCounter",
+                icon="bi bi-person-x-fill",
+                subtitle="Students Absent",
+                progress=9,
+                trend="down",
+                trend_value="-1%"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+                title="Late",
+                value="34",
+                counter_id="lateCounter",
+                icon="bi bi-clock-fill",
+                subtitle="Late Arrivals",
+                progress=18,
+                trend="down",
+                trend_value="-4%"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+                title="Attendance",
+                value="91%",
+                counter_id="attendanceCounter",
+                icon="bi bi-graph-up-arrow",
+                subtitle="Overall Rate",
+                progress=91,
+                trend="up",
+                trend_value="+3%"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         CHART + QUICK ACTIONS
+    ========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+                        Weekly Attendance Trend
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="attendanceTrendChart"
+                            height="120">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+                        Quick Actions
+                    </h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <a href="{{ url_for('attendance.attendance_take') }}"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-calendar-check me-2"></i>
+
+                        Take Attendance
+
+                    </a>
+
+                    <a href="{{ url_for('attendance.attendance_report') }}"
+                       class="btn btn-success">
+
+                        <i class="bi bi-file-earmark-text me-2"></i>
+
+                        Generate Report
+
+                    </a>
+
+                    <a href="#"
+                       class="btn btn-warning text-white">
+
+                        <i class="bi bi-download me-2"></i>
+
+                        Export Attendance
+
+                    </a>
+
+                    <a href="#"
+                       class="btn btn-info text-white">
+
+                        <i class="bi bi-envelope me-2"></i>
+
+                        Notify Parents
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         TODAY'S ATTENDANCE
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white d-flex justify-content-between">
+
+            <h5 class="mb-0">
+                Today's Attendance
+            </h5>
+
+            <a href="{{ url_for('attendance.attendance_take') }}">
+                View Full List
+            </a>
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Admission No.</th>
+                        <th>Student</th>
+                        <th>Class</th>
+                        <th>Status</th>
+                        <th>Time</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>ST001</td>
+
+                        <td>John Doe</td>
+
+                        <td>JSS 1A</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+                                Present
+                            </span>
+
+                        </td>
+
+                        <td>7:48 AM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>ST002</td>
+
+                        <td>Mary James</td>
+
+                        <td>JSS 2B</td>
+
+                        <td>
+
+                            <span class="badge bg-warning text-dark">
+                                Late
+                            </span>
+
+                        </td>
+
+                        <td>8:20 AM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>ST003</td>
+
+                        <td>David Peter</td>
+
+                        <td>SS1A</td>
+
+                        <td>
+
+                            <span class="badge bg-danger">
+                                Absent
+                            </span>
+
+                        </td>
+
+                        <td>—</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         CLASS ATTENDANCE
+    ========================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+                Class Attendance Summary
+            </h5>
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-striped align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Class</th>
+                        <th>Students</th>
+                        <th>Present</th>
+                        <th>Absent</th>
+                        <th>Rate</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>JSS 1A</td>
+
+                        <td>35</td>
+
+                        <td>34</td>
+
+                        <td>1</td>
+
+                        <td>97%</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>JSS 2B</td>
+
+                        <td>38</td>
+
+                        <td>35</td>
+
+                        <td>3</td>
+
+                        <td>92%</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>SS1A</td>
+
+                        <td>42</td>
+
+                        <td>38</td>
+
+                        <td>4</td>
+
+                        <td>90%</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

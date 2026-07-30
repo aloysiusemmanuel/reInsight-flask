@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        {% block title %}
+
+            reInsight | Teacher Dashboard
+
+        {% endblock %}
+
+    </title>
+
+    <!-- ==================================================
+         GOOGLE FONT
+    =================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- ==================================================
+         BOOTSTRAP
+    =================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- ==================================================
+         BOOTSTRAP ICONS
+    =================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- ==================================================
+         TEACHER DASHBOARD CSS
+    =================================================== -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/teacher.css') }}">
+
+     {% block styles %}
+
+
+    {% endblock %}
+
+</head>
+
+<body>
+
+<!-- ==================================================
+     MOBILE SIDEBAR OVERLAY
+=================================================== -->
+
+<div
+    id="sidebarOverlay"
+    class="sidebar-overlay">
+</div>
+
+<!-- ==================================================
+     DASHBOARD LAYOUT
+=================================================== -->
+
+<div class="teacher-wrapper">
+
+    <!-- ==============================================
+         SIDEBAR
+    =============================================== -->
+
+    <aside
+        id="teacherSidebar"
+        class="teacher-sidebar">
+
+        {% include "components/teacher_sidebar.html" %}
+
+    </aside>
+
+    <!-- ==============================================
+         MAIN CONTENT
+    =============================================== -->
+
+    <div
+        id="teacherMain"
+        class="teacher-main">
+
+        <!-- ==========================================
+             NAVBAR
+        =========================================== -->
+        <nav class="teacher-navbar">
+
+        {% include "components/teacher_navbar.html" %}
+
+        </nav>
+
+        <!-- ==========================================
+             PAGE CONTENT
+        =========================================== -->
+
+        <main class="teacher-content">
+
+            {% block content %}
+
+            {% endblock %}
+
+        </main>
+
+        <!-- ==========================================
+             FOOTER
+        =========================================== -->
+        <footer class="teacher-footer">
+
+            {% include "components/teacher_footer.html" %}
+        
+        </footer>
+
+    </div>
+
+</div>
+
+<!-- ==================================================
+     GLOBAL MODALS
+=================================================== -->
+
+{% include "components/teacher_modal.html" %}
+
+<!-- ==================================================
+     BOOTSTRAP JS
+=================================================== -->
+
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+<!-- ==================================================
+     TEACHER DASHBOARD JS
+=================================================== -->
+
+
+<script src="{{ url_for('static', filename='js/teacher.js') }}"></script>
+{% block scripts %}
+
+{% endblock %}
+
+</body>
+
+</html>

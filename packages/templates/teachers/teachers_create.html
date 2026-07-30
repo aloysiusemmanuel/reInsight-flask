@@ -1,0 +1,405 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Register Teacher | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+        PAGE HEADER
+    =========================================== -->
+
+    {% with
+        page_title="Register Teacher",
+        page_description="Create a new teacher profile and assign teaching responsibilities.",
+        primary_button={
+        "text":"Back to Teachers",
+        "url":url_for("teachers.teachers_home"),
+        "icon":"bi bi-arrow-left"
+        }
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <!-- ==========================================
+            PERSONAL INFORMATION
+        =========================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-person-fill me-2"></i>
+                    Personal Information
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-12 text-center">
+
+                        <img src="{{ url_for('static', filename='images/default-avatar.png') }}"
+                             class="rounded-circle border mb-3"
+                             width="140"
+                             height="140"
+                             id="photoPreview">
+
+                        <input type="file"
+                               class="form-control"
+                               name="photo"
+                               accept="image/*">
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">First Name</label>
+                        <input type="text"
+                               class="form-control"
+                               name="first_name"
+                               required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Last Name</label>
+                        <input type="text"
+                               class="form-control"
+                               name="last_name"
+                               required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Other Name</label>
+                        <input type="text"
+                               class="form-control"
+                               name="other_name">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Gender</label>
+                        <select class="form-select"
+                                name="gender">
+                            <option value="">Select Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date"
+                               class="form-control"
+                               name="date_of_birth">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text"
+                               class="form-control"
+                               name="phone">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Email</label>
+                        <input type="email"
+                               class="form-control"
+                               name="email">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+            EMPLOYMENT INFORMATION
+        =========================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-briefcase-fill me-2"></i>
+                    Employment Information
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+                        <label class="form-label">Staff ID</label>
+                        <input type="text"
+                               class="form-control"
+                               value="{{ staff_id }}"
+                               readonly>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Employment Date</label>
+                        <input type="date"
+                               class="form-control"
+                               name="employment_date">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Employment Type</label>
+                        <select class="form-select"
+                                name="employment_type">
+                            <option>Full-Time</option>
+                            <option>Part-Time</option>
+                            <option>Contract</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select"
+                                name="status">
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+            QUALIFICATION
+        =========================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-mortarboard-fill me-2"></i>
+                    Academic Qualification
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <label class="form-label">Highest Qualification</label>
+                        <input type="text"
+                               class="form-control"
+                               name="qualification">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Institution</label>
+                        <input type="text"
+                               class="form-control"
+                               name="institution">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Year Graduated</label>
+                        <input type="number"
+                               class="form-control"
+                               name="graduation_year">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+            ASSIGNMENTS
+        =========================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-book-fill me-2"></i>
+                    Teaching Assignment
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Assign Subjects
+                        </label>
+
+                        <select class="form-select"
+                                multiple
+                                name="subjects">
+
+                            {% for subject in subjects %}
+
+                            <option value="{{ subject.id }}">
+                                {{ subject.name }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Assign Classes
+                        </label>
+
+                        <select class="form-select"
+                                multiple
+                                name="classes">
+
+                            {% for classroom in classrooms %}
+
+                            <option value="{{ classroom.id }}">
+                                {{ classroom.name }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Class Teacher
+                        </label>
+
+                        <select class="form-select"
+                                name="class_teacher">
+
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+            LOGIN INFORMATION
+        =========================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-shield-lock-fill me-2"></i>
+                    Login Information
+                </h5>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Username
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               name="username">
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Temporary Password
+                        </label>
+
+                        <input type="password"
+                               class="form-control"
+                               name="password">
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Confirm Password
+                        </label>
+
+                        <input type="password"
+                               class="form-control"
+                               name="confirm_password">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+            ACTION BUTTONS
+        =========================================== -->
+
+        <div class="text-end mb-5">
+
+            <a href="{{ url_for('teachers.teachers_home') }}"
+               class="btn btn-light">
+
+                Cancel
+
+            </a>
+
+            <button type="reset"
+                    class="btn btn-warning">
+
+                Reset
+
+            </button>
+
+            <button type="submit"
+                    class="btn btn-primary">
+
+                <i class="bi bi-check-circle me-2"></i>
+
+                Register Teacher
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

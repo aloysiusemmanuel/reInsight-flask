@@ -1,0 +1,443 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Edit Student | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+         PAGE HEADER
+    ========================================== -->
+
+    {% with
+        page_title="Edit Student",
+        page_subtitle="Update student information",
+        button_text="Back to Students",
+        button_url=url_for('student_home'),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <!-- ==========================================
+         EDIT STUDENT FORM
+    ========================================== -->
+
+    <form method="POST"
+          action="{{ url_for('student_edit', student_id=student.id) }}"
+          enctype="multipart/form-data">
+
+        <div class="row">
+
+            <!-- ==========================================
+                 LEFT COLUMN
+            ========================================== -->
+
+            <div class="col-lg-8">
+
+                <!-- PERSONAL INFORMATION -->
+
+                <div class="card shadow-sm border-0 mb-4">
+
+                    <div class="card-header bg-white">
+
+                        <h5 class="mb-0">
+                            Personal Information
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Admission Number
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="admission_number"
+                                    class="form-control"
+                                    value="{{ student.admission_number }}">
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Admission Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    name="admission_date"
+                                    class="form-control"
+                                    value="{{ student.admission_date }}">
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    First Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="first_name"
+                                    class="form-control"
+                                    value="{{ student.first_name }}">
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Other Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="other_name"
+                                    class="form-control"
+                                    value="{{ student.other_name }}">
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Last Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    class="form-control"
+                                    value="{{ student.last_name }}">
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Gender
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    name="gender">
+
+                                    <option value="Male"
+                                        {% if student.gender=="Male" %}selected{% endif %}>
+                                        Male
+                                    </option>
+
+                                    <option value="Female"
+                                        {% if student.gender=="Female" %}selected{% endif %}>
+                                        Female
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Date of Birth
+                                </label>
+
+                                <input
+                                    type="date"
+                                    name="date_of_birth"
+                                    class="form-control"
+                                    value="{{ student.date_of_birth }}">
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Replace Photograph
+                                </label>
+
+                                <input
+                                    type="file"
+                                    name="photo"
+                                    class="form-control">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ACADEMIC INFORMATION -->
+
+                <div class="card shadow-sm border-0 mb-4">
+
+                    <div class="card-header bg-white">
+
+                        <h5 class="mb-0">
+                            Academic Information
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Classroom
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    name="classroom_id">
+
+                                    {% for classroom in classrooms %}
+
+                                    <option value="{{ classroom.id }}"
+                                        {% if classroom.id==student.classroom_id %}selected{% endif %}>
+
+                                        {{ classroom.name }}
+
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+                                    Status
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    name="status">
+
+                                    <option value="Active"
+                                        {% if student.status=="Active" %}selected{% endif %}>Active</option>
+
+                                    <option value="Transferred"
+                                        {% if student.status=="Transferred" %}selected{% endif %}>Transferred</option>
+
+                                    <option value="Graduated"
+                                        {% if student.status=="Graduated" %}selected{% endif %}>Graduated</option>
+
+                                    <option value="Suspended"
+                                        {% if student.status=="Suspended" %}selected{% endif %}>Suspended</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- MEDICAL -->
+
+                <div class="card shadow-sm border-0 mb-4">
+
+                    <div class="card-header bg-white">
+
+                        <h5 class="mb-0">
+
+                            Medical Information
+
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-3">
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Blood Group
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="blood_group"
+                                    value="{{ student.blood_group }}">
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+                                    Genotype
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="genotype"
+                                    value="{{ student.genotype }}">
+
+                            </div>
+
+                            <div class="col-md-12">
+
+                                <label class="form-label">
+
+                                    Medical Conditions
+
+                                </label>
+
+                                <textarea
+                                    class="form-control"
+                                    rows="4"
+                                    name="medical_conditions">{{ student.medical_conditions }}</textarea>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================================
+                 RIGHT COLUMN
+            ========================================== -->
+
+            <div class="col-lg-4">
+
+                <!-- PHOTO -->
+
+                <div class="card shadow-sm border-0 mb-4">
+
+                    <div class="card-header bg-white">
+
+                        <h5 class="mb-0">
+                            Student Photograph
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body text-center">
+
+                        {% if student.photo %}
+
+                        <img src="{{ url_for('static', filename=student.photo) }}"
+                             class="img-fluid rounded-circle mb-3"
+                             style="width:170px;height:170px;object-fit:cover;">
+
+                        {% else %}
+
+                        <i class="bi bi-person-circle"
+                           style="font-size:8rem;"></i>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                <!-- PARENT -->
+
+                <div class="card shadow-sm border-0 mb-4">
+
+                    <div class="card-header bg-white">
+
+                        <h5 class="mb-0">
+
+                            Parent
+
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <select
+                            class="form-select"
+                            name="parent_id">
+
+                            {% for parent in parents %}
+
+                            <option value="{{ parent.id }}"
+                                {% if parent.id==student.parent_id %}selected{% endif %}>
+
+                                {{ parent.full_name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <!-- ACTIONS -->
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-body d-grid gap-2">
+
+                        <button
+                            class="btn btn-primary"
+                            type="submit">
+
+                            <i class="bi bi-check-circle me-2"></i>
+
+                            Update Student
+
+                        </button>
+
+                        <button
+                            class="btn btn-outline-secondary"
+                            type="reset">
+
+                            Reset Changes
+
+                        </button>
+
+                        <a href="{{ url_for('student_profile', student_id=student.id) }}"
+                           class="btn btn-light">
+
+                            Cancel
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,137 @@
+<!-- ==========================================================
+     TEACHER SIDEBAR
+=========================================================== -->
+<div class="teacher-brand">
+
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="reInsight">
+
+    <div class="teacher-brand-text">
+
+        <h5>reInsight</h5>
+
+        <small>Teacher Portal</small>
+
+    </div>
+
+</div>
+
+<div class="teacher-user">
+
+    <div class="avatar">T</div>
+
+    <div class="teacher-user-info">
+
+        <h6>Teacher</h6>
+
+        <small>Staff ID</small>
+
+    </div>
+
+</div>
+
+<nav class="teacher-menu">
+
+    <div class="teacher-menu-section">Teaching</div>
+
+    <a class="nav-link active"
+       href="{{ url_for('teacher-dashboard.teacher_dashboard') }}">
+
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('teacher-dashboard.attendance') }}">
+
+        <i class="bi bi-calendar-check-fill"></i>
+        <span>Attendance</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('teacher-dashboard.assessment') }}">
+
+        <i class="bi bi-journal-check"></i>
+        <span>Assessment</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('teacher-dashboard.results') }}">
+
+        <i class="bi bi-bar-chart-fill"></i>
+        <span>Results</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('teacher-dashboard.behaviour') }}">
+
+        <i class="bi bi-emoji-smile-fill"></i>
+        <span>Behaviour</span>
+
+    </a>
+
+    <div class="teacher-menu-section">Planning</div>
+
+    <a class="nav-link"
+       href="{{ url_for('teacher-dashboard.lesson_notes') }}">
+
+        <i class="bi bi-journal-text"></i>
+        <span>Lesson Notes</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('teacher-dashboard.timetable') }}">
+
+        <i class="bi bi-clock-fill"></i>
+        <span>Timetable</span>
+
+    </a>
+
+    <div class="teacher-menu-section">Reports</div>
+
+    <a class="nav-link"
+       href="{{ url_for('teacher-dashboard.reports') }}">
+
+        <i class="bi bi-file-earmark-bar-graph-fill"></i>
+        <span>Reports</span>
+
+    </a>
+
+    <div class="teacher-menu-section">Account</div>
+
+    <a class="nav-link"
+       href="{{ url_for('teacher-dashboard.profile') }}">
+
+        <i class="bi bi-person-circle"></i>
+        <span>My Profile</span>
+
+    </a>
+
+    <a class="nav-link"
+       href="{{ url_for('teacher-dashboard.settings') }}">
+
+        <i class="bi bi-gear-fill"></i>
+        <span>Settings</span>
+
+    </a>
+
+    <a class="nav-link text-danger"
+       href="#">
+
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+
+    </a>
+
+</nav>
+
+<div class="teacher-sidebar-footer">
+
+    Academic Session 2026
+
+</div>

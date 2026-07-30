@@ -1,0 +1,465 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Behaviour Category | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title=category.name,
+        page_subtitle="Behaviour Category Profile",
+        button_text="Back to Categories",
+        button_url=url_for('behaviour_category_home'),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <div class="row">
+
+        <!-- ======================================================
+            LEFT COLUMN
+        ======================================================= -->
+
+        <div class="col-lg-8">
+
+            <!-- Category Details -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Category Details
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row gy-4">
+
+                        <div class="col-md-6">
+
+                            <strong>Category Name</strong>
+
+                            <p class="mb-0">
+
+                                {{ category.name }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Behaviour Type</strong>
+
+                            <p class="mb-0">
+
+                                {% if category.category_type == "Positive" %}
+
+                                    <span class="badge bg-success">
+
+                                        Positive
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-danger">
+
+                                        Negative
+
+                                    </span>
+
+                                {% endif %}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Severity</strong>
+
+                            <p class="mb-0">
+
+                                {{ category.severity }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Behaviour Points</strong>
+
+                            <p class="mb-0">
+
+                                {{ category.points }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Display Order</strong>
+
+                            <p class="mb-0">
+
+                                {{ category.display_order }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Status</strong>
+
+                            <p class="mb-0">
+
+                                {% if category.is_active %}
+
+                                    <span class="badge bg-success">
+
+                                        Active
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        Inactive
+
+                                    </span>
+
+                                {% endif %}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Notify Parent</strong>
+
+                            <p class="mb-0">
+
+                                {% if category.requires_parent_notification %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Yes
+
+                                    </span>
+
+                                {% else %}
+
+                                    No
+
+                                {% endif %}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <strong>Admin Review Required</strong>
+
+                            <p class="mb-0">
+
+                                {% if category.requires_admin_review %}
+
+                                    <span class="badge bg-info">
+
+                                        Required
+
+                                    </span>
+
+                                {% else %}
+
+                                    No
+
+                                {% endif %}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Description -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Description
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if category.description %}
+
+                        {{ category.description }}
+
+                    {% else %}
+
+                        <span class="text-muted">
+
+                            No description available.
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- Recent Usage -->
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Recent Behaviour Records
+
+                    </h5>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>Date</th>
+
+                                <th>Student</th>
+
+                                <th>Class</th>
+
+                                <th>Teacher</th>
+
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                        {% for behaviour in category.behaviours[:10] %}
+
+                            <tr>
+
+                                <td>
+
+                                    {{ behaviour.incident_datetime.strftime('%d %b %Y') }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ behaviour.student.full_name }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ behaviour.classroom.name }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ behaviour.teacher.full_name }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ behaviour.status }}
+
+                                </td>
+
+                            </tr>
+
+                        {% else %}
+
+                            <tr>
+
+                                <td colspan="5"
+                                    class="text-center py-5">
+
+                                    No behaviour records found.
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ======================================================
+            RIGHT COLUMN
+        ======================================================= -->
+
+        <div class="col-lg-4">
+
+            <!-- Quick Statistics -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Category Statistics
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-borderless">
+
+                        <tr>
+
+                            <th>Total Records</th>
+
+                            <td>
+
+                                {{ category.behaviours|length }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Created</th>
+
+                            <td>
+
+                                {{ category.created_at.strftime('%d %b %Y') }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Updated</th>
+
+                            <td>
+
+                                {{ category.updated_at.strftime('%d %b %Y') }}
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- Quick Actions -->
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Quick Actions
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-2">
+
+                    <a
+                        href="{{ url_for('behaviour_category_edit',
+                        category_id=category.id) }}"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-pencil-square me-2"></i>
+
+                        Edit Category
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('behaviour.behaviour_home') }}"
+                        class="btn btn-outline-success">
+
+                        <i class="bi bi-list-check me-2"></i>
+
+                        Behaviour Records
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('behaviour_analytics') }}"
+                        class="btn btn-outline-info">
+
+                        <i class="bi bi-bar-chart-line me-2"></i>
+
+                        Behaviour Analytics
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

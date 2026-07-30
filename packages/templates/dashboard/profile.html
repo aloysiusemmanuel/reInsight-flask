@@ -1,0 +1,278 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+My Profile | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    {% include "components/header.html" %}
+
+    <div class="row">
+
+        <!-- ==========================================
+             PROFILE SUMMARY
+        ========================================== -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <img src="{{ url_for('static', filename='images/avatar.png') }}"
+                         class="rounded-circle mb-3"
+                         width="140"
+                         height="140"
+                         alt="Profile">
+
+                    <h4 class="mb-1">
+
+                        {{ user.full_name if user else "Administrator" }}
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        {{ user.role if user else "Super Administrator" }}
+
+                    </p>
+
+                    <span class="badge bg-success">
+
+                        Active
+
+                    </span>
+
+                    <hr>
+
+                    <div class="row text-center">
+
+                        <div class="col">
+
+                            <h5>
+
+                                {{ user.schools|default(1) }}
+
+                            </h5>
+
+                            <small class="text-muted">
+
+                                Schools
+
+                            </small>
+
+                        </div>
+
+                        <div class="col">
+
+                            <h5>
+
+                                {{ user.logins|default(0) }}
+
+                            </h5>
+
+                            <small class="text-muted">
+
+                                Logins
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================
+             PROFILE DETAILS
+        ========================================== -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Personal Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Full Name
+
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="{{ user.full_name if user else 'Administrator' }}"
+                                   readonly>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Email
+
+                            </label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   value="{{ user.email if user else 'admin@reinsight.com' }}"
+                                   readonly>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Phone Number
+
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="{{ user.phone if user else '+234 xxx xxx xxxx' }}"
+                                   readonly>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+
+                                Role
+
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="{{ user.role if user else 'Super Administrator' }}"
+                                   readonly>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card shadow-sm border-0 mt-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Account Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <p>
+
+                                <strong>Username:</strong><br>
+
+                                {{ user.username if user else 'admin' }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <p>
+
+                                <strong>Last Login:</strong><br>
+
+                                {{ user.last_login if user else 'Today' }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <p>
+
+                                <strong>Account Status:</strong><br>
+
+                                Active
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <p>
+
+                                <strong>Member Since:</strong><br>
+
+                                {{ user.created_at if user else '2025' }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mt-4 text-end">
+
+                <a href="{{ url_for('dashboard.settings') }}"
+                   class="btn btn-outline-primary">
+
+                    <i class="bi bi-gear me-2"></i>
+
+                    Account Settings
+
+                </a>
+
+                <button class="btn btn-primary">
+
+                    <i class="bi bi-pencil-square me-2"></i>
+
+                    Edit Profile
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

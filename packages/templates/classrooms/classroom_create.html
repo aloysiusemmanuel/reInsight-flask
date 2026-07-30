@@ -1,0 +1,364 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Create Classroom | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Create Classroom",
+        page_subtitle="Create a new classroom and assign a class teacher.",
+        button_text="Back to Classrooms",
+        button_url=url_for('classroom_home'),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <!-- ==========================================================
+            CLASS INFORMATION
+        =========================================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-building me-2"></i>
+
+                    Classroom Information
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Educational Level
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="level"
+                            required>
+
+                            <option value="">Select Level</option>
+
+                            <option>Creche</option>
+                            <option>Nursery</option>
+                            <option>Primary</option>
+                            <option>Junior Secondary</option>
+                            <option>Senior Secondary</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Class
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="class_name"
+                            required>
+
+                            <option value="">Select Class</option>
+
+                            <option>Creche</option>
+                            <option>Nursery 1</option>
+                            <option>Nursery 2</option>
+                            <option>Primary 1</option>
+                            <option>Primary 2</option>
+                            <option>Primary 3</option>
+                            <option>Primary 4</option>
+                            <option>Primary 5</option>
+                            <option>Primary 6</option>
+                            <option>JSS 1</option>
+                            <option>JSS 2</option>
+                            <option>JSS 3</option>
+                            <option>SSS 1</option>
+                            <option>SSS 2</option>
+                            <option>SSS 3</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Stream
+
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="stream"
+                            placeholder="A">
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Capacity
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="capacity"
+                            min="1"
+                            value="40">
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="status">
+
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================================
+            ACADEMIC INFORMATION
+        =========================================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-calendar-event me-2"></i>
+
+                    Academic Information
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Academic Session
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="academic_session"
+                            required>
+
+                            <option value="">Select Session</option>
+
+                            {% for session in sessions %}
+
+                                <option value="{{ session.id }}">
+
+                                    {{ session.name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            Term
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="term"
+                            required>
+
+                            <option value="">Select Term</option>
+
+                            <option>First Term</option>
+                            <option>Second Term</option>
+                            <option>Third Term</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================================
+            CLASS TEACHER
+        =========================================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-person-workspace me-2"></i>
+
+                    Class Teacher
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <label class="form-label">
+
+                    Assign Class Teacher
+
+                </label>
+
+                <select
+                    class="form-select"
+                    name="teacher_id">
+
+                    <option value="">Select Teacher</option>
+
+                    {% for teacher in teachers %}
+
+                        <option value="{{ teacher.id }}">
+
+                            {{ teacher.staff_id }} -
+                            {{ teacher.full_name }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================================
+            DESCRIPTION
+        =========================================================== -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    <i class="bi bi-card-text me-2"></i>
+
+                    Description
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <textarea
+                    class="form-control"
+                    rows="4"
+                    name="description"
+                    placeholder="Enter additional notes about this classroom..."></textarea>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================================
+            ACTION BUTTONS
+        =========================================================== -->
+
+        <div class="text-end mb-5">
+
+            <a
+                href="{{ url_for('classroom_home') }}"
+                class="btn btn-light">
+
+                Cancel
+
+            </a>
+
+            <button
+                type="reset"
+                class="btn btn-warning">
+
+                Reset
+
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                <i class="bi bi-check-circle me-2"></i>
+
+                Create Classroom
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

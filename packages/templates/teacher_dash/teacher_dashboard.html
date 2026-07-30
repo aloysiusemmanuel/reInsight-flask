@@ -1,0 +1,1524 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}
+
+Teacher Dashboard | reInsight
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid mx-5">
+
+    <!-- ==========================================
+         PAGE HEADER
+    =========================================== -->
+
+    <div class=" dashboard-header d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                Teacher Dashboard
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Welcome back,
+
+                <strong>
+
+                    {% if current_user.is_authenticated %}
+
+                        {{ current_user.full_name }}
+
+                    {% else %}
+
+                        Teacher
+
+                    {% endif %}
+
+                </strong>
+
+                • Here's today's teaching summary.
+
+            </p>
+
+        </div>
+
+        <div class="d-flex gap-2 mt-3 header-actions">
+
+            <a
+                href="{{ url_for('teacher-dashboard.timetable') }}"
+                class="btn btn-outline-primary">
+
+                <i class="bi bi-calendar3 me-2"></i>
+
+                Today's Timetable
+
+            </a>
+
+            <a
+                href="{{ url_for('teacher-dashboard.lesson_notes') }}"
+                class="btn btn-primary">
+
+                <i class="bi bi-journal-text me-2"></i>
+
+                Lesson Notes
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         KPI CARDS
+    =========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- Classes -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            {% with
+
+                title="Classes",
+
+                value=assigned_classes|default(0),
+
+                counter_id="classesCounter",
+
+                icon="bi bi-building",
+
+                subtitle="Assigned Classes",
+
+                progress=85,
+
+                trend="up",
+
+                trend_value="+2"
+
+            %}
+
+                {% include "components/stat_card.html" %}
+
+            {% endwith %}
+
+        </div>
+
+
+        <!-- Students -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            {% with
+
+                title="Students",
+
+                value=student_count|default(0),
+
+                counter_id="studentCounter",
+
+                icon="bi bi-mortarboard-fill",
+
+                subtitle="My Students",
+
+                progress=90,
+
+                trend="up",
+
+                trend_value="+5"
+
+            %}
+
+                {% include "components/stat_card.html" %}
+
+            {% endwith %}
+
+        </div>
+
+
+        <!-- Attendance -->
+
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            {% with
+
+                title="Attendance",
+
+                value=today_attendance|default("0%"),
+
+                counter_id="attendanceCounter",
+
+                icon="bi bi-calendar-check-fill",
+
+                subtitle="Today's Attendance",
+
+                progress=92,
+
+                trend="up",
+
+                trend_value="+1%"
+
+            %}
+
+                {% include "components/stat_card.html" %}
+
+            {% endwith %}
+
+        </div>
+
+
+        <!-- Assessments -->
+
+       <div class="col-12 col-sm-6 col-xl-3">
+
+            {% with
+
+                title="Assessments",
+
+                value=pending_assessments|default(0),
+
+                counter_id="assessmentCounter",
+
+                icon="bi bi-pencil-square",
+
+                subtitle="Pending Marking",
+
+                progress=70,
+
+                trend="down",
+
+                trend_value="-3"
+
+            %}
+
+                {% include "components/stat_card.html" %}
+
+            {% endwith %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         TODAY'S TIMETABLE
+    =========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Today's Timetable
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body table-responsive border-3">
+
+                    <table class="table align-middle table-hover">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Period</th>
+
+                                <th>Subject</th>
+
+                                <th>Class</th>
+
+                                <th>Time</th>
+
+                                <th>Room</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% if timetable %}
+
+                                {% for lesson in timetable %}
+
+                                <tr>
+
+                                    <td>{{ lesson.period }}</td>
+
+                                    <td>{{ lesson.subject }}</td>
+
+                                    <td>{{ lesson.classroom }}</td>
+
+                                    <td>{{ lesson.time }}</td>
+
+                                    <td>{{ lesson.room }}</td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <tr>
+
+                                    <td colspan="5" class="text-center text-muted">
+
+                                        No classes scheduled today.
+
+                                    </td>
+
+                                </tr>
+
+                            {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    <!-- ==========================================
+         QUICK ACTIONS & DAILY ACTIVITIES
+    =========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- ======================================
+             QUICK ACTIONS
+        ======================================= -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Quick Actions
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <a
+                        href="{{ url_for('teacher-dashboard.attendance') }}"
+                        class="btn btn-success">
+
+                        <i class="bi bi-calendar-check-fill me-2"></i>
+
+                        Take Attendance
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('teacher-dashboard.assessment') }}"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-pencil-square me-2"></i>
+
+                        Record Assessment
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('teacher-dashboard.results') }}"
+                        class="btn btn-warning text-white">
+
+                        <i class="bi bi-bar-chart-fill me-2"></i>
+
+                        Upload Results
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('teacher-dashboard.lesson_notes') }}"
+                        class="btn btn-info text-white">
+
+                        <i class="bi bi-journal-text me-2"></i>
+
+                        Lesson Notes
+
+                    </a>
+
+                    <a
+                        href="{{ url_for('teacher-dashboard.behaviour') }}"
+                        class="btn btn-danger">
+
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                        Behaviour Report
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ======================================
+             PENDING ASSESSMENTS
+        ======================================= -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                    <h5 class="mb-0">
+
+                        Assessments Awaiting Marking
+
+                    </h5>
+
+                    <a
+                        href="{{ url_for('teacher-dashboard.results') }}"
+                        class="btn btn-sm btn-outline-primary">
+
+                        View All
+
+                    </a>
+
+                </div>
+
+                <div class="card-body table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Subject</th>
+
+                                <th>Class</th>
+
+                                <th>Assessment</th>
+
+                                <th>Submitted</th>
+
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% if pending_marking %}
+
+                                {% for assessment in pending_marking %}
+
+                                <tr>
+
+                                    <td>
+
+                                        {{ assessment.subject }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ assessment.classroom }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ assessment.title }}
+
+                                    </td>
+
+                                    <td>
+
+                                        {{ assessment.submitted }}
+
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge bg-warning">
+
+                                            Pending
+
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            {% else %}
+
+                                <tr>
+
+                                    <td
+                                        colspan="5"
+                                        class="text-center text-muted">
+
+                                        No assessments awaiting marking.
+
+                                    </td>
+
+                                </tr>
+
+                            {% endif %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         ATTENDANCE SUMMARY & BEHAVIOUR
+    =========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <!-- ======================================
+             TODAY'S ATTENDANCE
+        ======================================= -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Today's Attendance Summary
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if attendance_summary %}
+
+                        <div class="row text-center">
+
+                            <div class="col-4">
+
+                                <h3 class="text-success">
+
+                                    {{ attendance_summary.present }}
+
+                                </h3>
+
+                                <small>
+
+                                    Present
+
+                                </small>
+
+                            </div>
+
+                            <div class="col-4">
+
+                                <h3 class="text-danger">
+
+                                    {{ attendance_summary.absent }}
+
+                                </h3>
+
+                                <small>
+
+                                    Absent
+
+                                </small>
+
+                            </div>
+
+                            <div class="col-4">
+
+                                <h3 class="text-warning">
+
+                                    {{ attendance_summary.late }}
+
+                                </h3>
+
+                                <small>
+
+                                    Late
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="text-center text-muted py-4">
+
+                            Attendance has not been taken today.
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ======================================
+             RECENT BEHAVIOUR RECORDS
+        ======================================= -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white d-flex justify-content-between">
+
+                    <h5 class="mb-0">
+
+                        Recent Behaviour Records
+
+                    </h5>
+
+                    <a
+                        href="{{ url_for('teacher-dashboard.behaviour') }}"
+                        class="btn btn-sm btn-outline-danger">
+
+                        View All
+
+                    </a>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if behaviour_records %}
+
+                        <ul class="list-group list-group-flush">
+
+                            {% for record in behaviour_records %}
+
+                            <li class="list-group-item">
+
+                                <strong>
+
+                                    {{ record.student }}
+
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+
+                                    {{ record.behaviour }}
+
+                                </small>
+
+                            </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    {% else %}
+
+                        <div class="text-center text-muted py-4">
+
+                            No behaviour incidents recorded.
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =========================================================
+SECTION 3 | TODAY'S CLASSES & PENDING WORK
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <!-- Today's Classes -->
+    <div class="col-lg-7">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0">
+
+                        Today's Classes
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Your teaching schedule for today
+
+                    </small>
+
+                </div>
+
+                <a href="{{ url_for('teacher-dashboard.timetable') }}"
+                   class="btn btn-sm btn-outline-primary">
+
+                    Full Timetable
+
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center me-3"
+                             style="width:48px;height:48px;">
+
+                            <i class="bi bi-calculator-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="mb-1">
+
+                                Mathematics - JSS 2A
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                8:00 AM - 8:40 AM · 34 students
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="badge bg-success-subtle text-success">
+
+                        Ongoing
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="rounded-circle bg-info-subtle text-info d-flex align-items-center justify-content-center me-3"
+                             style="width:48px;height:48px;">
+
+                            <i class="bi bi-book-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="mb-1">
+
+                                Mathematics - JSS 3B
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                10:20 AM - 11:00 AM · 31 students
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="badge bg-warning-subtle text-warning">
+
+                        Next
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between py-3">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="rounded-circle bg-secondary-subtle text-secondary d-flex align-items-center justify-content-center me-3"
+                             style="width:48px;height:48px;">
+
+                            <i class="bi bi-graph-up"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h6 class="mb-1">
+
+                                Further Mathematics - SS 1A
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                1:00 PM - 1:40 PM · 28 students
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="badge bg-light text-dark">
+
+                        Later
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Pending Assessments -->
+    <div class="col-lg-5">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0">
+
+                        Pending Assessments
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Marking and uploads awaiting completion
+
+                    </small>
+
+                </div>
+
+                <a href="{{ url_for('teacher-dashboard.assessment') }}"
+                   class="btn btn-sm btn-outline-primary">
+
+                    View All
+
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                        <div>
+
+                            <h6 class="mb-0">
+
+                                JSS 2A · Class Test 1
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Submitted by 34 students
+
+                            </small>
+
+                        </div>
+
+                        <span class="badge bg-danger-subtle text-danger">
+
+                            12 pending
+
+                        </span>
+
+                    </div>
+
+                    <div class="progress"
+                         style="height:6px;">
+
+                        <div class="progress-bar bg-danger"
+                             style="width:65%"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                        <div>
+
+                            <h6 class="mb-0">
+
+                                JSS 3B · Assignment 4
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Submitted by 31 students
+
+                            </small>
+
+                        </div>
+
+                        <span class="badge bg-warning-subtle text-warning">
+
+                            5 pending
+
+                        </span>
+
+                    </div>
+
+                    <div class="progress"
+                         style="height:6px;">
+
+                        <div class="progress-bar bg-warning"
+                             style="width:84%"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+
+                        <div>
+
+                            <h6 class="mb-0">
+
+                                SS 1A · Continuous Assessment
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                Submitted by 28 students
+
+                            </small>
+
+                        </div>
+
+                        <span class="badge bg-success-subtle text-success">
+
+                            Complete
+
+                        </span>
+
+                    </div>
+
+                    <div class="progress"
+                         style="height:6px;">
+
+                        <div class="progress-bar bg-success"
+                             style="width:100%"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+
+                    <a href="{{ url_for('teacher-dashboard.assessment_create') }}"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-plus-circle me-2"></i>
+
+                        Create Assessment
+
+                    </a>
+
+                    <a href="{{ url_for('teacher-dashboard.results') }}"
+                       class="btn btn-outline-secondary">
+
+                        <i class="bi bi-upload me-2"></i>
+
+                        Upload Results
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+SECTION 4 | ACTIVITIES, ALERTS & QUICK TOOLS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <!-- Recent Activities -->
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0">
+
+                        Recent Activities
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Latest actions across your classes
+
+                    </small>
+
+                </div>
+
+                <a href="{{ url_for('teacher-dashboard.reports') }}"
+                   class="btn btn-sm btn-outline-primary">
+
+                    View All
+
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-start mb-4">
+
+                    <div class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center me-3"
+                         style="width:42px;height:42px;">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <p class="mb-1">
+
+                            Attendance submitted for <strong>JSS 2A</strong>
+
+                        </p>
+
+                        <small class="text-muted">
+
+                            10 minutes ago
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex align-items-start mb-4">
+
+                    <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center me-3"
+                         style="width:42px;height:42px;">
+
+                        <i class="bi bi-journal-check"></i>
+
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <p class="mb-1">
+
+                            Mathematics scores uploaded for <strong>JSS 3B</strong>
+
+                        </p>
+
+                        <small class="text-muted">
+
+                            1 hour ago
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex align-items-start mb-4">
+
+                    <div class="rounded-circle bg-warning-subtle text-warning d-flex align-items-center justify-content-center me-3"
+                         style="width:42px;height:42px;">
+
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <p class="mb-1">
+
+                            Behaviour record created for <strong>SS 1A</strong>
+
+                        </p>
+
+                        <small class="text-muted">
+
+                            3 hours ago
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex align-items-start">
+
+                    <div class="rounded-circle bg-info-subtle text-info d-flex align-items-center justify-content-center me-3"
+                         style="width:42px;height:42px;">
+
+                        <i class="bi bi-file-earmark-text-fill"></i>
+
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <p class="mb-1">
+
+                            Weekly lesson note approved
+
+                        </p>
+
+                        <small class="text-muted">
+
+                            Yesterday
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Student Attention Alerts -->
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0">
+
+                        Student Attention Alerts
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Students requiring follow-up
+
+                    </small>
+
+                </div>
+
+                <a href="{{ url_for('teacher-dashboard.behaviour') }}"
+                   class="btn btn-sm btn-outline-danger">
+
+                    Review
+
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
+
+                    <div class="d-flex align-items-center">
+
+                        <img src="https://ui-avatars.com/api/?name=David+James&background=2563EB&color=fff"
+                             class="rounded-circle me-3"
+                             width="42"
+                             height="42">
+
+                        <div>
+
+                            <h6 class="mb-0">
+
+                                David James
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                JSS 2A · 3 absences this week
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="badge bg-danger-subtle text-danger">
+
+                        High
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
+
+                    <div class="d-flex align-items-center">
+
+                        <img src="https://ui-avatars.com/api/?name=Sarah+Musa&background=0EA5E9&color=fff"
+                             class="rounded-circle me-3"
+                             width="42"
+                             height="42">
+
+                        <div>
+
+                            <h6 class="mb-0">
+
+                                Sarah Musa
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                JSS 3B · Low test performance
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="badge bg-warning-subtle text-warning">
+
+                        Medium
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between py-3">
+
+                    <div class="d-flex align-items-center">
+
+                        <img src="https://ui-avatars.com/api/?name=Michael+Okon&background=64748B&color=fff"
+                             class="rounded-circle me-3"
+                             width="42"
+                             height="42">
+
+                        <div>
+
+                            <h6 class="mb-0">
+
+                                Michael Okon
+
+                            </h6>
+
+                            <small class="text-muted">
+
+                                SS 1A · Behaviour follow-up
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="badge bg-info-subtle text-info">
+
+                        Monitor
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Quick Tools & Teaching Notes -->
+<div class="row g-4">
+
+    <!-- Quick Tools -->
+    <div class="col-lg-4">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    Quick Tools
+
+                </h5>
+
+            </div>
+
+            <div class="card-body d-grid gap-3">
+
+                <a href="{{ url_for('teacher-dashboard.attendance_take') }}"
+                   class="btn btn-outline-primary text-start">
+
+                    <i class="bi bi-calendar-check me-2"></i>
+
+                    Take Attendance
+
+                </a>
+
+                <a href="{{ url_for('teacher-dashboard.assessment_create') }}"
+                   class="btn btn-outline-success text-start">
+
+                    <i class="bi bi-plus-square me-2"></i>
+
+                    New Assessment
+
+                </a>
+
+                <a href="{{ url_for('teacher-dashboard.results') }}"
+                   class="btn btn-outline-info text-start">
+
+                    <i class="bi bi-upload me-2"></i>
+
+                    Upload Results
+
+                </a>
+
+                <a href="{{ url_for('teacher-dashboard.lesson_note_create') }}"
+                   class="btn btn-outline-warning text-start">
+
+                    <i class="bi bi-journal-plus me-2"></i>
+
+                    Lesson Note
+
+                </a>
+
+                <a href="{{ url_for('teacher-dashboard.reports') }}"
+                   class="btn btn-outline-secondary text-start">
+
+                    <i class="bi bi-printer me-2"></i>
+
+                    Print Report
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Teaching Notes -->
+    <div class="col-lg-8">
+
+        <div class="card shadow-sm border-0 h-100">
+
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0">
+
+                        Teaching Notes & Reminders
+
+                    </h5>
+
+                    <small class="text-muted">
+
+                        Personal reminders for upcoming lessons
+
+                    </small>
+
+                </div>
+
+                <a href="{{ url_for('teacher-dashboard.lesson_notes') }}"
+                   class="btn btn-sm btn-outline-primary">
+
+                    Open Notes
+
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-3">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <h6 class="mb-0">
+
+                            JSS 2A - Algebra Revision
+
+                        </h6>
+
+                        <span class="badge bg-primary-subtle text-primary">
+
+                            Tomorrow
+
+                        </span>
+
+                    </div>
+
+                    <p class="text-muted mb-0 mt-1">
+
+                        Prepare 10 practice questions and group activity for factorization.
+
+                    </p>
+
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <h6 class="mb-0">
+
+                            JSS 3B - Test Moderation
+
+                        </h6>
+
+                        <span class="badge bg-warning-subtle text-warning">
+
+                            This Week
+
+                        </span>
+
+                    </div>
+
+                    <p class="text-muted mb-0 mt-1">
+
+                        Cross-check objective marking before publishing results.
+
+                    </p>
+
+                </div>
+
+                <hr>
+
+                <div class="mb-3">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <h6 class="mb-0">
+
+                            SS 1A - Parent Follow-up
+
+                        </h6>
+
+                        <span class="badge bg-danger-subtle text-danger">
+
+                            Urgent
+
+                        </span>
+
+                    </div>
+
+                    <p class="text-muted mb-0 mt-1">
+
+                        Discuss attendance concerns with Michael Okon's parent.
+
+                    </p>
+
+                </div>
+
+                <div class="alert alert-light border mt-4 mb-0">
+
+                    <div class="d-flex align-items-center">
+
+                        <i class="bi bi-lightbulb-fill text-warning me-2"></i>
+
+                        <small>
+
+                            Tip: Keep lesson notes concise and aligned with the weekly scheme of work.
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

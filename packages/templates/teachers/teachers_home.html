@@ -1,0 +1,333 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}Teacher Management | reInsight{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+         PAGE HEADER
+    ========================================== -->
+
+    {% with
+        page_title="Teacher Management",
+        page_description="Manage teacher profiles, assignments and activities",
+        page_icon="bi bi-person-plus-fill",
+        button={
+            "text":"Add Teacher",
+            "url":url_for("teachers.teacher_create")
+        }
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <!-- ==========================================
+         STATISTICS
+    ========================================== -->
+
+    <div class="row mb-4">
+
+        <div class="col-lg-3">
+            {% with
+                title="Total Teachers",
+                value=total_teachers,
+                icon="bi bi-people-fill",
+                color="primary"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+        </div>
+
+        <div class="col-lg-3">
+            {% with
+                title="Active",
+                value=active_teachers,
+                icon="bi bi-person-check-fill",
+                color="success"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+        </div>
+
+        <div class="col-lg-3">
+            {% with
+                title="Class Teachers",
+                value=class_teachers,
+                icon="bi bi-building",
+                color="warning"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+        </div>
+
+        <div class="col-lg-3">
+            {% with
+                title="Subjects Assigned",
+                value=subject_assignments,
+                icon="bi bi-book-fill",
+                color="info"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         SEARCH & FILTERS
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="search"
+                            placeholder="Search teacher...">
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <select
+                            class="form-select"
+                            name="department">
+
+                            <option value="">All Departments</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <select
+                            class="form-select"
+                            name="status">
+
+                            <option value="">All Status</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button
+                            class="btn btn-primary w-100">
+
+                            <i class="bi bi-search me-2"></i>
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         TEACHER DIRECTORY
+    ========================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">
+
+                Teacher Directory
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Teacher</th>
+                        <th>Employee ID</th>
+                        <th>Department</th>
+                        <th>Classes</th>
+                        <th>Subjects</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for teacher in teachers %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="d-flex align-items-center">
+
+                                {% if teacher.photo %}
+
+                                    <img
+                                        src="{{ url_for('static', filename=teacher.photo) }}"
+                                        class="rounded-circle me-3"
+                                        width="45"
+                                        height="45">
+
+                                {% else %}
+
+                                    <i class="bi bi-person-circle fs-2 me-3"></i>
+
+                                {% endif %}
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ teacher.first_name }}
+                                        {{ teacher.last_name }}
+
+                                    </strong>
+
+                                    <br>
+
+                                    <small class="text-muted">
+
+                                        {{ teacher.email }}
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            {{ teacher.staff_id }}
+
+                        </td>
+
+                        <td>
+
+                            {{ teacher.department.name if teacher.department else "-" }}
+
+                        </td>
+
+                        <td>
+
+                            {{ teacher.classrooms|length }}
+
+                        </td>
+
+                        <td>
+
+                            {{ teacher.subjects|length }}
+
+                        </td>
+
+                        <td>
+
+                            {% if teacher.is_active %}
+
+                                <span class="badge bg-success">
+
+                                    Active
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Inactive
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <a
+                                href="{{ url_for('teacher_profile', teacher_id=teacher.id) }}"
+                                class="btn btn-sm btn-outline-primary">
+
+                                View
+
+                            </a>
+
+                            <a
+                                href="{{ url_for('teacher_edit', teacher_id=teacher.id) }}"
+                                class="btn btn-sm btn-outline-warning">
+
+                                Edit
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="7" class="text-center py-5">
+
+                            <i class="bi bi-person-workspace display-4 text-muted"></i>
+
+                            <h5 class="mt-3">
+
+                                No Teachers Registered
+
+                            </h5>
+
+                            <p class="text-muted">
+
+                                Register your first teacher to begin assigning classes and subjects.
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

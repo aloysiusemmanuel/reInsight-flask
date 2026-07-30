@@ -1,0 +1,392 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Teacher Profile | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+        PAGE HEADER
+    =========================================== -->
+
+    {% with
+        page_title="Teacher Profile",
+        page_subtitle="View teacher information, assignments and activities.",
+        button_text="Edit Teacher",
+        button_url=url_for('teacher_edit', teacher_id=teacher.id),
+        button_icon="bi bi-pencil-square"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+
+    <!-- ==========================================
+        PROFILE CARD
+    =========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-2 text-center">
+
+                    {% if teacher.photo %}
+
+                        <img src="{{ url_for('static', filename=teacher.photo) }}"
+                             class="rounded-circle border"
+                             width="150"
+                             height="150">
+
+                    {% else %}
+
+                        <i class="bi bi-person-circle display-1 text-secondary"></i>
+
+                    {% endif %}
+
+                </div>
+
+                <div class="col-md-7">
+
+                    <h2 class="fw-bold mb-1">
+
+                        {{ teacher.full_name }}
+
+                    </h2>
+
+                    <p class="text-muted mb-2">
+
+                        {{ teacher.designation }}
+
+                    </p>
+
+                    <p class="mb-1">
+
+                        <strong>Staff ID:</strong>
+
+                        {{ teacher.staff_id }}
+
+                    </p>
+
+                    <p class="mb-1">
+
+                        <strong>Department:</strong>
+
+                        {{ teacher.department }}
+
+                    </p>
+
+                    <p>
+
+                        {% if teacher.status == "Active" %}
+
+                            <span class="badge bg-success">
+
+                                Active
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-danger">
+
+                                {{ teacher.status }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-3 text-end">
+
+                    <a href="{{ url_for('teacher_subjects', teacher_id=teacher.id) }}"
+                       class="btn btn-outline-primary mb-2 w-100">
+
+                        Subjects
+
+                    </a>
+
+                    <a href="{{ url_for('teacher_classes', teacher_id=teacher.id) }}"
+                       class="btn btn-outline-success mb-2 w-100">
+
+                        Classes
+
+                    </a>
+
+                    <a href="{{ url_for('teacher_performance', teacher_id=teacher.id) }}"
+                       class="btn btn-outline-info w-100">
+
+                        Performance
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+        SUMMARY CARDS
+    =========================================== -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-3">
+
+            {% with
+                title="Classes",
+                value=teacher.classrooms.count(),
+                icon="bi bi-building",
+                color="primary"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-lg-3">
+
+            {% with
+                title="Subjects",
+                value=teacher.subjects.count(),
+                icon="bi bi-book",
+                color="success"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-lg-3">
+
+            {% with
+                title="Attendance",
+                value=teacher.attendance_records|length,
+                icon="bi bi-calendar-check",
+                color="warning"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-lg-3">
+
+            {% with
+                title="Behaviour Records",
+                value=teacher.behaviour_records|length,
+                icon="bi bi-clipboard-check",
+                color="info"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <!-- ==========================================
+            PERSONAL INFORMATION
+        =========================================== -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Personal Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-borderless">
+
+                        <tr>
+
+                            <th width="40%">Gender</th>
+
+                            <td>{{ teacher.gender }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Date of Birth</th>
+
+                            <td>{{ teacher.date_of_birth }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Phone</th>
+
+                            <td>{{ teacher.phone }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Email</th>
+
+                            <td>{{ teacher.email }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Address</th>
+
+                            <td>{{ teacher.address }}</td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+            EMPLOYMENT INFORMATION
+        =========================================== -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Employment Information
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-borderless">
+
+                        <tr>
+
+                            <th width="40%">Employment Date</th>
+
+                            <td>{{ teacher.employment_date }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Employment Type</th>
+
+                            <td>{{ teacher.employment_type }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Qualification</th>
+
+                            <td>{{ teacher.highest_qualification }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Institution</th>
+
+                            <td>{{ teacher.institution }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Experience</th>
+
+                            <td>{{ teacher.years_of_experience }} Years</td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+        RECENT ACTIVITY
+    =========================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Recent Activity
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <ul class="list-group list-group-flush">
+
+                {% for activity in recent_activities %}
+
+                <li class="list-group-item">
+
+                    {{ activity }}
+
+                </li>
+
+                {% else %}
+
+                <li class="list-group-item text-center text-muted">
+
+                    No recent activity available.
+
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

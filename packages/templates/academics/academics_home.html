@@ -1,0 +1,469 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Academics | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+         PAGE HEADER
+    ========================================== -->
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                Academics
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Manage assessments, examination results, report cards and academic performance.
+
+            </p>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <a href="{{ url_for('academics.results') }}"
+               class="btn btn-outline-primary">
+
+                <i class="bi bi-bar-chart-line-fill me-2"></i>
+
+                View Results
+
+            </a>
+
+            <a href="{{ url_for('academics.report_cards') }}"
+               class="btn btn-primary">
+
+                <i class="bi bi-file-earmark-richtext-fill me-2"></i>
+
+                Report Cards
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         ACADEMIC SUMMARY
+    ========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+            title="Subjects",
+            value=subject_count or 18,
+            counter_id="subjectCounter",
+            icon="bi bi-journal-bookmark-fill",
+            subtitle="Registered Subjects",
+            progress=90,
+            trend="up",
+            trend_value="+2"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+            title="Assessments",
+            value=assessment_count or 54,
+            counter_id="assessmentCounter",
+            icon="bi bi-pencil-square",
+            subtitle="Continuous Assessments",
+            progress=75,
+            trend="up",
+            trend_value="+8"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+            title="Average Score",
+            value="78%",
+            counter_id="averageCounter",
+            icon="bi bi-graph-up-arrow",
+            subtitle="School Average",
+            progress=78,
+            trend="up",
+            trend_value="+5%"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+            title="Report Cards",
+            value=report_count or 312,
+            counter_id="reportCounter",
+            icon="bi bi-file-earmark-text-fill",
+            subtitle="Generated Reports",
+            progress=88,
+            trend="up",
+            trend_value="+18"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         QUICK ACTIONS
+    ========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Quick Actions
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <a href="#"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-pencil-square me-2"></i>
+
+                        Enter Assessment Scores
+
+                    </a>
+
+                    <a href="{{ url_for('academics.results') }}"
+                       class="btn btn-success">
+
+                        <i class="bi bi-table me-2"></i>
+
+                        View Results
+
+                    </a>
+
+                    <a href="{{ url_for('academics.report_cards') }}"
+                       class="btn btn-warning text-dark">
+
+                        <i class="bi bi-file-earmark-richtext me-2"></i>
+
+                        Generate Report Cards
+
+                    </a>
+
+                    <a href="#"
+                       class="btn btn-info text-white">
+
+                        <i class="bi bi-bar-chart-fill me-2"></i>
+
+                        Academic Analysis
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================
+             PERFORMANCE CHART
+        ========================================== -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Academic Performance Trend
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="academicPerformanceChart"
+                            height="110"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         RECENT RESULTS
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">
+
+                Recent Academic Records
+
+            </h5>
+
+            <a href="{{ url_for('academics.results') }}"
+               class="btn btn-sm btn-outline-primary">
+
+                View All
+
+            </a>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Student</th>
+
+                        <th>Class</th>
+
+                        <th>Subject</th>
+
+                        <th>Total</th>
+
+                        <th>Grade</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% if academic_records %}
+
+                    {% for record in academic_records %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ record.student.last_name }}
+                            {{ record.student.first_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ record.classroom.name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ record.subject.name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ record.total }}
+
+                        </td>
+
+                        <td>
+
+                            {{ record.grade }}
+
+                        </td>
+
+                        <td>
+
+                            {% if record.total >= 50 %}
+
+                                <span class="badge bg-success">
+
+                                    Pass
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Fail
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="6"
+                            class="text-center py-5 text-muted">
+
+                            <i class="bi bi-journal-x fs-1 d-block mb-3"></i>
+
+                            No academic records available.
+
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         ACADEMIC INSIGHTS
+    ========================================== -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Best Performing Subjects
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <ul class="list-group list-group-flush">
+
+                        <li class="list-group-item d-flex justify-content-between">
+
+                            Mathematics
+
+                            <strong>84%</strong>
+
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+
+                            English Language
+
+                            <strong>80%</strong>
+
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+
+                            Basic Science
+
+                            <strong>78%</strong>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Academic Notifications
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <ul class="list-group list-group-flush">
+
+                        <li class="list-group-item">
+
+                            Mid-term assessments begin next week.
+
+                        </li>
+
+                        <li class="list-group-item">
+
+                            Report card generation closes Friday.
+
+                        </li>
+
+                        <li class="list-group-item">
+
+                            Teachers should submit all scores before deadline.
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

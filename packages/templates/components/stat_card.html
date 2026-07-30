@@ -1,0 +1,79 @@
+<!-- ==========================================
+     STAT CARD COMPONENT
+========================================== -->
+
+<div class="stat-card">
+
+    <!-- Card Header -->
+
+    <div class="stat-card-header">
+
+        <div>
+
+            <span class="stat-title">
+
+                {{ title }}
+
+            </span>
+
+            <h2
+                id="{{ counter_id }}"
+                class="stat-value"
+                data-counter="{{ value }}">
+
+                0
+
+            </h2>
+
+        </div>
+
+        <div class="stat-icon">
+
+            <i class="{{ icon }} bi bi-mortarboard-fill"></i>
+
+        </div>
+
+    </div>
+
+    <!-- Card Footer -->
+
+    <div class="stat-card-footer">
+
+        <span class="stat-subtitle">
+
+            {{ subtitle }}
+
+        </span>
+
+        <span class="trend {% if trend == 'up' %}trend-up{% else %}trend-down{% endif %}">
+
+            {% if trend == "up" %}
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            {% else %}
+
+                <i class="bi bi-arrow-down-right"></i>
+
+            {% endif %}
+
+            {{ trend_value }}
+
+        </span>
+
+    </div>
+
+    <!-- Progress -->
+
+    <div class="progress stat-progress">
+
+        <div
+            class="progress-bar"
+            role="progressbar"
+            style="width: {{ progress }}%;">
+
+        </div>
+
+    </div>
+
+</div>

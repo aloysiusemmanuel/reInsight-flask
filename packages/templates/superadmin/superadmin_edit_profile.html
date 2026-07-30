@@ -1,0 +1,235 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block page_title %}
+Edit Profile
+{% endblock %}
+
+{% block header_title %}
+Edit Profile
+{% endblock %}
+
+{% block header_subtitle %}
+Update your personal information and profile picture.
+{% endblock %}
+
+{% block page_actions %}
+
+<a href="{{ url_for('superadmin.profile') }}"
+   class="btn btn-outline-secondary">
+
+    <i class="bi bi-arrow-left me-2"></i>
+
+    Back to Profile
+
+</a>
+
+{% endblock %}
+
+{% block superadmin_content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-10">
+
+        <div class="card shadow-sm border-0">
+
+            <!-- ======================================
+                 CARD HEADER
+            ======================================= -->
+
+            <div class="card-header bg-white">
+
+                <h4 class="fw-bold mb-0">
+
+                    Edit Profile
+
+                </h4>
+
+            </div>
+
+            <!-- ======================================
+                 FORM
+            ======================================= -->
+
+            <div class="card-body">
+
+                <form
+                    method="POST"
+                    enctype="multipart/form-data">
+
+                    {{ form.hidden_tag() }}
+
+                    <div class="row">
+
+                        <!-- ===========================
+                             PROFILE PHOTO
+                        ============================ -->
+
+                        <div class="col-lg-3 text-center mb-4">
+
+                            <img
+                                src="{{ current_user.photo if current_user.photo else url_for('static', filename='images/default-avatar.png') }}"
+                                class="rounded-circle border shadow-sm mb-3"
+                                width="180"
+                                height="180">
+
+                            <div>
+
+                                {{ form.photo(class="form-control") }}
+
+                                {% if form.photo.errors %}
+
+                                    {% for error in form.photo.errors %}
+
+                                        <small class="text-danger">
+
+                                            {{ error }}
+
+                                        </small>
+
+                                    {% endfor %}
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                        <!-- ===========================
+                             PERSONAL DETAILS
+                        ============================ -->
+
+                        <div class="col-lg-9">
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    {{ form.first_name.label(class="form-label") }}
+
+                                    {{ form.first_name(class="form-control") }}
+
+                                    {% for error in form.first_name.errors %}
+
+                                        <small class="text-danger">
+
+                                            {{ error }}
+
+                                        </small>
+
+                                    {% endfor %}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    {{ form.last_name.label(class="form-label") }}
+
+                                    {{ form.last_name(class="form-control") }}
+
+                                    {% for error in form.last_name.errors %}
+
+                                        <small class="text-danger">
+
+                                            {{ error }}
+
+                                        </small>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    {{ form.username.label(class="form-label") }}
+
+                                    {{ form.username(class="form-control") }}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    {{ form.email.label(class="form-label") }}
+
+                                    {{ form.email(class="form-control") }}
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    {{ form.phone.label(class="form-label") }}
+
+                                    {{ form.phone(class="form-control") }}
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    {{ form.gender.label(class="form-label") }}
+
+                                    {{ form.gender(class="form-select") }}
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-12 mb-3">
+
+                                    {{ form.bio.label(class="form-label") }}
+
+                                    {{ form.bio(
+                                        class="form-control",
+                                        rows="4"
+                                    ) }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <!-- ===========================
+                         BUTTONS
+                    ============================ -->
+
+                    <div class="d-flex justify-content-end">
+
+                        <a
+                            href="{{ url_for('superadmin.profile') }}"
+                            class="btn btn-outline-secondary me-2">
+
+                            Cancel
+
+                        </a>
+
+                        {{ form.submit(
+                            class="btn btn-primary"
+                        ) }}
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

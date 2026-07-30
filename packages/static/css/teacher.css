@@ -1,0 +1,706 @@
+/* =========================================================
+reInsight Teacher Dashboard
+File: teacher.css
+========================================================= */
+
+/* =========================================================
+ROOT VARIABLES
+========================================================= */
+
+:root {
+    --teacher-primary: #2563eb;
+    --teacher-primary-light: #dbeafe;
+    --teacher-success: #16a34a;
+    --teacher-success-light: #dcfce7;
+    --teacher-warning: #f59e0b;
+    --teacher-warning-light: #fef3c7;
+    --teacher-danger: #dc2626;
+    --teacher-danger-light: #fee2e2;
+    --teacher-info: #0ea5e9;
+    --teacher-info-light: #e0f2fe;
+    --teacher-dark: #0f172a;
+    --teacher-text: #334155;
+    --teacher-muted: #64748b;
+    --teacher-border: #e2e8f0;
+    --teacher-bg: #f8fafc;
+    --teacher-card: #ffffff;
+    --teacher-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    --teacher-shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.12);
+    --teacher-radius: 16px;
+}
+
+/* =========================================================
+GLOBAL
+========================================================= */
+
+body {
+    background: var(--teacher-bg);
+    color: var(--teacher-text);
+    font-family: "Inter", "Segoe UI", sans-serif;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* =========================================================
+LAYOUT
+========================================================= */
+
+.teacher-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.teacher-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.teacher-content {
+    padding: 2rem;
+}
+
+/* =========================================================
+SIDEBAR
+========================================================= */
+
+.teacher-sidebar {
+    width: 300px;
+    min-width: 300px;
+    background: #ffffff;
+    border-right: 1px solid var(--teacher-border);
+    box-shadow: var(--teacher-shadow);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+}
+
+.teacher-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.teacher-sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* Brand */
+
+.teacher-brand {
+    padding: 1.5rem 1.25rem;
+    border-bottom: 1px solid var(--teacher-border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.teacher-brand img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.teacher-brand-text h5 {
+    margin: 0;
+    font-weight: 700;
+    color: var(--teacher-dark);
+    font-size: 1.05rem;
+}
+
+.teacher-brand-text small {
+    color: var(--teacher-muted);
+    font-size: 0.82rem;
+}
+
+/* User */
+
+.teacher-user {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--teacher-border);
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
+.teacher-user .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--teacher-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.teacher-user-info h6 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--teacher-dark);
+}
+
+.teacher-user-info small {
+    color: var(--teacher-muted);
+}
+
+/* Menu */
+
+.teacher-menu {
+    padding: 1rem;
+}
+
+.teacher-menu-section {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--teacher-muted);
+    margin: 1rem 0 0.6rem;
+    padding: 0 0.75rem;
+    font-weight: 700;
+}
+
+.teacher-menu .nav-link {
+    color: var(--teacher-text);
+    border-radius: 14px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.teacher-menu .nav-link i {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.teacher-menu .nav-link:hover {
+    background: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+}
+
+.teacher-menu .nav-link.active {
+    background: var(--teacher-primary);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.22);
+}
+
+/* Footer */
+
+.teacher-sidebar-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--teacher-border);
+    color: var(--teacher-muted);
+    font-size: 0.85rem;
+}
+
+/* =========================================================
+NAVBAR
+========================================================= */
+
+.teacher-navbar {
+    background: var(--teacher-card);
+    border-bottom: 1px solid var(--teacher-border);
+    padding: 1rem 1.5rem;
+    box-shadow: var(--teacher-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+.teacher-navbar .navbar-brand {
+    font-weight: 700;
+    color: var(--teacher-dark);
+}
+
+.teacher-navbar .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* =========================================================
+CARDS
+========================================================= */
+
+.card {
+    border: 1px solid var(--teacher-border);
+    border-radius: var(--teacher-radius);
+    box-shadow: var(--teacher-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--teacher-shadow-lg);
+}
+
+.card-header {
+    border-bottom: 1px solid var(--teacher-border);
+    background: #fff;
+    border-top-left-radius: var(--teacher-radius) !important;
+    border-top-right-radius: var(--teacher-radius) !important;
+}
+
+@media (max-width: 575.98px) {
+
+    .card {
+        border-radius: 14px;
+    }
+
+    .card-header,
+    .card-body {
+        padding: 1rem;
+    }
+
+    h1, h2 {
+        font-size: 1.75rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+STAT CARDS
+========================================================= */
+
+.teacher-stat {
+    background: var(--teacher-card);
+    border-radius: var(--teacher-radius);
+    padding: 1.25rem;
+    border: 1px solid var(--teacher-border);
+    box-shadow: var(--teacher-shadow);
+    height: 100%;
+}
+
+.teacher-stat-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.teacher-stat-icon.primary {
+    background: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+}
+
+.teacher-stat-icon.success {
+    background: var(--teacher-success-light);
+    color: var(--teacher-success);
+}
+
+.teacher-stat-icon.warning {
+    background: var(--teacher-warning-light);
+    color: var(--teacher-warning);
+}
+
+.teacher-stat-icon.danger {
+    background: var(--teacher-danger-light);
+    color: var(--teacher-danger);
+}
+
+.teacher-stat h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--teacher-dark);
+}
+
+.teacher-stat small {
+    color: var(--teacher-muted);
+}
+
+/* =========================================================
+TIMETABLE / CLASS ITEMS
+========================================================= */
+
+.class-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--teacher-border);
+}
+
+.class-item:last-child {
+    border-bottom: none;
+}
+
+.class-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.class-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+/* =========================================================
+ACTIVITY FEED
+========================================================= */
+
+.activity-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.activity-item:not(:last-child) {
+    border-bottom: 1px solid var(--teacher-border);
+}
+
+.activity-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.activity-icon.success {
+    background: var(--teacher-success-light);
+    color: var(--teacher-success);
+}
+
+.activity-icon.primary {
+    background: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+}
+
+.activity-icon.warning {
+    background: var(--teacher-warning-light);
+    color: var(--teacher-warning);
+}
+
+.activity-icon.info {
+    background: var(--teacher-info-light);
+    color: var(--teacher-info);
+}
+
+/* =========================================================
+ALERT STUDENTS
+========================================================= */
+
+.student-alert {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+}
+
+.student-alert:not(:last-child) {
+    border-bottom: 1px solid var(--teacher-border);
+}
+
+.student-alert .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* =========================================================
+QUICK TOOLS
+========================================================= */
+
+.quick-tool {
+    border: 1px solid var(--teacher-border);
+    border-radius: 14px;
+    padding: 1rem;
+    color: var(--teacher-text);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.2s ease;
+    background: #fff;
+}
+
+.quick-tool:hover {
+    border-color: var(--teacher-primary);
+    background: var(--teacher-primary-light);
+    color: var(--teacher-primary);
+    transform: translateY(-2px);
+}
+
+.quick-tool i {
+    font-size: 1.2rem;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 575.98px) {
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================
+NOTES
+========================================================= */
+
+.note-item {
+    padding: 1rem 0;
+}
+
+.note-item:not(:last-child) {
+    border-bottom: 1px solid var(--teacher-border);
+}
+
+/* =========================================================
+TABLES
+========================================================= */
+
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    border-bottom: 1px solid var(--teacher-border);
+    color: var(--teacher-muted);
+    font-weight: 600;
+    background: #fff;
+}
+
+.table tbody td {
+    vertical-align: middle;
+}
+
+/* =========================================================
+BADGES
+========================================================= */
+
+.badge {
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.45rem 0.75rem;
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+}
+
+.btn-primary {
+    background: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+.btn-outline-primary:hover {
+    background: var(--teacher-primary);
+    border-color: var(--teacher-primary);
+}
+
+/* =========================================================
+PROGRESS
+========================================================= */
+
+.progress {
+    height: 6px;
+    border-radius: 999px;
+    background: #e5e7eb;
+}
+
+.progress-bar {
+    border-radius: 999px;
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+.teacher-footer {
+    padding: 1rem 1.5rem;
+    color: var(--teacher-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--teacher-border);
+    background: var(--teacher-card);
+}
+
+/* =========================================================
+ANIMATIONS
+========================================================= */
+
+.fade-in {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .teacher-sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 300px;
+        height: 100vh;
+        z-index: 1050;
+        transition: left 0.3s ease;
+    }
+
+    .teacher-sidebar.show {
+        left: 0;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .teacher-navbar {
+        padding: 0.85rem 1rem;
+    }
+
+    .teacher-stat h3 {
+        font-size: 1.5rem;
+    }
+
+    .class-item,
+    .student-alert {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+.teacher-navbar .input-group {
+    min-width: 220px;
+}
+
+@media (max-width: 320px) {
+
+    .teacher-navbar .container-fluid {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .teacher-navbar .input-group {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .teacher-navbar .dropdown .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* =========================================================
+RESPONSIVE CONTENT
+========================================================= */
+
+.teacher-content {
+    padding: 2rem;
+}
+
+@media (max-width: 991.98px) {
+    .teacher-content {
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .teacher-content {
+        padding: 1rem;
+    }
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.dashboard-header .header-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 767.98px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dashboard-header .header-actions {
+        width: 100%;
+    }
+
+    .dashboard-header .header-actions .btn {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 767.98px) {
+
+    .class-item,
+    .student-alert {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}

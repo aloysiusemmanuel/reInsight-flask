@@ -1,0 +1,127 @@
+<!-- ==========================================================
+     TEACHER FOOTER
+=========================================================== -->
+
+<footer class="dashboard-footer">
+
+    <div class="container-fluid">
+
+        <div class="row align-items-center gy-3">
+
+            <!-- ==========================================
+                 COPYRIGHT
+            =========================================== -->
+
+            <div class="col-lg-4 col-md-12">
+
+                <p class="mb-0 text-muted">
+
+                    &copy;
+
+                    {{ current_year }}
+
+                    <strong>
+
+                        reInsight School Management System
+
+                    </strong>
+
+                    |
+
+                    All Rights Reserved.
+
+                </p>
+
+            </div>
+
+
+            <!-- ==========================================
+                 QUICK LINKS
+            =========================================== -->
+
+            <div class="col-lg-4 col-md-12 text-center">
+
+                <a
+                    href="{{ url_for('teacher-dashboard.teacher_dashboard') }}"
+                    class="footer-link">
+
+                    Dashboard
+
+                </a>
+
+                <span class="mx-2 text-muted">|</span>
+
+                <a
+                    href="{{ url_for('teacher-dashboard.profile') }}"
+                    class="footer-link">
+
+                    Profile
+
+                </a>
+
+                <span class="mx-2 text-muted">|</span>
+
+                <a
+                    href="{{ url_for('teacher-dashboard.settings') }}"
+                    class="footer-link">
+
+                    Settings
+
+                </a>
+
+                <span class="mx-2 text-muted">|</span>
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="footer-link text-danger">
+
+                    Logout
+
+                </a>
+
+            </div>
+
+
+            <!-- ==========================================
+                 SYSTEM INFORMATION
+            =========================================== -->
+
+            <div class="col-lg-4 col-md-12 text-lg-end">
+
+                <small class="text-muted">
+
+                    Logged in as
+
+                    <strong>
+
+                        {% if current_user.is_authenticated %}
+
+                            {{ current_user.full_name }}
+
+                        {% else %}
+
+                            Teacher
+
+                        {% endif %}
+
+                    </strong>
+
+                </small>
+
+                <br>
+
+                <small class="text-muted">
+
+                    Version
+
+                    {{ app_version|default("1.0.0") }}
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>

@@ -1,0 +1,66 @@
+<!-- ======================================================
+SUPER ADMIN FOOTER
+======================================================= -->
+
+<footer class="footer-wrapper">
+
+    <div class="container-fluid footer-left">
+
+        <span>
+
+            &copy; {{ current_year|default(2026) }}
+
+            <strong>reInsight</strong>
+
+            School Management System.
+
+            All Rights Reserved.
+
+        </span>
+
+    </div>
+
+
+    <div class="footer-center text-muted">
+
+        <span>
+
+            Version
+
+            <strong>v1.0.0</strong>
+
+        </span>
+
+    </div>
+
+
+    <div class="footer-right">
+
+        <a
+            href="{{ url_for('superadmin.help_center') }}">
+
+            Help Center
+
+        </a>
+
+        <span>|</span>
+
+        <a
+            href="{{ url_for('superadmin.platform') }}">
+
+            Platform
+
+        </a>
+
+        <span>|</span>
+
+        <a
+            href="{{ url_for('superadmin.system') }}">
+
+            System Status
+
+        </a>
+
+    </div>
+
+</footer>

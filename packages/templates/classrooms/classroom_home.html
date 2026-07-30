@@ -1,0 +1,377 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Classroom Management | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Classroom Management",
+        page_subtitle="Manage classrooms, class teachers and student allocations.",
+        button_text="Create Classroom",
+        button_url=url_for('classroom_create'),
+        button_icon="bi bi-plus-circle-fill"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+
+    <!-- ==========================================================
+        STATISTICS
+    =========================================================== -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-lg-3">
+
+            {% with
+                title="Total Classrooms",
+                value=total_classrooms,
+                icon="bi bi-building",
+                color="primary"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-lg-3">
+
+            {% with
+                title="Students",
+                value=total_students,
+                icon="bi bi-mortarboard-fill",
+                color="success"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-lg-3">
+
+            {% with
+                title="Class Teachers",
+                value=total_class_teachers,
+                icon="bi bi-person-workspace",
+                color="warning"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-lg-3">
+
+            {% with
+                title="Average Class Size",
+                value=average_class_size,
+                icon="bi bi-bar-chart-fill",
+                color="info"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================================
+        SEARCH & FILTER
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="search"
+                            placeholder="Search classroom...">
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <select
+                            class="form-select"
+                            name="level">
+
+                            <option value="level">Level</option>
+                                 {% for level in levels  %}
+
+                            <option value={{ level.id}}>
+                                {{ level.name }}
+                            </option>
+                            
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <select
+                            class="form-select"
+                            name="session">
+
+                            <option value="session">Academic Session</option>
+
+                            {% for session in sessions %}
+                                <option>{{ session.name }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <select
+                            class="form-select"
+                            name="status">
+
+                            <option value="">Status</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button
+                            class="btn btn-primary w-100">
+
+                            <i class="bi bi-search me-2"></i>
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================================
+        CLASSROOM DIRECTORY
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">
+
+                Classroom Directory
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Classroom</th>
+                        <th>Level</th>
+                        <th>Class Teacher</th>
+                        <th>Students</th>
+                        <th>Capacity</th>
+                        <th>Academic Session</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for classroom in classrooms %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                {{ classroom.name }}
+
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted">
+
+                                {{ classroom.description }}
+
+                            </small>
+
+                        </td>
+
+                        <td>
+
+                            {{ classroom.level }}
+
+                        </td>
+
+                        <td>
+
+                            {% if classroom.class_teacher %}
+
+                                {{ classroom.class_teacher.full_name }}
+
+                            {% else %}
+
+                                <span class="text-muted">
+
+                                    Not Assigned
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                {{ classroom.students|length }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {{ classroom.capacity }}
+
+                        </td>
+
+                        <td>
+
+                            {{ classroom.academic_session }}
+
+                        </td>
+
+                        <td>
+
+                            {% if classroom.status == "Active" %}
+
+                                <span class="badge bg-success">
+
+                                    Active
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Inactive
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <a
+                                href="{{ url_for('classroom_profile', classroom_id=classroom.id) }}"
+                                class="btn btn-sm btn-outline-primary">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                            <a
+                                href="{{ url_for('classroom_edit', classroom_id=classroom.id) }}"
+                                class="btn btn-sm btn-outline-warning">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="8" class="text-center py-5">
+
+                            <i class="bi bi-building display-3 text-muted"></i>
+
+                            <h5 class="mt-3">
+
+                                No Classrooms Available
+
+                            </h5>
+
+                            <p class="text-muted">
+
+                                Create your first classroom to begin organizing students and teachers.
+
+                            </p>
+
+                            <a
+                                href="{{ url_for('classroom_create') }}"
+                                class="btn btn-primary">
+
+                                <i class="bi bi-plus-circle me-2"></i>
+
+                                Create Classroom
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

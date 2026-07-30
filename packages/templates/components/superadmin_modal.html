@@ -1,0 +1,98 @@
+<!-- ==========================================================
+     SUPER ADMIN REUSABLE MODAL
+=========================================================== -->
+
+<div
+    class="modal fade"
+    id="{{ modal_id|default('superadminModal') }}"
+    tabindex="-1"
+    aria-labelledby="{{ modal_id|default('superadminModal') }}Label"
+    aria-hidden="true">
+
+    <div class="modal-dialog {{ modal_size|default('') }}">
+
+        <div class="modal-content shadow border-0">
+
+            <!-- ==========================================
+                 MODAL HEADER
+            =========================================== -->
+
+            <div class="modal-header">
+
+                <h5
+                    class="modal-title fw-bold"
+                    id="{{ modal_id|default('superadminModal') }}Label">
+
+                    {% if modal_icon %}
+
+                        <i class="bi {{ modal_icon }} me-2"></i>
+
+                    {% endif %}
+
+                    {{ modal_title|default("Modal Title") }}
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close">
+                </button>
+
+            </div>
+
+            <!-- ==========================================
+                 MODAL BODY
+            =========================================== -->
+
+            <div class="modal-body">
+
+                {% block modal_body %}
+
+                    {{ modal_body|default("Modal content goes here.") }}
+
+                {% endblock %}
+
+            </div>
+
+            <!-- ==========================================
+                 MODAL FOOTER
+            =========================================== -->
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+
+                    {{ cancel_text|default("Cancel") }}
+
+                </button>
+
+                {% if confirm_button %}
+
+                <a
+                    href="{{ confirm_url|default('#') }}"
+                    class="btn btn-{{ confirm_color|default('primary') }}">
+
+                    {% if confirm_icon %}
+
+                    <i class="bi {{ confirm_icon }} me-2"></i>
+
+                    {% endif %}
+
+                    {{ confirm_button }}
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

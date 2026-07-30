@@ -1,0 +1,375 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Academic Results | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+         PAGE HEADER
+    ========================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                Academic Results
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                View computed student results and publish term performance.
+
+            </p>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <button class="btn btn-outline-success">
+
+                <i class="bi bi-download me-2"></i>
+
+                Export Excel
+
+            </button>
+
+            <button class="btn btn-primary">
+
+                <i class="bi bi-check-circle me-2"></i>
+
+                Publish Results
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         FILTERS
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-lg-3">
+
+                    <label class="form-label">
+                        Academic Session
+                    </label>
+
+                    <select
+                        name="session"
+                        class="form-select">
+
+                        {% for session in sessions %}
+
+                        <option
+                            value="{{ session.id }}">
+
+                            {{ session.name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+                            Term
+                        </label>
+
+                        <select
+                            name="term"
+                            class="form-select">
+
+                            {% for term in terms %}
+
+                            <option
+                                value="{{ term.id }}">
+
+                                {{ term.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                <div class="col-lg-3">
+
+                    <label class="form-label">
+
+                        Class
+
+                    </label>
+
+                    <select name="class" class="form-select">
+                        {% for class in classes %}
+
+                        <option value="{{ class.id}}">
+
+                            {{ class.name }}
+                            
+                        </option>
+                        
+
+                    </select>
+                        {% endfor %}
+                </div>
+
+                <div class="col-lg-3">
+
+                    <label class="form-label">
+
+                        Subject
+
+                    </label>
+
+                    <select name="subject" class="form-select">
+                         
+                        {% for subject in subjects %}
+
+                        <option value="{{ subject.id}}">
+
+                            {{ subject.name }}
+
+                        </option>
+                         {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         RESULT TABLE
+    ========================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Computed Results
+
+            </h5>
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Admission No.</th>
+
+                        <th>Student</th>
+
+                        <th>CA</th>
+
+                        <th>Exam</th>
+
+                        <th>Total</th>
+
+                        <th>Grade</th>
+
+                        <th>Position</th>
+
+                        <th>Remark</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for student in students %}
+
+                    <tr>
+
+                        <td>{{ loop.index }}</td>
+
+                        <td>{{ student.admission_number }}</td>
+
+                        <td>
+
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+
+                        </td>
+
+                        <td>38</td>
+
+                        <td>54</td>
+
+                        <td>
+
+                            <strong>92</strong>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                A
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            1st
+
+                        </td>
+
+                        <td>
+
+                            Excellent
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                Published
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         RESULT SUMMARY
+    ========================================== -->
+
+    <div class="row mt-4">
+
+        <div class="col-lg-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Total Students</h6>
+
+                    <h2 class="fw-bold">
+
+                        {{ students|length }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Pass Rate</h6>
+
+                    <h2 class="text-success fw-bold">
+
+                        94%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Class Average</h6>
+
+                    <h2 class="text-primary fw-bold">
+
+                        76%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h6>Highest Score</h6>
+
+                    <h2 class="text-warning fw-bold">
+
+                        98%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

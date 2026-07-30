@@ -1,0 +1,236 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}Behaviour Management | reInsight {% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ========================================================= -->
+    <!-- PAGE HEADER -->
+    <!-- ========================================================= -->
+
+    
+
+    {% with
+        
+        page_title="Behaviour Management",
+        page_description="Monitor, record and analyse student behaviour across the school.",
+        primary_button={
+        "text": "Record Behaviour",
+        "url": url_for('behaviour.behaviour_create'),
+        "icon": "bi bi-plus-circle"
+        }
+    %}
+       {% include "components/header.html" %} 
+       
+    {% endwith %}
+
+    <!-- ========================================================= -->
+    <!-- SUMMARY CARDS -->
+    <!-- ========================================================= -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+            
+            {% include "components/stat_card.html" with context %}
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            {% include "components/stat_card.html" with context %}
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            {% include "components/stat_card.html" with context %}
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            {% include "components/stat_card.html" with context %}
+        </div>
+
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- FILTERS -->
+    <!-- ========================================================= -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+                Behaviour Filters
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+                        <label class="form-label">Academic Session</label>
+                        <select class="form-select">
+                            <option>All Sessions</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Term</label>
+                        <select class="form-select">
+                            <option>All Terms</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Class</label>
+                        <select class="form-select">
+                            <option>All Classes</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="form-label">Teacher</label>
+                        <select class="form-select">
+                            <option>All Teachers</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-control">
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- RECENT BEHAVIOUR RECORDS -->
+    <!-- ========================================================= -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+
+            <h5 class="mb-0">
+
+                Recent Behaviour Records
+
+            </h5>
+
+            <a href="{{ url_for('.behaviour_reports') }}"
+               class="btn btn-outline-primary btn-sm">
+
+                <i class="bi bi-file-earmark-bar-graph me-1"></i>
+
+                Reports
+
+            </a>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Date & Time</th>
+
+                        <th>Student</th>
+
+                        <th>Class</th>
+
+                        <th>Category</th>
+
+                        <th>Teacher</th>
+
+                        <th>Status</th>
+
+                        <th class="text-center">Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for behaviour in behaviours %}
+
+                    <tr>
+
+                        <td>
+                            {{ behaviour.incident_datetime.strftime('%d %b %Y') }}<br>
+                            <small class="text-muted">
+                                {{ behaviour.incident_datetime.strftime('%I:%M %p') }}
+                            </small>
+                        </td>
+
+                        <td>{{ behaviour.student.full_name }}</td>
+
+                        <td>{{ behaviour.classroom.name }}</td>
+
+                        <td>{{ behaviour.category.name }}</td>
+
+                        <td>{{ behaviour.teacher.full_name }}</td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ behaviour.status }}
+
+                            </span>
+
+                        </td>
+
+                        <td class="text-center">
+
+                            <a href="{{ url_for('behaviour_profile',
+                                    behaviour_id=behaviour.id) }}"
+                               class="btn btn-sm btn-outline-primary">
+
+                                View
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="7"
+                            class="text-center py-5">
+
+                            No behaviour records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

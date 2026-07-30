@@ -1,0 +1,421 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Edit Behaviour Category | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Edit Behaviour Category",
+        page_subtitle="Update the behaviour category settings.",
+        button_text="Back to Categories",
+        button_url=url_for('behaviour_category_home'),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <form method="POST">
+
+        <div class="row">
+
+            <!-- =====================================================
+                MAIN FORM
+            ====================================================== -->
+
+            <div class="col-lg-8">
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-header bg-white">
+
+                        <h5 class="mb-0">
+
+                            Category Information
+
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row g-4">
+
+                            <!-- Category Name -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+
+                                    Category Name
+                                    <span class="text-danger">*</span>
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="name"
+                                    class="form-control"
+                                    value="{{ category.name }}"
+                                    required>
+
+                            </div>
+
+                            <!-- Behaviour Type -->
+
+                            <div class="col-md-6">
+
+                                <label class="form-label">
+
+                                    Behaviour Type
+
+                                </label>
+
+                                <select
+                                    name="category_type"
+                                    class="form-select"
+                                    required>
+
+                                    <option value="Positive"
+                                        {% if category.category_type=="Positive" %}
+                                        selected
+                                        {% endif %}>
+
+                                        Positive
+
+                                    </option>
+
+                                    <option value="Negative"
+                                        {% if category.category_type=="Negative" %}
+                                        selected
+                                        {% endif %}>
+
+                                        Negative
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Severity -->
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+
+                                    Severity
+
+                                </label>
+
+                                <select
+                                    name="severity"
+                                    class="form-select">
+
+                                    {% for level in ["Low","Medium","High","Critical"] %}
+
+                                    <option
+                                        value="{{ level }}"
+                                        {% if category.severity==level %}
+                                        selected
+                                        {% endif %}>
+
+                                        {{ level }}
+
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+                            <!-- Points -->
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+
+                                    Points
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="points"
+                                    class="form-control"
+                                    value="{{ category.points }}">
+
+                            </div>
+
+                            <!-- Display Order -->
+
+                            <div class="col-md-4">
+
+                                <label class="form-label">
+
+                                    Display Order
+
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="display_order"
+                                    class="form-control"
+                                    value="{{ category.display_order }}">
+
+                            </div>
+
+                            <!-- Description -->
+
+                            <div class="col-12">
+
+                                <label class="form-label">
+
+                                    Description
+
+                                </label>
+
+                                <textarea
+                                    class="form-control"
+                                    rows="5"
+                                    name="description">{{ category.description }}</textarea>
+
+                            </div>
+
+                            <!-- Parent Notification -->
+
+                            <div class="col-md-6">
+
+                                <div class="form-check form-switch">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="requires_parent_notification"
+                                        id="parentNotification"
+
+                                        {% if category.requires_parent_notification %}
+                                        checked
+                                        {% endif %}>
+
+                                    <label
+                                        class="form-check-label"
+                                        for="parentNotification">
+
+                                        Notify Parent Automatically
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Admin Review -->
+
+                            <div class="col-md-6">
+
+                                <div class="form-check form-switch">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="requires_admin_review"
+                                        id="adminReview"
+
+                                        {% if category.requires_admin_review %}
+                                        checked
+                                        {% endif %}>
+
+                                    <label
+                                        class="form-check-label"
+                                        for="adminReview">
+
+                                        Require Admin Review
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Active -->
+
+                            <div class="col-md-6">
+
+                                <div class="form-check form-switch">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="is_active"
+                                        id="activeStatus"
+
+                                        {% if category.is_active %}
+                                        checked
+                                        {% endif %}>
+
+                                    <label
+                                        class="form-check-label"
+                                        for="activeStatus">
+
+                                        Active Category
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer bg-white d-flex justify-content-end gap-2">
+
+                        <a
+                            href="{{ url_for('behaviour_category_home') }}"
+                            class="btn btn-secondary">
+
+                            Cancel
+
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <i class="bi bi-check-circle me-2"></i>
+
+                            Update Category
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- =====================================================
+                SIDEBAR
+            ====================================================== -->
+
+            <div class="col-lg-4">
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-header bg-white">
+
+                        <h5 class="mb-0">
+
+                            Category Information
+
+                        </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <table class="table table-borderless mb-0">
+
+                            <tr>
+
+                                <th>ID</th>
+
+                                <td>
+
+                                    {{ category.id }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Created</th>
+
+                                <td>
+
+                                    {{ category.created_at.strftime("%d %b %Y") }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Updated</th>
+
+                                <td>
+
+                                    {{ category.updated_at.strftime("%d %b %Y") }}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Status</th>
+
+                                <td>
+
+                                    {% if category.is_active %}
+
+                                        <span class="badge bg-success">
+
+                                            Active
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-secondary">
+
+                                            Inactive
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <th>Usage</th>
+
+                                <td>
+
+                                    {{ category.behaviours|length }}
+
+                                    Behaviour Records
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

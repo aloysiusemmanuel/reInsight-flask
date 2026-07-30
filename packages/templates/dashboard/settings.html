@@ -1,0 +1,304 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Settings | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    {% include "components/header.html" %}
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <ul class="nav nav-tabs mb-4" id="settingsTab" role="tablist">
+
+                <li class="nav-item">
+                    <button class="nav-link active"
+                            data-bs-toggle="tab"
+                            data-bs-target="#school">
+                        <i class="bi bi-building me-2"></i>
+                        School
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#account">
+                        <i class="bi bi-person me-2"></i>
+                        Account
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#security">
+                        <i class="bi bi-shield-lock me-2"></i>
+                        Security
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#notifications">
+                        <i class="bi bi-bell me-2"></i>
+                        Notifications
+                    </button>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#system">
+                        <i class="bi bi-gear me-2"></i>
+                        System
+                    </button>
+                </li>
+
+            </ul>
+
+            <div class="tab-content">
+
+                <!-- SCHOOL SETTINGS -->
+
+                <div class="tab-pane fade show active" id="school">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                School Name
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Enter school name">
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                School Email
+                            </label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   placeholder="info@school.com">
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Phone Number
+                            </label>
+
+                            <input type="text"
+                                   class="form-control">
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Website
+                            </label>
+
+                            <input type="url"
+                                   class="form-control">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ACCOUNT -->
+
+                <div class="tab-pane fade" id="account">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Full Name
+
+                        </label>
+
+                        <input type="text"
+                               class="form-control">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Email
+
+                        </label>
+
+                        <input type="email"
+                               class="form-control">
+
+                    </div>
+
+                </div>
+
+                <!-- SECURITY -->
+
+                <div class="tab-pane fade" id="security">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Current Password
+
+                        </label>
+
+                        <input type="password"
+                               class="form-control">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            New Password
+
+                        </label>
+
+                        <input type="password"
+                               class="form-control">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Confirm Password
+
+                        </label>
+
+                        <input type="password"
+                               class="form-control">
+
+                    </div>
+
+                </div>
+
+                <!-- NOTIFICATIONS -->
+
+                <div class="tab-pane fade" id="notifications">
+
+                    <div class="form-check form-switch mb-3">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               checked>
+
+                        <label class="form-check-label">
+
+                            Email Notifications
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+
+                        <input class="form-check-input"
+                               type="checkbox">
+
+                        <label class="form-check-label">
+
+                            SMS Notifications
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <!-- SYSTEM -->
+
+                <div class="tab-pane fade" id="system">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Academic Session
+
+                        </label>
+
+                        <select class="form-select">
+
+                            <option>2025/2026</option>
+
+                            <option>2026/2027</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Theme
+
+                        </label>
+
+                        <select class="form-select">
+
+                            <option>Light</option>
+
+                            <option>Dark</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="text-end">
+
+                <button class="btn btn-outline-secondary">
+
+                    Cancel
+
+                </button>
+
+                <button class="btn btn-primary">
+
+                    <i class="bi bi-check-circle me-2"></i>
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,112 @@
+<!-- ==========================================
+     PAGE HEADER COMPONENT
+========================================== -->
+
+<div class="page-header mb-4">
+
+    <div class="row align-items-center">
+
+        <!-- Left -->
+
+        <div class="col-lg-8">
+
+            {% if breadcrumbs %}
+
+            <nav aria-label="breadcrumb">
+
+                <ol class="breadcrumb mb-2">
+
+                    {% for crumb in breadcrumbs %}
+
+                        {% if crumb.url %}
+
+                            <li class="breadcrumb-item">
+
+                                <a href="{{ crumb.url }}">
+
+                                    {{ crumb.title }}
+
+                                </a>
+
+                            </li>
+
+                        {% else %}
+
+                            <li class="breadcrumb-item active"
+                                aria-current="page">
+
+                                {{ crumb.title }}
+
+                            </li>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </ol>
+
+            </nav>
+
+            {% endif %}
+
+            <div class="d-flex align-items-center">
+
+                {% if icon %}
+
+                <div class="page-header-icon">
+
+                    <i class="{{ icon }}"></i>
+
+                </div>
+
+                {% endif %}
+
+                <div class="ms-3">
+
+                    <h2 class="page-title mb-1">
+
+                        {{ page_title }}
+
+                    </h2>
+
+                    {% if page_description %}
+
+                    <p class="page-description mb-0">
+
+                        {{ page_description }}
+
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Right -->
+
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+
+            {% if primary_button %}
+            <a href="{{ primary_button.url }}"
+               class="btn btn-primary">
+
+                {% if primary_button.icon %}
+
+                <i class="{{ primary_button.icon }} me-2"></i>
+
+                {% endif %}
+
+                {{ primary_button.text }}
+
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>

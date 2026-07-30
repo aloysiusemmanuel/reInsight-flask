@@ -1,0 +1,84 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Students | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- Page Header -->
+    {% include "components/header.html" %}
+
+    <!-- Student Statistics -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+            {% with
+                title="Total Students",
+                value=student_count|default(0),
+                counter_id="studentCounter",
+                icon="bi bi-mortarboard-fill",
+                subtitle="Registered Students",
+                progress=100,
+                trend="up",
+                trend_value="+12%"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            {% with
+                title="Male Students",
+                value=male_count|default(0),
+                counter_id="maleCounter",
+                icon="bi bi-gender-male",
+                subtitle="Male Students",
+                progress=55,
+                trend="up",
+                trend_value="+3%"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            {% with
+                title="Female Students",
+                value=female_count|default(0),
+                counter_id="femaleCounter",
+                icon="bi bi-gender-female",
+                subtitle="Female Students",
+                progress=45,
+                trend="up",
+                trend_value="+4%"
+            %}
+                {% include "components/stat_card.html" %}
+            {% endwith %}
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            {% with
+                title="New Admissions",
+                value=new_students|default(0),
+                counter_id="newCounter",
+                icon="bi bi-person-plus-fill",
+                subtitle="This Session",
+                progress=18,
+                trend="up",
+                trend_value="+18%"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+        </div>
+
+    </div>
+
+    <!-- Student Table -->
+    {% include "components/data_table.html" %}
+
+</div>
+
+{% endblock %}

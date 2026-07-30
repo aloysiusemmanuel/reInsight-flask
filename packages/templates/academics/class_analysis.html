@@ -1,0 +1,362 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Class Analysis | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+    PAGE HEADER
+    ========================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Class Performance Analysis
+
+            </h2>
+
+            <p class="text-muted">
+
+                Analyse academic performance across all classes.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('academics.academics') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Academics
+
+        </a>
+
+    </div>
+
+
+    <!-- ==========================================
+    FILTER
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Session
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="session">
+
+                            {% for session in sessions %}
+
+                            <option
+                                value="{{ session.id }}"
+                                {% if selected_session == session.id %}
+                                selected
+                                {% endif %}>
+
+                                {{ session.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Term
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="term">
+
+                            {% for term in terms %}
+
+                            <option
+                                value="{{ term.id }}"
+                                {% if selected_term == term.id %}
+                                selected
+                                {% endif %}>
+
+                                {{ term.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 d-flex align-items-end">
+
+                        <button
+                            class="btn btn-primary w-100">
+
+                            Analyse
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+    SUMMARY CARDS
+    ========================================== -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6>Total Classes</h6>
+
+                    <h2>
+
+                        {{ total_classes }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6>Total Students</h6>
+
+                    <h2>
+
+                        {{ total_students }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6>School Average</h6>
+
+                    <h2>
+
+                        {{ school_average }}%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <h6>Best Class</h6>
+
+                    <h5>
+
+                        {{ best_class }}
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+    CLASS PERFORMANCE TABLE
+    ========================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Class Performance
+
+            </h5>
+
+        </div>
+
+        <div class="card-body table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Class</th>
+
+                        <th>Students</th>
+
+                        <th>Highest</th>
+
+                        <th>Lowest</th>
+
+                        <th>Average</th>
+
+                        <th>Pass Rate</th>
+
+                        <th>Performance</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for class in class_analysis %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ class.name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ class.student_count }}
+
+                        </td>
+
+                        <td>
+
+                            {{ class.highest }}
+
+                        </td>
+
+                        <td>
+
+                            {{ class.lowest }}
+
+                        </td>
+
+                        <td>
+
+                            {{ class.average }}%
+
+                        </td>
+
+                        <td>
+
+                            {{ class.pass_rate }}%
+
+                        </td>
+
+                        <td>
+
+                            {% if class.average >= 80 %}
+
+                                <span class="badge bg-success">
+
+                                    Excellent
+
+                                </span>
+
+                            {% elif class.average >= 70 %}
+
+                                <span class="badge bg-primary">
+
+                                    Very Good
+
+                                </span>
+
+                            {% elif class.average >= 60 %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Good
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Needs Improvement
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

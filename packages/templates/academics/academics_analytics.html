@@ -1,0 +1,423 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Academic Analytics | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+    PAGE HEADER
+    ========================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Academic Analytics
+
+            </h2>
+
+            <p class="text-muted">
+
+                Analyse academic performance across classes, subjects and students.
+
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('academics.academics') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Academics
+
+        </a>
+
+    </div>
+
+    <!-- ==========================================
+    FILTERS
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Academic Session
+
+                        </label>
+
+                        <select
+                            name="session"
+                            class="form-select">
+
+                            {% for session in sessions %}
+
+                            <option
+                                value="{{ session.id }}"
+                                {% if selected_session == session.id %}
+                                selected
+                                {% endif %}>
+
+                                {{ session.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Term
+
+                        </label>
+
+                        <select
+                            name="term"
+                            class="form-select">
+
+                            {% for term in terms %}
+
+                            <option
+                                value="{{ term.id }}"
+                                {% if selected_term == term.id %}
+                                selected
+                                {% endif %}>
+
+                                {{ term.name }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 d-flex align-items-end">
+
+                        <button class="btn btn-primary w-100">
+
+                            Analyse
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+    KPI CARDS
+    ========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        School Average
+
+                    </h6>
+
+                    <h2 class="fw-bold text-primary">
+
+                        {{ school_average }}%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Highest Score
+
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+
+                        {{ highest_score }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Lowest Score
+
+                    </h6>
+
+                    <h2 class="fw-bold text-danger">
+
+                        {{ lowest_score }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Overall Pass Rate
+
+                    </h6>
+
+                    <h2 class="fw-bold text-warning">
+
+                        {{ pass_rate }}%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+    CHARTS
+    ========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Academic Trend
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="academicTrendChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Grade Distribution
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="gradeDistributionChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+    SUBJECT PERFORMANCE
+    ========================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Subject Performance
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Subject</th>
+                        <th>Students</th>
+                        <th>Average</th>
+                        <th>Highest</th>
+                        <th>Lowest</th>
+                        <th>Pass Rate</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for subject in subject_analysis %}
+
+                    <tr>
+
+                        <td>{{ subject.name }}</td>
+
+                        <td>{{ subject.students }}</td>
+
+                        <td>{{ subject.average }}%</td>
+
+                        <td>{{ subject.highest }}</td>
+
+                        <td>{{ subject.lowest }}</td>
+
+                        <td>{{ subject.pass_rate }}%</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+    CLASS PERFORMANCE
+    ========================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Class Performance
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Class</th>
+                        <th>Students</th>
+                        <th>Average</th>
+                        <th>Pass Rate</th>
+                        <th>Ranking</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for classroom in class_analysis %}
+
+                    <tr>
+
+                        <td>{{ classroom.name }}</td>
+
+                        <td>{{ classroom.student_count }}</td>
+
+                        <td>{{ classroom.average }}%</td>
+
+                        <td>{{ classroom.pass_rate }}%</td>
+
+                        <td>#{{ loop.index }}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,440 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Student Attendance | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================
+         PAGE HEADER
+    ========================================== -->
+
+    {% with
+        page_title="Student Attendance",
+        page_subtitle="Monitor and manage student attendance records",
+        button_text="Back to Profile",
+        button_url=url_for('student_profile', student_id=student.id),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <div class="row">
+
+        <!-- ==========================================
+             LEFT COLUMN
+        ========================================== -->
+
+        <div class="col-lg-4">
+
+            <!-- STUDENT CARD -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-body text-center">
+
+                    {% if student.photo %}
+
+                    <img src="{{ url_for('static', filename=student.photo) }}"
+                         class="rounded-circle img-fluid mb-3"
+                         style="width:160px;height:160px;object-fit:cover;">
+
+                    {% else %}
+
+                    <i class="bi bi-person-circle"
+                       style="font-size:8rem;"></i>
+
+                    {% endif %}
+
+                    <h4>
+
+                        {{ student.first_name }}
+                        {{ student.last_name }}
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        {{ student.admission_number }}
+
+                    </p>
+
+                    <hr>
+
+                    <div class="row text-center">
+
+                        <div class="col-6">
+
+                            <strong>
+
+                                {{ student.classroom.name }}
+
+                            </strong>
+
+                            <br>
+
+                            <small>
+
+                                Classroom
+
+                            </small>
+
+                        </div>
+
+                        <div class="col-6">
+
+                            <strong>
+
+                                {{ current_session }}
+
+                            </strong>
+
+                            <br>
+
+                            <small>
+
+                                Session
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ATTENDANCE SUMMARY -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Attendance Summary
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        <label>
+
+                            Attendance Percentage
+
+                        </label>
+
+                        <div class="progress">
+
+                            <div class="progress-bar bg-success"
+                                 role="progressbar"
+                                 style="width: {{ attendance_percentage }}%;">
+
+                                {{ attendance_percentage }}%
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="row text-center">
+
+                        <div class="col-4">
+
+                            <h4 class="text-success">
+
+                                {{ present_days }}
+
+                            </h4>
+
+                            <small>Present</small>
+
+                        </div>
+
+                        <div class="col-4">
+
+                            <h4 class="text-warning">
+
+                                {{ late_days }}
+
+                            </h4>
+
+                            <small>Late</small>
+
+                        </div>
+
+                        <div class="col-4">
+
+                            <h4 class="text-danger">
+
+                                {{ absent_days }}
+
+                            </h4>
+
+                            <small>Absent</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body d-grid gap-2">
+
+                    <a href="{{ url_for('attendance_create',
+                        student_id=student.id) }}"
+                       class="btn btn-primary">
+
+                        <i class="bi bi-calendar-plus me-2"></i>
+
+                        Record Attendance
+
+                    </a>
+
+                    <a href="{{ url_for('student_profile',
+                        student_id=student.id) }}"
+                       class="btn btn-outline-secondary">
+
+                        Student Profile
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================
+             RIGHT COLUMN
+        ========================================== -->
+
+        <div class="col-lg-8">
+
+            <!-- FILTER -->
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-body">
+
+                    <form class="row g-3">
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+
+                                Academic Session
+
+                            </label>
+
+                            <select class="form-select">
+
+                                <option>All Sessions</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+
+                                Term
+
+                            </label>
+
+                            <select class="form-select">
+
+                                <option>All Terms</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4 d-flex align-items-end">
+
+                            <button
+                                class="btn btn-primary w-100">
+
+                                <i class="bi bi-search me-2"></i>
+
+                                Filter
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!-- HISTORY -->
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Attendance History
+
+                    </h5>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>Date</th>
+                                <th>Session</th>
+                                <th>Term</th>
+                                <th>Status</th>
+                                <th>Check In</th>
+                                <th>Remarks</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for attendance in attendance_records %}
+
+                            <tr>
+
+                                <td>
+
+                                    {{ attendance.attendance_date }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ attendance.academic_session }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ attendance.term }}
+
+                                </td>
+
+                                <td>
+
+                                    {% if attendance.status=="Present" %}
+
+                                    <span class="badge bg-success">
+
+                                        Present
+
+                                    </span>
+
+                                    {% elif attendance.status=="Late" %}
+
+                                    <span class="badge bg-warning">
+
+                                        Late
+
+                                    </span>
+
+                                    {% elif attendance.status=="Absent" %}
+
+                                    <span class="badge bg-danger">
+
+                                        Absent
+
+                                    </span>
+
+                                    {% else %}
+
+                                    <span class="badge bg-secondary">
+
+                                        Excused
+
+                                    </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td>
+
+                                    {{ attendance.check_in_time or "-" }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ attendance.remarks or "-" }}
+
+                                </td>
+
+                            </tr>
+
+                            {% else %}
+
+                            <tr>
+
+                                <td colspan="6"
+                                    class="text-center py-5">
+
+                                    <i class="bi bi-calendar-x display-4 text-muted"></i>
+
+                                    <h5 class="mt-3">
+
+                                        No Attendance Records
+
+                                    </h5>
+
+                                    <p class="text-muted">
+
+                                        Attendance records will appear here.
+
+                                    </p>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

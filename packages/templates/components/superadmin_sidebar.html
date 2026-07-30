@@ -1,0 +1,401 @@
+<!-- ======================================================
+SUPER ADMIN SIDEBAR
+======================================================= -->
+
+<div class="sidebar-header">
+
+    <a
+        href="{{ url_for('superadmin.dashboard') }}"
+        class="sidebar-brand">
+
+        <div class="brand-icon">
+
+            <i class="bi bi-bar-chart-fill"></i>
+
+        </div>
+
+        <div class="brand-text">
+
+            <h4>reInsight</h4>
+
+            <small>Super Admin</small>
+
+        </div>
+
+    </a>
+
+</div>
+
+
+<!-- ======================================================
+NAVIGATION
+======================================================= -->
+
+<nav class="sidebar-nav">
+
+    <!-- ================= Dashboard ================= -->
+
+    <a
+        href="{{ url_for('superadmin.dashboard') }}"
+        class="nav-link">
+
+        <i class="bi bi-speedometer2"></i>
+
+        <span>Dashboard</span>
+
+    </a>
+
+
+    <!-- ================= Schools ================= -->
+
+    <button
+        class="nav-group"
+        data-bs-toggle="collapse"
+        data-bs-target="#schoolMenu">
+
+        <span>
+
+            <i class="bi bi-buildings"></i>
+
+            School Management
+
+        </span>
+
+        <i class="bi bi-chevron-down"></i>
+
+    </button>
+
+    <div
+        class="collapse show"
+        id="schoolMenu">
+
+        <a
+            href="{{ url_for('superadmin.schools') }}"
+            class="submenu">
+
+            All Schools
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.create_school') }}"
+            class="submenu">
+
+            Register School
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.create_school_admin') }}"
+            class="submenu">
+
+            School Administrators
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= Users ================= -->
+
+    <button
+        class="nav-group"
+        data-bs-toggle="collapse"
+        data-bs-target="#userMenu">
+
+        <span>
+
+            <i class="bi bi-people-fill"></i>
+
+            User Management
+
+        </span>
+
+        <i class="bi bi-chevron-down"></i>
+
+    </button>
+
+    <div
+        class="collapse"
+        id="userMenu">
+
+        <a
+            href="{{ url_for('superadmin.users') }}"
+            class="submenu">
+
+            Users
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.create_user') }}"
+            class="submenu">
+
+            Create User
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.roles') }}"
+            class="submenu">
+
+            Roles
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.permissions') }}"
+            class="submenu">
+
+            Permissions
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= Business ================= -->
+
+    <button
+        class="nav-group"
+        data-bs-toggle="collapse"
+        data-bs-target="#businessMenu">
+
+        <span>
+
+            <i class="bi bi-credit-card"></i>
+
+            Business
+
+        </span>
+
+        <i class="bi bi-chevron-down"></i>
+
+    </button>
+
+    <div
+        class="collapse"
+        id="businessMenu">
+
+        <a
+            href="{{ url_for('superadmin.subscriptions') }}"
+            class="submenu">
+
+            Subscriptions
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.subscription_create') }}"
+            class="submenu">
+
+            New Subscription
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.payments') }}"
+            class="submenu">
+
+            Payments
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= Reports ================= -->
+
+    <button
+        class="nav-group"
+        data-bs-toggle="collapse"
+        data-bs-target="#reportMenu">
+
+        <span>
+
+            <i class="bi bi-graph-up-arrow"></i>
+
+            Reports
+
+        </span>
+
+        <i class="bi bi-chevron-down"></i>
+
+    </button>
+
+    <div
+        class="collapse"
+        id="reportMenu">
+
+        <a
+            href="{{ url_for('superadmin.reports') }}"
+            class="submenu">
+
+            Reports
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.audit_logs') }}"
+            class="submenu">
+
+            Audit Logs
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= Platform ================= -->
+
+    <button
+        class="nav-group"
+        data-bs-toggle="collapse"
+        data-bs-target="#platformMenu">
+
+        <span>
+
+            <i class="bi bi-cpu"></i>
+
+            Platform
+
+        </span>
+
+        <i class="bi bi-chevron-down"></i>
+
+    </button>
+
+    <div
+        class="collapse"
+        id="platformMenu">
+
+        <a
+            href="{{ url_for('superadmin.system') }}"
+            class="submenu">
+
+            System
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.backups') }}"
+            class="submenu">
+
+            Backups
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.platform') }}"
+            class="submenu">
+
+            Platform Settings
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= Account ================= -->
+
+    <button
+        class="nav-group"
+        data-bs-toggle="collapse"
+        data-bs-target="#accountMenu">
+
+        <span>
+
+            <i class="bi bi-person-circle"></i>
+
+            Account
+
+        </span>
+
+        <i class="bi bi-chevron-down"></i>
+
+    </button>
+
+    <div
+        class="collapse"
+        id="accountMenu">
+
+        <a
+            href="{{ url_for('superadmin.profile') }}"
+            class="submenu">
+
+            Profile
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.settings') }}"
+            class="submenu">
+
+            Settings
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.security') }}"
+            class="submenu">
+
+            Security
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.notifications') }}"
+            class="submenu">
+
+            Notifications
+
+        </a>
+
+        <a
+            href="{{ url_for('superadmin.change_password') }}"
+            class="submenu">
+
+            Change Password
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ======================================================
+SIDEBAR FOOTER
+======================================================= -->
+
+<div class="sidebar-footer">
+
+    <div class="admin-info">
+
+        {% if current_user.is_authenticated %}
+
+            <strong>{{ current_user.username }}</strong>
+
+            <small>Platform Owner</small>
+
+        {% else %}
+
+            <strong>Development Mode</strong>
+
+            <small>Super Administrator</small>
+
+        {% endif %}
+
+    </div>
+
+    <a
+        href="{{ url_for('auth.logout') }}"
+        class="logout-btn">
+
+        <i class="bi bi-box-arrow-right"></i>
+
+        <span>Logout</span>
+
+    </a>
+
+</div>

@@ -1,0 +1,258 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Student Profile | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    {% include "components/header.html" %}
+
+    <div class="row">
+
+        <!-- ==========================================
+             LEFT SIDEBAR
+        ========================================== -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-body text-center">
+
+                    <img src="{{ url_for('static', filename='images/avatar.png') }}"
+                         class="rounded-circle mb-3"
+                         width="140"
+                         height="140"
+                         alt="Student">
+
+                    <h4 class="mb-1">
+
+                        {{ student.full_name if student else "Student Name" }}
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        {{ student.admission_number if student else "ADM-000001" }}
+
+                    </p>
+
+                    <span class="badge bg-success">
+
+                        Active
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header">
+
+                    <strong>Quick Information</strong>
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-borderless mb-0">
+
+                        <tr>
+
+                            <th>Gender</th>
+
+                            <td>{{ student.gender if student else "--" }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Class</th>
+
+                            <td>{{ student.classroom.name if student else "--" }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>House</th>
+
+                            <td>{{ student.house if student else "--" }}</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Date of Birth</th>
+
+                            <td>{{ student.date_of_birth if student else "--" }}</td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==========================================
+             MAIN CONTENT
+        ========================================== -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <ul class="nav nav-tabs mb-4">
+
+                        <li class="nav-item">
+
+                            <button class="nav-link active"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#personal">
+
+                                Personal
+
+                            </button>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <button class="nav-link"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#guardian">
+
+                                Parent
+
+                            </button>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <button class="nav-link"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#academics">
+
+                                Academics
+
+                            </button>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <button class="nav-link"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#attendance">
+
+                                Attendance
+
+                            </button>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <button class="nav-link"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#behaviour">
+
+                                Behaviour
+
+                            </button>
+
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active"
+                             id="personal">
+
+                            <h5>Personal Information</h5>
+
+                            <p class="text-muted">
+
+                                Student information will appear here.
+
+                            </p>
+
+                        </div>
+
+                        <div class="tab-pane fade"
+                             id="guardian">
+
+                            <h5>Parent / Guardian</h5>
+
+                            <p class="text-muted">
+
+                                Parent details will appear here.
+
+                            </p>
+
+                        </div>
+
+                        <div class="tab-pane fade"
+                             id="academics">
+
+                            <h5>Academic Records</h5>
+
+                            <p class="text-muted">
+
+                                Academic history will appear here.
+
+                            </p>
+
+                        </div>
+
+                        <div class="tab-pane fade"
+                             id="attendance">
+
+                            <h5>Attendance</h5>
+
+                            <p class="text-muted">
+
+                                Attendance history will appear here.
+
+                            </p>
+
+                        </div>
+
+                        <div class="tab-pane fade"
+                             id="behaviour">
+
+                            <h5>Behaviour Records</h5>
+
+                            <p class="text-muted">
+
+                                Behaviour reports will appear here.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

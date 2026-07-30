@@ -1,0 +1,371 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Behaviour Analytics | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Behaviour Analytics",
+        page_subtitle="Gain insights into behaviour trends, patterns and student wellbeing.",
+        button_text="View Reports",
+        button_url=url_for('behaviour_reports'),
+        button_icon="bi bi-bar-chart-line"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <!-- ==========================================================
+        FILTERS
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Analytics Filters
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Academic Session
+
+                        </label>
+
+                        <select class="form-select">
+
+                            <option>All Sessions</option>
+
+                            {% for session in sessions %}
+                            <option>{{ session.session_name }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Term
+
+                        </label>
+
+                        <select class="form-select">
+
+                            <option>All Terms</option>
+
+                            {% for term in terms %}
+                            <option>{{ term.term_name }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <label class="form-label">
+
+                            Classroom
+
+                        </label>
+
+                        <select class="form-select">
+
+                            <option>All Classes</option>
+
+                            {% for classroom in classrooms %}
+                            <option>{{ classroom.name }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Teacher
+
+                        </label>
+
+                        <select class="form-select">
+
+                            <option>All Teachers</option>
+
+                            {% for teacher in teachers %}
+                            <option>{{ teacher.full_name }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label class="form-label">
+
+                            Date Range
+
+                        </label>
+
+                        <input
+                            type="date"
+                            class="form-control">
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+        SUMMARY CARDS
+    =========================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% include "components/stat_card.html" %}
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+        CHARTS
+    =========================================================== -->
+
+    <div class="row">
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    Positive vs Negative Behaviour
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="positiveNegativeChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    Behaviour Trend
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="behaviourTrendChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    Top Behaviour Categories
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="categoryChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white">
+
+                    Behaviour by Classroom
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="classroomChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+        STUDENTS NEEDING ATTENTION
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Students Requiring Attention
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Student</th>
+
+                        <th>Class</th>
+
+                        <th>Negative Events</th>
+
+                        <th>Positive Events</th>
+
+                        <th>Latest Incident</th>
+
+                        <th></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for student in flagged_students %}
+
+                    <tr>
+
+                        <td>{{ student.full_name }}</td>
+
+                        <td>{{ student.classroom.name }}</td>
+
+                        <td>{{ student.negative_count }}</td>
+
+                        <td>{{ student.positive_count }}</td>
+
+                        <td>{{ student.latest_incident }}</td>
+
+                        <td>
+
+                            <a href="{{ url_for('student_profile',
+                                    student_id=student.id) }}"
+                               class="btn btn-outline-primary btn-sm">
+
+                                View
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="6"
+                            class="text-center py-5">
+
+                            No students currently require attention.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static',
+filename='js/charts/behaviour_analytics.js') }}"></script>
+
+{% endblock %}

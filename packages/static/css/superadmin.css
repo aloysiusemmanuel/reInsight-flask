@@ -1,0 +1,2402 @@
+/*
+=========================================================
+reInsight School Management System
+Super Admin Dashboard
+Author : Emmelac Tutorial
+Version : 2.0
+=========================================================
+*/
+
+
+/* =====================================================
+ROOT VARIABLES
+===================================================== */
+
+:root{
+
+    /* Brand */
+
+    --primary:#2563EB;
+    --primary-dark:#1D4ED8;
+
+    --secondary:#64748B;
+
+    --success:#10B981;
+
+    --warning:#F59E0B;
+
+    --danger:#EF4444;
+
+    --info:#06B6D4;
+
+    /* Layout */
+
+    --sidebar-bg:#0F172A;
+
+    --sidebar-hover:#1E293B;
+
+    --sidebar-active:#2563EB;
+
+    --body-bg:#F8FAFC;
+
+    --card-bg:#FFFFFF;
+
+    --navbar-bg:#FFFFFF;
+
+    /* Text */
+
+    --text-dark:#1E293B;
+
+    --text-light:#64748B;
+
+    --text-white:#FFFFFF;
+
+    /* Borders */
+
+    --border:#E2E8F0;
+
+    /* Sizes */
+
+    --sidebar-width:270px;
+
+    --sidebar-collapse:80px;
+
+    --navbar-height:70px;
+
+    --footer-height:65px;
+
+    --radius:12px;
+
+    /* Effects */
+
+    --transition:.30s ease;
+
+    --shadow:
+
+        0 4px 18px rgba(15,23,42,.08);
+
+}
+
+
+
+/* =====================================================
+RESET
+===================================================== */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    font-family:"Inter",sans-serif;
+
+    background:var(--body-bg);
+
+    color:var(--text-dark);
+
+    overflow-x:hidden;
+
+}
+
+
+/* =====================================================
+LINKS
+===================================================== */
+
+a{
+
+    text-decoration:none;
+
+    transition:var(--transition);
+
+}
+
+ul{
+
+    list-style:none;
+
+}
+
+
+/* =====================================================
+LAYOUT
+===================================================== */
+
+.dashboard-layout{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+
+/* =====================================================
+SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:var(--sidebar-width);
+
+    height:100vh;
+
+    background:var(--sidebar-bg);
+
+    color:var(--text-white);
+
+    display:flex;
+
+    flex-direction:column;
+
+    transition:var(--transition);
+
+    z-index:1050;
+
+    overflow:hidden;
+
+}
+
+.sidebar::-webkit-scrollbar{
+
+    width:6px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:10px;
+
+}
+
+
+/* =====================================================
+SIDEBAR HEADER
+===================================================== */
+
+.sidebar-header{
+
+    height:80px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    padding:0 20px;
+
+}
+
+
+.sidebar-brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    width:100%;
+
+    color:#fff;
+
+}
+
+
+.brand-icon{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:12px;
+
+    background:var(--primary);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+    flex-shrink:0;
+
+}
+
+
+.brand-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.brand-text h4{
+
+    margin:0;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#fff;
+
+}
+
+
+.brand-text small{
+
+    color:#CBD5E1;
+
+    font-size:12px;
+
+}
+
+
+/* =====================================================
+NAVIGATION
+===================================================== */
+
+.sidebar-nav{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:20px 14px;
+
+}
+
+
+.sidebar-nav::-webkit-scrollbar{
+
+    width:5px;
+
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+}
+
+
+/* =====================================================
+TOP LEVEL LINKS
+===================================================== */
+
+.nav-link{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:14px 18px;
+
+    margin-bottom:6px;
+
+    color:#CBD5E1;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    font-weight:500;
+
+}
+
+
+.nav-link:hover{
+
+    background:var(--sidebar-hover);
+
+    color:#fff;
+
+}
+
+
+.nav-link.active{
+
+    background:var(--sidebar-active);
+
+    color:#fff;
+
+}
+
+
+.nav-link i{
+
+    font-size:18px;
+
+    min-width:22px;
+
+}
+
+
+/* =====================================================
+GROUP BUTTONS
+===================================================== */
+
+.nav-group{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 18px;
+
+    margin-top:8px;
+
+    background:none;
+
+    border:none;
+
+    color:#CBD5E1;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+
+.nav-group:hover{
+
+    background:var(--sidebar-hover);
+
+    color:#fff;
+
+}
+
+
+.nav-group span{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+
+.nav-group i{
+
+    font-size:17px;
+
+}
+
+
+/* =====================================================
+SUBMENU
+===================================================== */
+
+.collapse{
+
+    padding-left:18px;
+
+}
+
+
+.submenu{
+
+    display:block;
+
+    padding:12px 18px;
+
+    margin:4px 0;
+
+    border-radius:8px;
+
+    color:#94A3B8;
+
+    font-size:14px;
+
+}
+
+
+.submenu:hover{
+
+    background:#1E293B;
+
+    color:#fff;
+
+}
+
+
+/* =====================================================
+SIDEBAR FOOTER
+===================================================== */
+
+.sidebar-footer{
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    padding:18px;
+
+}
+
+
+.admin-info{
+
+    margin-bottom:18px;
+
+}
+
+
+.admin-info strong{
+
+    display:block;
+
+    color:#fff;
+
+    font-size:15px;
+
+}
+
+
+.admin-info small{
+
+    color:#94A3B8;
+
+}
+
+
+.logout-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    width:100%;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    background:#DC2626;
+
+    color:#fff;
+
+    font-weight:600;
+
+}
+
+
+.logout-btn:hover{
+
+    background:#B91C1C;
+
+    color:#fff;
+
+}
+
+/* =====================================================
+MAIN CONTENT
+===================================================== */
+
+.main-content{
+
+    flex:1;
+
+    margin-left:var(--sidebar-width);
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    transition:var(--transition);
+
+    background:var(--body-bg);
+
+}
+
+
+/* =====================================================
+TOP NAVBAR
+===================================================== */
+
+.top-navbar{
+
+    height:var(--navbar-height);
+
+    background:var(--navbar-bg);
+
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 28px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+}
+
+
+.navbar-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+
+.navbar-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+
+/* =====================================================
+PAGE TITLE
+===================================================== */
+
+.page-heading{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.page-heading h4{
+
+    margin:0;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:var(--text-dark);
+
+}
+
+.page-heading small{
+
+    color:var(--text-light);
+
+    margin-top:2px;
+
+}
+
+
+/* =====================================================
+SEARCH
+===================================================== */
+
+.search-box{
+
+    width:300px;
+
+    height:42px;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:30px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:0 18px;
+
+    gap:10px;
+
+}
+
+
+.search-box i{
+
+    color:var(--secondary);
+
+}
+
+
+.search-box input{
+
+    border:none;
+
+    outline:none;
+
+    width:100%;
+
+    background:transparent;
+
+    font-size:14px;
+
+}
+
+
+/* =====================================================
+ICON BUTTONS
+===================================================== */
+
+.icon-box{
+
+    width:70px;
+    height:70px;
+
+    border-radius:50px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+    color:#fff;
+
+}
+
+.icon-btn{
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+
+.icon-btn:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+
+.icon-btn i{
+
+    font-size:18px;
+
+}
+
+
+/* =====================================================
+NOTIFICATION BADGE
+===================================================== */
+
+.notification-badge{
+
+    position:absolute;
+
+    top:6px;
+
+    right:6px;
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    background:var(--danger);
+
+    color:#fff;
+
+    font-size:11px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+/* =====================================================
+PROFILE
+===================================================== */
+
+.profile-button{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+}
+
+
+.profile-button img{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:2px solid var(--border);
+
+}
+
+
+.profile-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    text-align:left;
+
+}
+
+
+.profile-info strong{
+
+    font-size:14px;
+
+    color:var(--text-dark);
+
+}
+
+
+.profile-info small{
+
+    color:var(--text-light);
+
+    font-size:12px;
+
+}
+
+
+/* =====================================================
+CONTENT
+===================================================== */
+
+.dashboard-content{
+
+    flex:1;
+
+    padding:30px;
+
+}
+
+
+/* =====================================================
+FOOTER
+===================================================== */
+
+.footer-wrapper{
+
+    height:var(--footer-height);
+
+    background:#fff;
+
+    border-top:1px solid var(--border);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 30px;
+
+    color:var(--secondary);
+
+    font-size:14px;
+
+}
+
+
+.footer-left,
+.footer-center,
+.footer-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+.footer-right a{
+
+    color:var(--secondary);
+
+    transition:var(--transition);
+
+}
+
+
+.footer-right a:hover{
+
+    color:var(--primary);
+
+}
+
+
+/* =====================================================
+DROPDOWNS
+===================================================== */
+
+.dropdown-menu{
+
+    border:none;
+
+    border-radius:12px;
+
+    box-shadow:var(--shadow);
+
+    padding:10px 0;
+
+}
+
+
+.dropdown-item{
+
+    padding:10px 18px;
+
+    font-size:14px;
+
+}
+
+
+.dropdown-item:hover{
+
+    background:#F1F5F9;
+
+}
+
+
+/* =====================================================
+DESKTOP COLLAPSED SIDEBAR
+===================================================== */
+
+.sidebar.collapsed{
+
+    width:var(--sidebar-collapse);
+
+}
+
+
+.sidebar.collapsed .brand-text,
+
+.sidebar.collapsed .nav-link span,
+
+.sidebar.collapsed .nav-group span,
+
+.sidebar.collapsed .submenu,
+
+.sidebar.collapsed .sidebar-title,
+
+.sidebar.collapsed .admin-info,
+
+.sidebar.collapsed .logout-btn span{
+
+    display:none;
+
+}
+
+
+.sidebar.collapsed .nav-link,
+
+.sidebar.collapsed .nav-group{
+
+    justify-content:center;
+
+}
+
+
+.sidebar.collapsed .brand-icon{
+
+    margin:auto;
+
+}
+
+
+.main-content.expanded{
+
+    margin-left:var(--sidebar-collapse);
+
+}
+
+
+/* =====================================================
+OVERLAY
+===================================================== */
+
+.sidebar-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.55);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:var(--transition);
+
+    z-index:1040;
+
+}
+
+
+.sidebar-overlay.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+
+/* =====================================================
+TABLET
+===================================================== */
+
+@media (max-width:992px){
+
+    .search-box{
+
+        display:none;
+
+    }
+
+}
+
+
+/* =====================================================
+MOBILE
+===================================================== */
+
+@media (max-width:768px){
+
+    .sidebar{
+
+        transform:translateX(-100%);
+
+        width:270px;
+
+    }
+
+    .sidebar.show{
+
+        transform:translateX(0);
+
+    }
+
+    .main-content{
+
+        margin-left:0;
+
+    }
+
+    .top-navbar{
+
+        padding:0 18px;
+
+    }
+
+    .dashboard-content{
+
+        padding:20px;
+
+    }
+
+    .footer-wrapper{
+
+        flex-direction:column;
+
+        justify-content:center;
+
+        gap:6px;
+
+        height:auto;
+
+        padding:18px;
+
+        text-align:center;
+
+    }
+
+    .profile-info{
+
+        display:none;
+
+    }
+
+}
+
+
+/* =====================================================
+SMALL MOBILE
+===================================================== */
+
+@media (max-width:576px){
+
+    .dashboard-content{
+
+        padding:15px;
+
+    }
+
+    .page-heading small{
+
+        display:none;
+
+    }
+
+    .page-heading h4{
+
+        font-size:17px;
+
+    }
+
+}
+
+
+/* =====================================================
+CARDS
+===================================================== */
+
+.card{
+
+    background:var(--card-bg);
+
+    border:none;
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+
+    transition:var(--transition);
+
+}
+
+.card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 12px 30px rgba(15,23,42,.12);
+
+}
+
+.card-header{
+
+    background:#fff;
+
+    border-bottom:1px solid var(--border);
+
+    padding:18px 24px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+.card-header h5{
+
+    margin:0;
+
+    font-size:17px;
+
+    font-weight:600;
+
+}
+
+.card-body{
+
+    padding:24px;
+
+}
+
+.card-footer{
+
+    background:#fff;
+
+    border-top:1px solid var(--border);
+
+    padding:18px 24px;
+
+}
+
+
+/* =====================================================
+STAT CARDS
+===================================================== */
+
+.stat-card{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:24px;
+
+    background:#fff;
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
+    transition:var(--transition);
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.stat-content h2{
+
+    margin:0;
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:var(--text-dark);
+
+}
+
+.stat-content p{
+
+    margin-top:6px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+
+}
+
+.stat-icon{
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:28px;
+
+    color:#fff;
+
+}
+
+.bg-primary-soft{
+
+    background:var(--primary);
+
+}
+
+.bg-success-soft{
+
+    background:var(--success);
+
+}
+
+.bg-warning-soft{
+
+    background:var(--warning);
+
+}
+
+.bg-danger-soft{
+
+    background:var(--danger);
+
+}
+
+.bg-info-soft{
+
+    background:var(--info);
+
+}
+
+
+/* =====================================================
+CHART CARD
+===================================================== */
+
+.chart-card{
+
+    background:#fff;
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
+    padding:24px;
+
+}
+
+.chart-card canvas{
+
+    width:100% !important;
+
+}
+
+
+/* =====================================================
+TABLES
+===================================================== */
+
+.table-responsive{
+
+    border-radius:var(--radius);
+
+    overflow:hidden;
+
+}
+
+.table{
+
+    margin:0;
+
+    background:#fff;
+
+}
+
+.table thead{
+
+    background:#F8FAFC;
+
+}
+
+.table th{
+
+    border:none;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:var(--secondary);
+
+    padding:18px;
+
+    white-space:nowrap;
+
+}
+
+.table td{
+
+    border-top:1px solid var(--border);
+
+    padding:16px 18px;
+
+    vertical-align:middle;
+
+}
+
+.table tbody tr{
+
+    transition:var(--transition);
+
+}
+
+.table tbody tr:hover{
+
+    background:#F8FAFC;
+
+}
+
+
+/* =====================================================
+FORMS
+===================================================== */
+
+.form-control,
+
+.form-select{
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    padding:12px 16px;
+
+    font-size:14px;
+
+    transition:var(--transition);
+
+    box-shadow:none;
+
+}
+
+.form-control:focus,
+
+.form-select:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 0 .18rem rgba(37,99,235,.15);
+
+}
+
+.form-label{
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+    color:var(--text-dark);
+
+}
+
+textarea.form-control{
+
+    min-height:120px;
+
+}
+
+
+/* =====================================================
+INPUT GROUP
+===================================================== */
+
+.input-group-text{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+}
+
+
+/* =====================================================
+BUTTONS
+===================================================== */
+
+.btn{
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    padding:10px 20px;
+
+    transition:var(--transition);
+
+}
+
+.btn i{
+
+    margin-right:6px;
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+    border:none;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-dark);
+
+}
+
+.btn-success{
+
+    border:none;
+
+}
+
+.btn-warning{
+
+    border:none;
+
+}
+
+.btn-danger{
+
+    border:none;
+
+}
+
+.btn-outline-primary{
+
+    border-color:var(--primary);
+
+    color:var(--primary);
+
+}
+
+.btn-outline-primary:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+
+/* =====================================================
+BADGES
+===================================================== */
+
+.badge{
+
+    padding:7px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+.badge-success{
+
+    background:#DCFCE7;
+
+    color:#166534;
+
+}
+
+.badge-warning{
+
+    background:#FEF3C7;
+
+    color:#92400E;
+
+}
+
+.badge-danger{
+
+    background:#FEE2E2;
+
+    color:#991B1B;
+
+}
+
+.badge-info{
+
+    background:#E0F2FE;
+
+    color:#075985;
+
+}
+
+.badge-primary{
+
+    background:#DBEAFE;
+
+    color:#1D4ED8;
+
+}
+
+
+/* =====================================================
+ALERTS
+===================================================== */
+
+.alert{
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:18px 20px;
+
+    font-size:14px;
+
+}
+
+.alert-success{
+
+    background:#ECFDF5;
+
+    color:#166534;
+
+}
+
+.alert-danger{
+
+    background:#FEF2F2;
+
+    color:#991B1B;
+
+}
+
+.alert-warning{
+
+    background:#FFFBEB;
+
+    color:#92400E;
+
+}
+
+.alert-info{
+
+    background:#EFF6FF;
+
+    color:#1D4ED8;
+
+}
+
+
+/* =====================================================
+PAGINATION
+===================================================== */
+
+.pagination{
+
+    margin:0;
+
+}
+
+.page-link{
+
+    color:var(--primary);
+
+    border-radius:8px;
+
+    margin:0 3px;
+
+    border:1px solid var(--border);
+
+}
+
+.page-link:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+.page-item.active .page-link{
+
+    background:var(--primary);
+
+    border-color:var(--primary);
+
+}
+
+
+/* =====================================================
+BREADCRUMB
+===================================================== */
+
+.breadcrumb{
+
+    margin:0;
+
+    background:none;
+
+}
+
+.breadcrumb-item{
+
+    font-size:14px;
+
+}
+
+.breadcrumb-item a{
+
+    color:var(--secondary);
+
+}
+
+.breadcrumb-item.active{
+
+    color:var(--primary);
+
+}
+
+
+/* =====================================================
+LOADING SPINNER
+===================================================== */
+
+.loading-spinner{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:50px;
+
+}
+
+
+/* =====================================================
+UTILITY CLASSES
+===================================================== */
+
+.shadow-sm{
+
+    box-shadow:var(--shadow) !important;
+
+}
+
+.rounded-xl{
+
+    border-radius:16px;
+
+}
+
+.cursor-pointer{
+
+    cursor:pointer;
+
+}
+
+.text-muted{
+
+    color:var(--secondary) !important;
+
+}
+
+.border-dashed{
+
+    border:2px dashed var(--border);
+
+}
+
+
+/*
+=========================================================
+PART 4
+MODALS • NOTIFICATIONS • ANIMATIONS • UTILITIES
+=========================================================
+*/
+
+
+/* =====================================================
+MODALS
+===================================================== */
+
+.modal-content{
+
+    border:none;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 60px rgba(15,23,42,.18);
+
+}
+
+.modal-header{
+
+    border-bottom:1px solid var(--border);
+
+    padding:20px 24px;
+
+    background:#fff;
+
+}
+
+.modal-header h5{
+
+    margin:0;
+
+    font-weight:700;
+
+}
+
+.modal-body{
+
+    padding:24px;
+
+}
+
+.modal-footer{
+
+    border-top:1px solid var(--border);
+
+    padding:18px 24px;
+
+    background:#fff;
+
+}
+
+
+/* =====================================================
+NOTIFICATION CARDS
+===================================================== */
+
+.notification-card{
+
+    display:flex;
+
+    gap:16px;
+
+    padding:18px;
+
+    background:#fff;
+
+    border-radius:12px;
+
+    border:1px solid var(--border);
+
+    transition:var(--transition);
+
+}
+
+.notification-card:hover{
+
+    box-shadow:var(--shadow);
+
+}
+
+.notification-icon{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#DBEAFE;
+
+    color:var(--primary);
+
+    font-size:20px;
+
+}
+
+.notification-content h6{
+
+    margin:0;
+
+    font-weight:600;
+
+}
+
+.notification-content small{
+
+    color:var(--secondary);
+
+}
+
+
+/* =====================================================
+TIMELINE
+===================================================== */
+
+.timeline{
+
+    position:relative;
+
+    padding-left:30px;
+
+}
+
+.timeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:10px;
+
+    top:0;
+
+    bottom:0;
+
+    width:2px;
+
+    background:var(--border);
+
+}
+
+.timeline-item{
+
+    position:relative;
+
+    margin-bottom:28px;
+
+}
+
+.timeline-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-25px;
+
+    top:4px;
+
+    width:14px;
+
+    height:14px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+}
+
+.timeline-title{
+
+    font-weight:600;
+
+}
+
+.timeline-time{
+
+    color:var(--secondary);
+
+    font-size:13px;
+
+}
+
+
+/* =====================================================
+ACTIVITY LIST
+===================================================== */
+
+.activity-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 0;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.activity-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.activity-avatar{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+
+/* =====================================================
+PROGRESS BAR
+===================================================== */
+
+.progress{
+
+    height:8px;
+
+    border-radius:20px;
+
+    background:#E2E8F0;
+
+}
+
+.progress-bar{
+
+    border-radius:20px;
+
+}
+
+
+/* =====================================================
+EMPTY STATE
+===================================================== */
+
+.empty-state{
+
+    text-align:center;
+
+    padding:70px 20px;
+
+}
+
+.empty-state i{
+
+    font-size:60px;
+
+    color:#CBD5E1;
+
+    margin-bottom:20px;
+
+}
+
+.empty-state h4{
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.empty-state p{
+
+    color:var(--secondary);
+
+}
+
+
+/* =====================================================
+SKELETON LOADING
+===================================================== */
+
+.skeleton{
+
+    background:linear-gradient(
+        90deg,
+        #f1f5f9 25%,
+        #e2e8f0 50%,
+        #f1f5f9 75%
+    );
+
+    background-size:300% 100%;
+
+    animation:skeleton-loading 1.4s infinite;
+
+    border-radius:10px;
+
+}
+
+@keyframes skeleton-loading{
+
+    from{
+
+        background-position:100% 0;
+
+    }
+
+    to{
+
+        background-position:-100% 0;
+
+    }
+
+}
+
+
+/* =====================================================
+SPINNER
+===================================================== */
+
+.spinner{
+
+    width:45px;
+
+    height:45px;
+
+    border:4px solid #E2E8F0;
+
+    border-top:4px solid var(--primary);
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+
+/* =====================================================
+FADE ANIMATION
+===================================================== */
+
+.fade-in{
+
+    animation:fadeIn .4s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/* =====================================================
+SLIDE ANIMATION
+===================================================== */
+
+.slide-up{
+
+    animation:slideUp .4s ease;
+
+}
+
+@keyframes slideUp{
+
+    from{
+
+        transform:translateY(30px);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:translateY(0);
+
+        opacity:1;
+
+    }
+
+}
+
+
+/* =====================================================
+SCALE
+===================================================== */
+
+.scale-hover{
+
+    transition:var(--transition);
+
+}
+
+.scale-hover:hover{
+
+    transform:scale(1.03);
+
+}
+
+
+/* =====================================================
+UTILITY CLASSES
+===================================================== */
+
+.w-100{
+
+    width:100%;
+
+}
+
+.h-100{
+
+    height:100%;
+
+}
+
+.rounded-lg{
+
+    border-radius:18px;
+
+}
+
+.rounded-circle{
+
+    border-radius:50%;
+
+}
+
+.shadow-lg{
+
+    box-shadow:0 18px 50px rgba(15,23,42,.12);
+
+}
+
+.border-light{
+
+    border:1px solid var(--border);
+
+}
+
+.bg-white{
+
+    background:#fff;
+
+}
+
+.bg-light{
+
+    background:#F8FAFC;
+
+}
+
+.text-primary{
+
+    color:var(--primary)!important;
+
+}
+
+.text-success{
+
+    color:var(--success)!important;
+
+}
+
+.text-danger{
+
+    color:var(--danger)!important;
+
+}
+
+.text-warning{
+
+    color:var(--warning)!important;
+
+}
+
+.text-center{
+
+    text-align:center;
+
+}
+
+.fw-semibold{
+
+    font-weight:600;
+
+}
+
+.fw-bold{
+
+    font-weight:700;
+
+}
+
+.cursor-pointer{
+
+    cursor:pointer;
+
+}
+
+
+/* =====================================================
+SCROLLBAR
+===================================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+    height:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#CBD5E1;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#94A3B8;
+
+}
+
+
+/* =====================================================
+ACCESSIBILITY
+===================================================== */
+
+:focus-visible{
+
+    outline:3px solid rgba(37,99,235,.3);
+
+    outline-offset:2px;
+
+}
+
+
+/* =====================================================
+PRINT
+===================================================== */
+
+@media print{
+
+    .sidebar,
+
+    .top-navbar,
+
+    .footer-wrapper,
+
+    .btn,
+
+    .dropdown{
+
+        display:none !important;
+
+    }
+
+    .main-content{
+
+        margin:0 !important;
+
+    }
+
+}
+
+
+/* =====================================================
+DARK MODE PREPARATION
+===================================================== */
+
+body.dark-mode{
+
+    --body-bg:#0F172A;
+
+    --card-bg:#1E293B;
+
+    --navbar-bg:#1E293B;
+
+    --text-dark:#F8FAFC;
+
+    --text-light:#CBD5E1;
+
+    --border:#334155;
+
+}
+
+
+/* =====================================================
+END OF FILE
+===================================================== */

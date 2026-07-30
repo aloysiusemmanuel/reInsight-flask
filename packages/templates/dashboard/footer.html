@@ -1,0 +1,68 @@
+<!-- ==========================================
+     DASHBOARD FOOTER
+========================================== -->
+
+<footer class="dashboard-footer">
+
+    <div class="footer-left">
+
+        <p class="mb-0">
+
+            &copy; {{ current_year }} <strong>reInsight</strong>.
+            All rights reserved.
+
+        </p>
+
+    </div>
+
+    <div class="footer-center">
+
+        <span>
+
+            Version 1.0.0
+
+        </span>
+
+        <span class="footer-divider">
+
+            |
+
+        </span>
+
+        <span>
+
+            School Intelligence Platform
+
+        </span>
+
+    </div>
+
+    <div class="footer-right">
+
+        <a href="{{ url_for('dashboard.dashboard') }}">
+
+            Dashboard
+
+        </a>
+
+        <a href="{{ url_for('dashboard.profile') }}">
+
+            Profile
+
+        </a>
+
+        <a href="{{ url_for('dashboard.settings') }}">
+
+            Settings
+
+        </a>
+
+        <a href="{{ url_for('auth.logout') }}">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</footer>

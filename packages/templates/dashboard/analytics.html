@@ -1,0 +1,198 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Analytics | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    {% include "components/header.html" %}
+
+    <!-- ==========================================
+         KPI CARDS
+    ========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+            title="Attendance Rate",
+            value="96%",
+            counter_id="attendanceRate",
+            icon="bi bi-calendar-check-fill",
+            subtitle="School Average",
+            progress=96,
+            trend="up",
+            trend_value="+2%"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+            title="Academic Performance",
+            value="84%",
+            counter_id="academicRate",
+            icon="bi bi-graph-up-arrow",
+            subtitle="Average Score",
+            progress=84,
+            trend="up",
+            trend_value="+5%"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+            title="Behaviour Index",
+            value="91%",
+            counter_id="behaviourRate",
+            icon="bi bi-shield-check",
+            subtitle="Positive Behaviour",
+            progress=91,
+            trend="up",
+            trend_value="+1%"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+
+            {% with
+            title="Parent Engagement",
+            value="73%",
+            counter_id="parentRate",
+            icon="bi bi-people-fill",
+            subtitle="Portal Activity",
+            progress=73,
+            trend="down",
+            trend_value="-3%"
+            %}
+            {% include "components/stat_card.html" %}
+            {% endwith %}
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         CHARTS
+    ========================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Student Performance Trend
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="performanceChart"
+                            height="120"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-header bg-white">
+
+                    <h5 class="mb-0">
+
+                        Student Distribution
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="studentDistribution"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         INSIGHTS
+    ========================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                AI Insights
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-primary">
+
+                <i class="bi bi-lightbulb-fill me-2"></i>
+
+                Student attendance has improved by
+                <strong>2%</strong>
+                compared to last month.
+
+            </div>
+
+            <div class="alert alert-success">
+
+                <i class="bi bi-graph-up-arrow me-2"></i>
+
+                Mathematics recorded the highest improvement this term.
+
+            </div>
+
+            <div class="alert alert-warning">
+
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                Parent engagement dropped by
+                <strong>3%</strong>.
+                Consider sending reminder notifications.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

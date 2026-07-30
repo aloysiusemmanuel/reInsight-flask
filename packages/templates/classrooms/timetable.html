@@ -1,0 +1,232 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Class Timetable | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title=classroom.name ~ " Timetable",
+        page_subtitle="Create and manage the classroom timetable.",
+        button_text="Back to Classroom",
+        button_url=url_for('classroom_profile', classroom_id=classroom.id),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <!-- ==========================================================
+        FILTERS
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+
+                        Academic Session
+
+                    </label>
+
+                    <select class="form-select">
+
+                        {% for session in sessions %}
+
+                        <option>{{ session.name }}</option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+
+                        Term
+
+                    </label>
+
+                    <select class="form-select">
+
+                        <option>First Term</option>
+                        <option>Second Term</option>
+                        <option>Third Term</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+
+                        Class Teacher
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        value="{{ classroom.class_teacher.full_name if classroom.class_teacher else '' }}"
+                        readonly>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+        TIMETABLE
+    =========================================================== -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <h5 class="mb-0">
+
+                Weekly Timetable
+
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered align-middle text-center mb-0">
+
+                <thead class="table-primary">
+
+                    <tr>
+
+                        <th style="width:150px">
+
+                            Time
+
+                        </th>
+
+                        <th>Monday</th>
+
+                        <th>Tuesday</th>
+
+                        <th>Wednesday</th>
+
+                        <th>Thursday</th>
+
+                        <th>Friday</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for period in periods %}
+
+                    <tr>
+
+                        <th>
+
+                            {{ period }}
+
+                        </th>
+
+                        {% for day in ["Monday","Tuesday","Wednesday","Thursday","Friday"] %}
+
+                        <td>
+
+                            <div class="mb-2">
+
+                                <strong>
+
+                                    {{ timetable.get(day, {}).get(period, {}).get("subject","-") }}
+
+                                </strong>
+
+                            </div>
+
+                            <small class="text-muted">
+
+                                {{ timetable.get(day, {}).get(period, {}).get("teacher","") }}
+
+                            </small>
+
+                            <hr>
+
+                            <button
+                                class="btn btn-sm btn-outline-primary">
+
+                                <i class="bi bi-pencil-square"></i>
+
+                                Edit
+
+                            </button>
+
+                        </td>
+
+                        {% endfor %}
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+        ACTIONS
+    =========================================================== -->
+
+    <div class="mt-4 d-flex justify-content-end gap-2">
+
+        <button class="btn btn-secondary">
+
+            <i class="bi bi-printer me-2"></i>
+
+            Print
+
+        </button>
+
+        <button class="btn btn-danger">
+
+            <i class="bi bi-trash me-2"></i>
+
+            Clear Timetable
+
+        </button>
+
+        <button class="btn btn-success">
+
+            <i class="bi bi-check-circle me-2"></i>
+
+            Save Timetable
+
+        </button>
+
+    </div>
+
+</div>
+
+{% endblock %}

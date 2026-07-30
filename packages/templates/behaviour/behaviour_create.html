@@ -1,0 +1,291 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block title %}
+Record Behaviour | reInsight
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <!-- ==========================================================
+        PAGE HEADER
+    =========================================================== -->
+
+    {% with
+        page_title="Record Behaviour",
+        page_subtitle="Record a student behaviour incident or commendation.",
+        button_text="Back to Behaviour",
+        button_url=url_for('behaviour.behaviour_home'),
+        button_icon="bi bi-arrow-left"
+    %}
+        {% include "components/header.html" %}
+    {% endwith %}
+
+    <!-- ==========================================================
+        BEHAVIOUR FORM
+    =========================================================== -->
+
+    <form method="POST">
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-header bg-white">
+
+                <h5 class="mb-0">
+
+                    Behaviour Information
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <!-- Academic Session -->
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Academic Session
+                        </label>
+
+                        <select
+                            name="academic_session_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Session
+                            </option>
+
+                            {% for session in sessions %}
+                            <option value="{{ session.id }}">
+                                {{ session.session_name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Term -->
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Term
+                        </label>
+
+                        <select
+                            name="term_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Term
+                            </option>
+
+                            {% for term in terms %}
+                            <option value="{{ term.id }}">
+                                {{ term.term_name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Incident Date & Time -->
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            Incident Date & Time
+                        </label>
+
+                        <input
+                            type="datetime-local"
+                            name="incident_datetime"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <!-- Student -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Student
+                        </label>
+
+                        <select
+                            name="student_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Student
+                            </option>
+
+                            {% for student in students %}
+                            <option value="{{ student.id }}">
+                                {{ student.admission_number }}
+                                -
+                                {{ student.full_name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Classroom -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Classroom
+                        </label>
+
+                        <select
+                            name="classroom_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Classroom
+                            </option>
+
+                            {% for classroom in classrooms %}
+                            <option value="{{ classroom.id }}">
+                                {{ classroom.name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Teacher -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Recorded By
+                        </label>
+
+                        <select
+                            name="teacher_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Teacher
+                            </option>
+
+                            {% for teacher in teachers %}
+                            <option value="{{ teacher.id }}">
+                                {{ teacher.full_name }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Behaviour Category -->
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Behaviour Category
+                        </label>
+
+                        <select
+                            name="behaviour_category_id"
+                            class="form-select"
+                            required>
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">
+                                {{ category.name }}
+                                ({{ category.category_type }})
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-12">
+
+                        <label class="form-label">
+                            Description
+                        </label>
+
+                        <textarea
+                            name="description"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Provide details of the behaviour incident..."
+                            required></textarea>
+
+                    </div>
+
+                    <!-- Action Taken -->
+                    <div class="col-12">
+
+                        <label class="form-label">
+                            Immediate Action Taken
+                        </label>
+
+                        <textarea
+                            name="action_taken"
+                            class="form-control"
+                            rows="3"
+                            placeholder="Describe any immediate action taken..."></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card-footer bg-white text-end">
+
+                <a href="{{ url_for('behaviour.behaviour_home') }}"
+                   class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+                <button
+                    type="reset"
+                    class="btn btn-outline-warning">
+
+                    Reset
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-success">
+
+                    <i class="bi bi-check-circle me-2"></i>
+
+                    Save Behaviour
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
