@@ -40,4 +40,4 @@ python starter.py
 
 ## Preview
 
-![Teacher Dashboard](packages/static/images/reInsight_teacher_dash.png)
+![Teacher Dashboard](static/images/reInsight_teacher_dash.png)
