@@ -1,0 +1,488 @@
+{% extends "parent_dash/parent_base.html" %}
+
+{% block title %}{{ child.name }} | Child Profile{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div class="d-flex align-items-center gap-3">
+
+        <img src="{{ child.avatar or 'https://ui-avatars.com/api/?name=' ~ child.name|replace(' ', '+') ~ '&background=2563EB&color=fff' }}"
+             alt="{{ child.name }}"
+             width="72"
+             height="72"
+             class="rounded-circle border border-3 border-white shadow-sm">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">{{ child.name }}</h2>
+            <p class="text-muted mb-0">
+                Stay updated on attendance, academic progress, behaviour, and recent school activities.
+            </p>
+
+            <div class="text-muted">
+
+                {{ child.class_name }} · Admission No: {{ child.admission_no }}
+
+            </div>
+
+            <div class="mt-2">
+
+                {% if child.status == 'active' %}
+
+                <span class="badge bg-success-subtle text-success">Active Student</span>
+
+                {% else %}
+
+                <span class="badge bg-secondary-subtle text-secondary">Inactive</span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <a href="{{ url_for('parent_dashboard.report_cards_home') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-file-earmark-text me-2"></i>
+            Report Card
+
+        </a>
+
+        <button class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#contactTeacherModal">
+
+            <i class="bi bi-chat-dots me-2"></i>
+            Contact Teacher
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+OVERVIEW CARDS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card h-100 shadow-sm border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-calendar-check-fill fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-primary">{{ child.attendance }}%</div>
+
+                <div class="text-muted">Attendance</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card h-100 shadow-sm border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-bar-chart-fill fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-success">{{ child.average }}%</div>
+
+                <div class="text-muted">Average Score</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card h-100 shadow-sm border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-emoji-smile-fill fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-warning">{{ child.behaviour }}</div>
+
+                <div class="text-muted">Behaviour</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card h-100 shadow-sm border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <div class="bg-info-subtle text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-award-fill fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-info">{{ child.position }}</div>
+
+                <div class="text-muted">Class Position</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+DETAILS & ATTENDANCE
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <!-- Child Details -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Student Information</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <div class="col-6">
+
+                        <div class="text-muted small">Gender</div>
+
+                        <div class="fw-semibold">{{ child.gender }}</div>
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <div class="text-muted small">Date of Birth</div>
+
+                        <div class="fw-semibold">{{ child.dob }}</div>
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <div class="text-muted small">Class</div>
+
+                        <div class="fw-semibold">{{ child.class_name }}</div>
+
+                    </div>
+
+                    <div class="col-6">
+
+                        <div class="text-muted small">Session</div>
+
+                        <div class="fw-semibold">{{ child.session }}</div>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <div class="text-muted small">Last Update</div>
+
+                        <div class="fw-semibold">{{ child.last_update }}</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Attendance Breakdown -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Attendance Breakdown</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-3">
+
+                    <div class="d-flex justify-content-between mb-1">
+
+                        <span>Present</span>
+
+                        <strong>{{ attendance.present }}%</strong>
+
+                    </div>
+
+                    <div class="progress" style="height:8px;">
+
+                        <div class="progress-bar bg-success" style="width: {{ attendance.present }}%;"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <div class="d-flex justify-content-between mb-1">
+
+                        <span>Late</span>
+
+                        <strong>{{ attendance.late }}%</strong>
+
+                    </div>
+
+                    <div class="progress" style="height:8px;">
+
+                        <div class="progress-bar bg-warning" style="width: {{ attendance.late }}%;"></div>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div class="d-flex justify-content-between mb-1">
+
+                        <span>Absent</span>
+
+                        <strong>{{ attendance.absent }}%</strong>
+
+                    </div>
+
+                    <div class="progress" style="height:8px;">
+
+                        <div class="progress-bar bg-danger" style="width: {{ attendance.absent }}%;"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+SUBJECT PERFORMANCE
+========================================================= -->
+
+<div class="card shadow-sm border-0 rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Subject Performance</h5>
+
+            <small class="text-muted">Current term averages</small>
+
+        </div>
+
+        <a href="{{ url_for('parent_dashboard.academics_results') }}"
+           class="btn btn-sm btn-outline-primary">
+
+            View All Results
+
+        </a>
+
+    </div>
+
+    <div class="card-body">
+
+        {% for subject in subjects %}
+
+        <div class="mb-3">
+
+            <div class="d-flex justify-content-between align-items-center mb-1">
+
+                <span class="fw-medium">{{ subject.name }}</span>
+
+                <span class="fw-semibold">{{ subject.score }}%</span>
+
+            </div>
+
+            <div class="progress" style="height:8px;">
+
+                <div class="progress-bar bg-primary"
+                     style="width: {{ subject.score }}%;"></div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+BEHAVIOUR & RECENT ACTIVITY
+========================================================= -->
+
+<div class="row g-4">
+
+    <!-- Behaviour -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Recent Behaviour Records</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% for record in behaviour_records %}
+
+                <div class="d-flex align-items-start gap-3 py-3 {% if not loop.last %}border-bottom{% endif %}">
+
+                    <div class="rounded-circle d-flex align-items-center justify-content-center
+                                {% if record.type == 'positive' %}bg-success-subtle text-success{% else %}bg-warning-subtle text-warning{% endif %}"
+                         style="width:42px;height:42px;">
+
+                        <i class="bi {% if record.type == 'positive' %}bi-hand-thumbs-up-fill{% else %}bi-exclamation-triangle-fill{% endif %}"></i>
+
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <div class="fw-semibold">{{ record.title }}</div>
+
+                        <div class="small text-muted">{{ record.date }}</div>
+
+                        <div class="small mt-1">{{ record.note }}</div>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <div class="text-center text-muted py-4">
+
+                    No behaviour records available.
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Activity -->
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm border-0 rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Recent Activity</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% for activity in activities %}
+
+                <div class="d-flex align-items-start gap-3 py-3 {% if not loop.last %}border-bottom{% endif %}">
+
+                    <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center"
+                         style="width:42px;height:42px;">
+
+                        <i class="{{ activity.icon }}"></i>
+
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <div class="fw-semibold">{{ activity.title }}</div>
+
+                        <div class="small text-muted">{{ activity.time }}</div>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <div class="text-center text-muted py-4">
+
+                    No recent activity.
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
