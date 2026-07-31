@@ -15,8 +15,9 @@ from blueprints.academics import academics_bp
 from blueprints.behaviour import behaviour_bp
 from blueprints.parents import parents_bp
 from blueprints.superadmin import superadmin_bp
-from blueprints.teacher_dashboard import teacher_bp
-from blueprints.parent_dashboard import parent_bp
+from blueprints.teacher_dashboard import teacher_dash_bp
+from blueprints.parent_dashboard import parent_dash_bp
+
 
 
 def create_app():
@@ -30,7 +31,6 @@ def create_app():
 
     app.register_blueprint(public_bp)
     app.register_blueprint(auth_bp)
-
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(students_bp)
     app.register_blueprint(teachers_bp)
@@ -39,10 +39,10 @@ def create_app():
     app.register_blueprint(academics_bp)
     app.register_blueprint(behaviour_bp)
     app.register_blueprint(parents_bp)
-
     app.register_blueprint(superadmin_bp)
-    app.register_blueprint(teacher_bp)
-    app.register_blueprint(parent_bp)
+    app.register_blueprint(teacher_dash_bp)
+    app.register_blueprint(parent_dash_bp)
+    
     
     @app.context_processor
     def inject_global_variables():

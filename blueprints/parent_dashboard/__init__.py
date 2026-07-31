@@ -1,10 +1,9 @@
 from flask import Blueprint
 
-parent_bp = Blueprint(
-    "parent",
+parent_dash_bp = Blueprint(
+    "parent_dashboard",
     __name__,
-    url_prefix="/parent-dasboard",
-    template_folder="../../templates"
+    url_prefix="/parent_dashboard"
 )
 
 from . import routes

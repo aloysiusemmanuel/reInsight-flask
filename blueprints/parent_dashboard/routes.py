@@ -1,16 +1,10 @@
 from flask import render_template
-
-from blueprints.attendance.services import attendance_summary
-
-from . import parent_bp
-
-
-
+from . import parent_dash_bp
 # ==========================================================
 # PARENT DASHBOARD
 # ==========================================================
 
-@parent_bp.route("/", endpoint="parent_dashboard")
+@parent_dash_bp.route("/", endpoint="parent_dashboard")
 def parent_dashboard():
 
     # Demo / placeholder data
@@ -112,6 +106,7 @@ def parent_dashboard():
 
     return render_template(
         "parent_dash/parent_dashboard.html",
+        
         alerts=alerts,
         children=children,
         attendance=attendance,
@@ -126,12 +121,12 @@ def parent_dashboard():
 # CHILDREN
 # ==========================================================
 
-@parent_bp.route("/children", endpoint="children_home")
+@parent_dash_bp.route("/children", endpoint="children_home")
 def children_home():
     return render_template("parent_dash/children/home.html")
 
 
-@parent_bp.route("/children/<int:id>", endpoint="child_profile")
+@parent_dash_bp.route("/children/<int:id>", endpoint="child_profile")
 def child_profile(id):
     return render_template("parent_dash/children/profile.html", child_id=id)
 
@@ -140,12 +135,12 @@ def child_profile(id):
 # ATTENDANCE
 # ==========================================================
 
-@parent_bp.route("/attendance", endpoint="attendance_home")
+@parent_dash_bp.route("/attendance", endpoint="attendance_home")
 def attendance_home():
     return render_template("parent_dash/attendance/home.html")
 
 
-@parent_bp.route("/attendance/history", endpoint="attendance_history")
+@parent_dash_bp.route("/attendance/history", endpoint="attendance_history")
 def attendance_history():
     return render_template("parent_dash/attendance/history.html")
 
@@ -154,12 +149,12 @@ def attendance_history():
 # ACADEMICS
 # ==========================================================
 
-@parent_bp.route("/academics", endpoint="academics_home")
+@parent_dash_bp.route("/academics", endpoint="academics_home")
 def academics_home():
     return render_template("parent_dash/academics/home.html")
 
 
-@parent_bp.route("/academics/results", endpoint="academics_results")
+@parent_dash_bp.route("/academics/results", endpoint="academics_results")
 def academics_results():
     return render_template("parent_dash/academics/results.html")
 
@@ -168,7 +163,7 @@ def academics_results():
 # BEHAVIOUR
 # ==========================================================
 
-@parent_bp.route("/behaviour", endpoint="behaviour_home")
+@parent_dash_bp.route("/behaviour", endpoint="behaviour_home")
 def behaviour_home():
     return render_template("parent_dash/behaviour/home.html")
 
@@ -177,7 +172,7 @@ def behaviour_home():
 # REPORT CARDS
 # ==========================================================
 
-@parent_bp.route("/report-cards", endpoint="report_cards_home")
+@parent_dash_bp.route("/report-cards", endpoint="report_cards_home")
 def report_cards_home():
     return render_template("parent_dash/report_cards/home.html")
 
@@ -186,7 +181,7 @@ def report_cards_home():
 # NOTIFICATIONS
 # ==========================================================
 
-@parent_bp.route("/notifications", endpoint="notifications_home")
+@parent_dash_bp.route("/notifications", endpoint="notifications_home")
 def notifications_home():
     return render_template("parent_dash/notifications/home.html")
 
@@ -195,7 +190,7 @@ def notifications_home():
 # PROFILE
 # ==========================================================
 
-@parent_bp.route("/profile", endpoint="profile")
+@parent_dash_bp.route("/profile", endpoint="profile")
 def profile():
     return render_template("parent_dash/profile/home.html")
 
@@ -204,6 +199,6 @@ def profile():
 # SETTINGS
 # ==========================================================
 
-@parent_bp.route("/settings", endpoint="settings")
+@parent_dash_bp.route("/settings", endpoint="settings")
 def settings():
     return render_template("parent_dash/settings/home.html")

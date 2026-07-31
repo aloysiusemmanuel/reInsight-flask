@@ -1,9 +1,9 @@
 from flask import Blueprint
 
-teacher_bp = Blueprint(
-    "teacher-dashboard",
+teacher_dash_bp = Blueprint(
+    "teacher_dashboard",
     __name__,
-    url_prefix="/teacher-dashboard",
+    url_prefix="/teacher_dashboard",
     template_folder="../../templates"
 )
 

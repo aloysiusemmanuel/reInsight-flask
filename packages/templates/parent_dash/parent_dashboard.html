@@ -144,7 +144,7 @@ CHILD SUMMARY CARDS
 
                 <div class="d-grid mt-4">
 
-                    <a href="{{ url_for('parent.child_profile', id=child.id) }}"
+                    <a href="{{ url_for('parent_dashboard.child_profile', id=child.id) }}"
                        class="btn btn-outline-primary">
 
                         View Profile
@@ -184,7 +184,7 @@ ATTENDANCE & ACADEMICS
 
                 </div>
 
-                <a href="{{ url_for('parent.attendance_home') }}"
+                <a href="{{ url_for('parent_dashboard.attendance_home') }}"
                    class="btn btn-sm btn-outline-primary">Details</a>
 
             </div>
@@ -254,7 +254,7 @@ ATTENDANCE & ACADEMICS
 
                 </div>
 
-                <a href="{{ url_for('parent.academics_home') }}"
+                <a href="{{ url_for('parent_dashboard.academics_home') }}"
                    class="btn btn-sm btn-outline-primary">View All</a>
 
             </div>
@@ -312,7 +312,7 @@ BEHAVIOUR & EVENTS
 
                 </div>
 
-                <a href="{{ url_for('parent.behaviour_home') }}"
+                <a href="{{ url_for('parent_dashboard.behaviour_home') }}"
                    class="btn btn-sm btn-outline-primary">History</a>
 
             </div>
@@ -422,7 +422,7 @@ RECENT NOTIFICATIONS
 
         </div>
 
-        <a href="{{ url_for('parent.notifications_home') }}"
+        <a href="{{ url_for('parent_dashboard.notifications_home') }}"
            class="btn btn-sm btn-outline-primary">View All</a>
 
     </div>
