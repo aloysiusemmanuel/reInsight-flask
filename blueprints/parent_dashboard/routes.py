@@ -1,4 +1,6 @@
 from flask import render_template
+
+from packages.models import Student, Attendance
 from . import parent_dash_bp
 # ==========================================================
 # PARENT DASHBOARD
@@ -149,9 +151,23 @@ def attendance_history():
 # ACADEMICS
 # ==========================================================
 
-@parent_dash_bp.route("/academics", endpoint="academics_home")
-def academics_home():
-    return render_template("parent_dash/academics/home.html")
+@parent_dash_bp.route("/attendance/<int:child_id>", endpoint="attendance_home")
+def attendance_home(child_id):
+
+    child = Student.query.get_or_404(child_id)
+
+    records = (
+        Attendance.query
+        .filter_by(student_id=child.id)
+        .order_by(Attendance.date.desc())
+        .all()
+    )
+
+    return render_template(
+        "parent_dash/attendance/home.html",
+        child=child,
+        records=records
+    )
 
 
 @parent_dash_bp.route("/academics/results", endpoint="academics_results")
