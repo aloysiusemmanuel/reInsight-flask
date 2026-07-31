@@ -1,6 +1,8 @@
 from flask import render_template
-
-from packages.models import Student, Attendance
+from flask_login import login_required, current_user
+from packages.models.student import Student
+from packages.models.parent import Parent
+from packages.models.attendance import Attendance
 from . import parent_dash_bp
 # ==========================================================
 # PARENT DASHBOARD
@@ -130,7 +132,63 @@ def children_home():
 
 @parent_dash_bp.route("/children/<int:id>", endpoint="child_profile")
 def child_profile(id):
-    return render_template("parent_dash/children/profile.html", child_id=id)
+
+    # Temporary demo data
+    child = {
+        "id": id,
+        "name": "David James",
+        "class_name": "JSS 2A",
+        "admission_no": "RI-2026-001",
+        "attendance": 92,
+        "average": 78,
+        "behaviour": "Good",
+        "position": "5th",
+        "gender": "Male",
+        "dob": "12 Mar 2013",
+        "session": "2025/2026",
+        "status": "active",
+        "last_update": "2 hours ago",
+        "avatar": None
+    }
+
+    attendance = {
+        "present": 92,
+        "late": 5,
+        "absent": 3
+    }
+
+    subjects = [
+        {"name": "Mathematics", "score": 82},
+        {"name": "English", "score": 76},
+        {"name": "Basic Science", "score": 88},
+        {"name": "ICT", "score": 91}
+    ]
+
+    behaviour_records = [
+        {
+            "type": "positive",
+            "title": "Excellent Participation",
+            "date": "28 Jul 2026",
+            "note": "Actively contributed during class discussion."
+        }
+    ]
+
+    activities = [
+        {
+            "icon": "bi bi-book-fill",
+            "title": "Mathematics result updated",
+            "time": "1 hour ago"
+        }
+    ]
+
+    return render_template(
+        "parent_dash/children/profile.html",
+        child=child,
+        attendance=attendance,
+        subjects=subjects,
+        behaviour_records=behaviour_records,
+        activities=activities
+    )                
 
 
 # ==========================================================
@@ -139,22 +197,8 @@ def child_profile(id):
 
 @parent_dash_bp.route("/attendance", endpoint="attendance_home")
 def attendance_home():
-    return render_template("parent_dash/attendance/home.html")
 
-
-@parent_dash_bp.route("/attendance/history", endpoint="attendance_history")
-def attendance_history():
-    return render_template("parent_dash/attendance/history.html")
-
-
-# ==========================================================
-# ACADEMICS
-# ==========================================================
-
-@parent_dash_bp.route("/attendance/<int:child_id>", endpoint="attendance_home")
-def attendance_home(child_id):
-
-    child = Student.query.get_or_404(child_id)
+    child = Student.query.get_or_404()
 
     records = (
         Attendance.query
@@ -168,6 +212,19 @@ def attendance_home(child_id):
         child=child,
         records=records
     )
+
+@parent_dash_bp.route("/attendance/history", endpoint="attendance_history")
+def attendance_history():
+    return render_template("parent_dash/attendance/history.html")
+
+
+# ==========================================================
+# ACADEMICS
+# ==========================================================
+
+@parent_dash_bp.route("/academics", endpoint="academics_home")
+def academics_home():
+    return render_template("parent_dash/academics/home.html")
 
 
 @parent_dash_bp.route("/academics/results", endpoint="academics_results")
