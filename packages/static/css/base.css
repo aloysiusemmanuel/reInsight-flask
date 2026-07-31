@@ -159,7 +159,7 @@ h6{
 
 h1{
 
-    font-size:3.5rem;
+    font-size:3rem;
 
 }
 
@@ -193,6 +193,9 @@ p{
 
 }
 
+.hero{
+    color: #0c13e1;
+}
 
 
 /* ==========================================================
@@ -249,7 +252,7 @@ p{
 
     padding:14px 32px;
 
-    font-weight:600;
+    font-weight:500;
 
     transition:var(--transition);
 
@@ -357,7 +360,7 @@ p{
 
     border-radius:50px;
 
-    font-weight:1000;
+    font-weight:900;
 
 }
 
