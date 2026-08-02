@@ -198,7 +198,7 @@ def child_profile(id):
 @parent_dash_bp.route("/attendance", endpoint="attendance_home")
 def attendance_home():
 
-    child = Student.query.get_or_404()
+    child = Student.query.get_or_404(id)
 
     records = (
         Attendance.query
@@ -211,6 +211,7 @@ def attendance_home():
         "parent_dash/attendance/home.html",
         child=child,
         records=records
+        
     )
 
 @parent_dash_bp.route("/attendance/history", endpoint="attendance_history")
