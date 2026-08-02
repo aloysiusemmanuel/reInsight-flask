@@ -1,0 +1,258 @@
+{% extends "parent_dash/parent_base.html" %}
+
+{% block title %}Security Settings | reInsight Parent Portal{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Security Settings</h2>
+
+        <p class="text-muted mb-0">Manage your password, sessions, and account protection.</p>
+
+    </div>
+
+    <a href="{{ url_for('parent_dashboard.profile') }}"
+       class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Profile
+    </a>
+
+</div>
+
+<div class="row g-4">
+
+    <!-- CHANGE PASSWORD -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+                <h5 class="mb-0 fw-semibold">Change Password</h5>
+            </div>
+
+            <div class="card-body">
+
+                <form method="POST">
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-medium">Current Password</label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+
+                            <input type="password"
+                                   class="form-control"
+                                   name="current_password"
+                                   placeholder="Enter current password">
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-medium">New Password</label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+
+                            <input type="password"
+                                   class="form-control"
+                                   name="new_password"
+                                   placeholder="Create new password">
+
+                        </div>
+
+                        <div class="form-text">
+                            Use at least 8 characters with letters and numbers.
+                        </div>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label fw-medium">Confirm New Password</label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text"><i class="bi bi-shield-check"></i></span>
+
+                            <input type="password"
+                                   class="form-control"
+                                   name="confirm_password"
+                                   placeholder="Confirm new password">
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+
+                        <i class="bi bi-check2-circle me-2"></i>
+                        Update Password
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ACCOUNT PROTECTION -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+                <h5 class="mb-0 fw-semibold">Account Protection</h5>
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+
+                    <div>
+                        <div class="fw-medium">Two-Factor Authentication</div>
+                        <div class="small text-muted">Add an extra layer of security</div>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox">
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+
+                    <div>
+                        <div class="fw-medium">Login Alerts</div>
+                        <div class="small text-muted">Get notified of new sign-ins</div>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" checked>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center py-2">
+
+                    <div>
+                        <div class="fw-medium">Remember This Device</div>
+                        <div class="small text-muted">Stay signed in on this browser</div>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" checked>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <button class="btn btn-outline-primary text-start">
+
+                    <i class="bi bi-phone me-2"></i>
+                    Set Up Two-Factor Authentication
+
+                </button>
+
+                <button class="btn btn-outline-secondary text-start">
+
+                    <i class="bi bi-envelope me-2"></i>
+                    Update Recovery Email
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ACTIVE SESSIONS -->
+
+<div class="card border-0 shadow-sm rounded-4 mt-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Active Sessions</h5>
+
+            <small class="text-muted">Devices currently signed in to your account</small>
+
+        </div>
+
+        <button class="btn btn-sm btn-outline-danger">
+
+            <i class="bi bi-box-arrow-right me-1"></i>
+            Sign Out All
+
+        </button>
+
+    </div>
+
+    <div class="card-body">
+
+        {% for session in sessions %}
+
+        <div class="d-flex align-items-start gap-3 py-3 {% if not loop.last %}border-bottom{% endif %}">
+
+            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center"
+                 style="width:48px;height:48px;">
+
+                <i class="bi {% if session.current %}bi-laptop{% else %}bi-phone{% endif %} text-primary"></i>
+
+            </div>
+
+            <div class="flex-grow-1">
+
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+
+                    <div>
+
+                        <div class="fw-semibold">
+                            {{ session.device }}
+
+                            {% if session.current %}
+                            <span class="badge bg-success ms-2">Current</span>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="small text-muted">{{ session.location }}</div>
+                        <div class="small text-muted">{{ session.last_active }}</div>
+
+                    </div>
+
+                    {% if not session.current %}
+
+                    <button class="btn btn-sm btn-outline-danger">Sign Out</button>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

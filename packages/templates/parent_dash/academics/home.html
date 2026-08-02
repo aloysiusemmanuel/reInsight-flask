@@ -1,0 +1,327 @@
+{% extends "parent_dash/parent_base.html" %}
+
+{% block title %}{{ child.name }}'s Academics | reInsight{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div class="d-flex align-items-center gap-3">
+
+        <img src="{{ child.avatar or 'https://ui-avatars.com/api/?name=' ~ child.name|replace(' ', '+') ~ '&background=2563EB&color=fff' }}"
+             alt="{{ child.name }}"
+             width="64"
+             height="64"
+             class="rounded-circle shadow-sm">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">{{ child.name }}'s Academic Performance</h2>
+
+            <p class="text-muted mb-0">{{ child.class_name }} · {{ current_term }}</p>
+
+        </div>
+
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <a href="{{ url_for('parent_dashboard.academics_results') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-bar-chart me-2"></i>
+            Full Results
+
+        </a>
+
+        <button class="btn btn-primary">
+
+            <i class="bi bi-download me-2"></i>
+            Download Report
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+SUMMARY CARDS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Overall Average</div>
+
+                <div class="display-6 fw-bold text-primary">{{ summary.average }}%</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Class Position</div>
+
+                <div class="display-6 fw-bold text-success">{{ summary.position }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Subjects Passed</div>
+
+                <div class="display-6 fw-bold text-info">{{ summary.passed }}/{{ summary.total_subjects }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Best Subject</div>
+
+                <div class="fw-bold fs-5 text-warning">{{ summary.best_subject }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+SUBJECT PERFORMANCE
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Subject Performance</h5>
+
+            <small class="text-muted">Continuous assessment and examination scores</small>
+
+        </div>
+
+    </div>
+
+    <div class="card-body">
+
+        {% for subject in subjects %}
+
+        <div class="mb-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+
+                <div>
+
+                    <div class="fw-semibold">{{ subject.name }}</div>
+
+                    <small class="text-muted">
+                        CA: {{ subject.ca }} · Exam: {{ subject.exam }}
+                    </small>
+
+                </div>
+
+                <div class="text-end">
+
+                    <div class="fw-bold">{{ subject.total }}%</div>
+
+                    {% if subject.total >= 75 %}
+                        <span class="badge bg-success-subtle text-success">Excellent</span>
+                    {% elif subject.total >= 60 %}
+                        <span class="badge bg-primary-subtle text-primary">Good</span>
+                    {% elif subject.total >= 50 %}
+                        <span class="badge bg-warning-subtle text-warning">Fair</span>
+                    {% else %}
+                        <span class="badge bg-danger-subtle text-danger">Needs Improvement</span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="progress" style="height:10px;">
+
+                <div class="progress-bar bg-primary"
+                     style="width: {{ subject.total }}%;"></div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+TERM COMPARISON
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Term Comparison</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% for term in term_comparison %}
+
+                <div class="d-flex justify-content-between align-items-center py-3 {% if not loop.last %}border-bottom{% endif %}">
+
+                    <div>
+
+                        <div class="fw-medium">{{ term.term }}</div>
+
+                        <small class="text-muted">{{ term.session }}</small>
+
+                    </div>
+
+                    <div class="text-end">
+
+                        <div class="fw-bold">{{ term.average }}%</div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Teacher Comment</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-start gap-3">
+
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                         style="width:48px;height:48px;">
+
+                        <i class="bi bi-person-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <div class="fw-semibold">{{ teacher_comment.teacher }}</div>
+
+                        <div class="small text-muted mb-2">{{ teacher_comment.subject }}</div>
+
+                        <p class="mb-0">{{ teacher_comment.comment }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+RECENT ACADEMIC ACTIVITIES
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Recent Academic Activities</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        {% for activity in activities %}
+
+        <div class="d-flex align-items-start gap-3 py-3 {% if not loop.last %}border-bottom{% endif %}">
+
+            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center"
+                 style="width:44px;height:44px;">
+
+                <i class="{{ activity.icon }} text-primary"></i>
+
+            </div>
+
+            <div class="flex-grow-1">
+
+                <div class="fw-medium">{{ activity.title }}</div>
+
+                <div class="small text-muted">{{ activity.time }}</div>
+
+            </div>
+
+            {% if activity.score %}
+
+            <span class="badge bg-primary-subtle text-primary">{{ activity.score }}</span>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

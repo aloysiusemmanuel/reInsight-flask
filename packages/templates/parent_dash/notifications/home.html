@@ -1,0 +1,171 @@
+{% extends "parent_dash/parent_base.html" %}
+
+{% block title %}Notifications | reInsight Parent Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Notifications</h2>
+
+        <p class="text-muted mb-0">Stay updated with school announcements, attendance alerts, and academic activities.</p>
+
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <button class="btn btn-outline-primary">
+
+            <i class="bi bi-check2-all me-2"></i>
+            Mark All Read
+
+        </button>
+
+        <button class="btn btn-primary">
+
+            <i class="bi bi-gear me-2"></i>
+            Preferences
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+FILTERS
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body d-flex flex-wrap gap-2">
+
+        <a href="#"
+           class="btn btn-primary btn-sm">All</a>
+
+        <a href="#"
+           class="btn btn-outline-secondary btn-sm">Unread</a>
+
+        <a href="#"
+           class="btn btn-outline-secondary btn-sm">Attendance</a>
+
+        <a href="#"
+           class="btn btn-outline-secondary btn-sm">Academics</a>
+
+        <a href="#"
+           class="btn btn-outline-secondary btn-sm">Behaviour</a>
+
+        <a href="#"
+           class="btn btn-outline-secondary btn-sm">Announcements</a>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+NOTIFICATION LIST
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Recent Notifications</h5>
+
+            <small class="text-muted">{{ notifications|length }} notifications</small>
+
+        </div>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        {% for item in notifications %}
+
+        <div class="p-4 {% if not loop.last %}border-bottom{% endif %} {% if not item.read %}bg-light-subtle{% endif %}">
+
+            <div class="d-flex align-items-start gap-3">
+
+                <div class="rounded-circle d-flex align-items-center justify-content-center
+                            {% if item.type == 'attendance' %}bg-info-subtle text-info
+                            {% elif item.type == 'academic' %}bg-primary-subtle text-primary
+                            {% elif item.type == 'behaviour' %}bg-warning-subtle text-warning
+                            {% else %}bg-success-subtle text-success{% endif %}"
+                     style="width:48px;height:48px;flex-shrink:0;">
+
+                    <i class="bi {{ item.icon }}"></i>
+
+                </div>
+
+                <div class="flex-grow-1">
+
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+
+                        <div>
+
+                            <div class="fw-semibold">
+
+                                {{ item.title }}
+
+                                {% if not item.read %}
+
+                                <span class="badge bg-primary ms-2">New</span>
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="small text-muted">{{ item.time }}</div>
+
+                        </div>
+
+                        <span class="badge bg-light text-dark text-capitalize">{{ item.type }}</span>
+
+                    </div>
+
+                    <p class="text-muted mt-2 mb-3">{{ item.message }}</p>
+
+                    {% if item.action_url %}
+
+                    <a href="{{ item.action_url }}"
+                       class="btn btn-sm btn-outline-primary">
+
+                        {{ item.action_text or 'View Details' }}
+
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="text-center py-5 text-muted">
+
+            <i class="bi bi-bell-slash display-4 d-block mb-3"></i>
+
+            <h5 class="fw-semibold mb-2">No notifications yet</h5>
+
+            <p class="mb-0">You're all caught up. New updates will appear here.</p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

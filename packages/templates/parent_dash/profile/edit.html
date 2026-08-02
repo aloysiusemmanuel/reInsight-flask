@@ -1,0 +1,310 @@
+{% extends "parent_dash/parent_base.html" %}
+
+{% block title %}Edit Profile | reInsight Parent Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Edit Profile</h2>
+
+        <p class="text-muted mb-0">Update your personal information and contact details.</p>
+
+    </div>
+
+    <a href="{{ url_for('parent_dashboard.profile') }}"
+       class="btn btn-outline-primary">
+
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Profile
+
+    </a>
+
+</div>
+
+<form method="POST">
+
+    <div class="row g-4">
+
+        <!-- =====================================================
+             PROFILE PHOTO
+        ====================================================== -->
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <img src="{{ parent.avatar or 'https://ui-avatars.com/api/?name=' ~ parent.name|replace(' ', '+') ~ '&background=2563EB&color=fff' }}"
+                         alt="{{ parent.name }}"
+                         width="120"
+                         height="120"
+                         class="rounded-circle shadow mb-3">
+
+                    <h5 class="fw-semibold mb-1">{{ parent.name }}</h5>
+
+                    <p class="text-muted small mb-4">Parent Account</p>
+
+                    <div class="d-grid gap-2">
+
+                        <button type="button" class="btn btn-outline-primary">
+
+                            <i class="bi bi-upload me-2"></i>
+                            Change Photo
+
+                        </button>
+
+                        <button type="button" class="btn btn-outline-secondary">
+
+                            <i class="bi bi-trash me-2"></i>
+                            Remove
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- =====================================================
+             FORM FIELDS
+        ====================================================== -->
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Personal Information</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">First Name</label>
+
+                            <input type="text"
+                                   name="first_name"
+                                   class="form-control"
+                                   value="{{ parent.first_name }}">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Last Name</label>
+
+                            <input type="text"
+                                   name="last_name"
+                                   class="form-control"
+                                   value="{{ parent.last_name }}">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Email Address</label>
+
+                            <input type="email"
+                                   name="email"
+                                   class="form-control"
+                                   value="{{ parent.email }}">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Phone Number</label>
+
+                            <input type="tel"
+                                   name="phone"
+                                   class="form-control"
+                                   value="{{ parent.phone }}">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Relationship</label>
+
+                            <select name="relationship" class="form-select">
+
+                                <option {% if parent.relationship == 'Father' %}selected{% endif %}>Father</option>
+                                <option {% if parent.relationship == 'Mother' %}selected{% endif %}>Mother</option>
+                                <option {% if parent.relationship == 'Guardian' %}selected{% endif %}>Guardian</option>
+                                <option {% if parent.relationship == 'Other' %}selected{% endif %}>Other</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Occupation</label>
+
+                            <input type="text"
+                                   name="occupation"
+                                   class="form-control"
+                                   value="{{ parent.occupation }}">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- =====================================================
+                 ADDRESS
+            ====================================================== -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Address</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-4">
+
+                        <label class="form-label fw-medium">Street Address</label>
+
+                        <textarea name="address"
+                                  class="form-control"
+                                  rows="3">{{ parent.address }}</textarea>
+
+                    </div>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">City</label>
+
+                            <input type="text"
+                                   name="city"
+                                   class="form-control"
+                                   value="{{ parent.city }}">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">State</label>
+
+                            <input type="text"
+                                   name="state"
+                                   class="form-control"
+                                   value="{{ parent.state }}">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">Country</label>
+
+                            <input type="text"
+                                   name="country"
+                                   class="form-control"
+                                   value="{{ parent.country }}">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- =====================================================
+                 EMERGENCY CONTACT
+            ====================================================== -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Emergency Contact</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Contact Name</label>
+
+                            <input type="text"
+                                   name="emergency_name"
+                                   class="form-control"
+                                   value="{{ parent.emergency_name }}">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Contact Phone</label>
+
+                            <input type="tel"
+                                   name="emergency_phone"
+                                   class="form-control"
+                                   value="{{ parent.emergency_phone }}">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- =====================================================
+                 ACTIONS
+            ====================================================== -->
+
+            <div class="d-flex flex-column flex-sm-row justify-content-end gap-3">
+
+                <a href="{{ url_for('parent_dashboard.profile') }}"
+                   class="btn btn-outline-secondary">
+
+                    Cancel
+
+                </a>
+
+                <button type="submit" class="btn btn-primary">
+
+                    <i class="bi bi-check2-circle me-2"></i>
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

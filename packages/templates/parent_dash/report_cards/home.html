@@ -1,0 +1,316 @@
+{% extends "parent_dash/parent_base.html" %}
+
+{% block title %}{{ child.name }}'s Report Card | reInsight{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div class="d-flex align-items-center gap-3">
+
+        <img src="{{ child.avatar or 'https://ui-avatars.com/api/?name=' ~ child.name|replace(' ', '+') ~ '&background=2563EB&color=fff' }}"
+             alt="{{ child.name }}"
+             width="64"
+             height="64"
+             class="rounded-circle shadow-sm">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">{{ child.name }}'s Report Card</h2>
+
+            <p class="text-muted mb-0">{{ child.class_name }} · Official academic report</p>
+
+        </div>
+
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <select class="form-select" style="min-width:220px;">
+
+            {% for term in terms %}
+
+            <option {% if term.current %}selected{% endif %}>
+
+                {{ term.name }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+        <button class="btn btn-primary">
+
+            <i class="bi bi-download me-2"></i>
+            Download PDF
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+REPORT SUMMARY
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Overall Average</div>
+
+                <div class="display-6 fw-bold text-primary">{{ report.average }}%</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Class Position</div>
+
+                <div class="display-6 fw-bold text-success">{{ report.position }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Grade</div>
+
+                <div class="display-6 fw-bold text-warning">{{ report.grade }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Attendance</div>
+
+                <div class="display-6 fw-bold text-info">{{ report.attendance }}%</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+REPORT CARD
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">{{ current_term }}</h5>
+
+            <small class="text-muted">Session {{ session_name }}</small>
+
+        </div>
+
+        <span class="badge bg-success-subtle text-success px-3 py-2">
+
+            Official Report
+
+        </span>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Subject</th>
+                        <th class="text-center">CA</th>
+                        <th class="text-center">Exam</th>
+                        <th class="text-center">Total</th>
+                        <th class="text-center">Grade</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for subject in subjects %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="fw-semibold">{{ subject.name }}</div>
+
+                        </td>
+
+                        <td class="text-center">{{ subject.ca }}</td>
+
+                        <td class="text-center">{{ subject.exam }}</td>
+
+                        <td class="text-center fw-bold">{{ subject.total }}</td>
+
+                        <td class="text-center">
+
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2">
+
+                                {{ subject.grade }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+                <tfoot class="table-light">
+
+                    <tr>
+
+                        <th colspan="3">Overall Average</th>
+
+                        <th class="text-center fw-bold">{{ report.average }}%</th>
+
+                        <th class="text-center">{{ report.grade }}</th>
+
+                    </tr>
+
+                </tfoot>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+COMMENTS
+========================================================= -->
+
+<div class="row g-4">
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Class Teacher Comment</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-start gap-3">
+
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                         style="width:48px;height:48px;">
+
+                        <i class="bi bi-person-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <div class="fw-semibold">{{ teacher_comment.teacher }}</div>
+
+                        <div class="small text-muted mb-2">{{ teacher_comment.role }}</div>
+
+                        <p class="mb-0">{{ teacher_comment.comment }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Principal's Comment</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-start gap-3">
+
+                    <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center"
+                         style="width:48px;height:48px;">
+
+                        <i class="bi bi-award-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <div class="fw-semibold">{{ principal_comment.name }}</div>
+
+                        <div class="small text-muted mb-2">Principal</div>
+
+                        <p class="mb-0">{{ principal_comment.comment }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

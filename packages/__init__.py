@@ -49,7 +49,6 @@ def create_app():
         return {
             "current_year": datetime.now().year
         }
-
     return app
 
 

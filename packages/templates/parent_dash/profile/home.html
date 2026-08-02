@@ -1,0 +1,328 @@
+{% extends "parent_dash/parent_base.html" %}
+
+{% block title %}My Profile | reInsight Parent Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">My Profile</h2>
+
+        <p class="text-muted mb-0">Manage your personal information and account settings.</p>
+
+    </div>
+
+    <button class="btn btn-primary">
+
+        <a href="{{ url_for('parent_dashboard.edit_profile') }}"
+        class="btn btn-primary">
+            <i class="bi bi-pencil-square me-2"></i>
+            Edit Profile
+        </a>
+
+    </button>
+
+</div>
+
+<!-- =========================================================
+PROFILE CARD
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center p-4">
+
+                <img src="{{ parent.avatar or 'https://ui-avatars.com/api/?name=' ~ parent.name|replace(' ', '+') ~ '&background=2563EB&color=fff' }}"
+                     alt="{{ parent.name }}"
+                     width="120"
+                     height="120"
+                     class="rounded-circle shadow mb-3">
+
+                <h4 class="fw-bold mb-1">{{ parent.name }}</h4>
+
+                <p class="text-muted mb-3">Parent Account</p>
+
+                <div class="d-flex justify-content-center gap-2 mb-4">
+
+                    <span class="badge bg-success-subtle text-success px-3 py-2">
+
+                        <i class="bi bi-check-circle-fill me-1"></i>
+                        Verified
+
+                    </span>
+
+                </div>
+
+                <div class="text-start">
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+
+                        <span class="text-muted">Children</span>
+                        <span class="fw-semibold">{{ parent.children_count }}</span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+
+                        <span class="text-muted">Joined</span>
+                        <span class="fw-semibold">{{ parent.joined }}</span>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2">
+
+                        <span class="text-muted">Status</span>
+                        <span class="fw-semibold text-success">Active</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Personal Information</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted small">Full Name</label>
+
+                        <div class="fw-semibold">{{ parent.name }}</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted small">Email Address</label>
+
+                        <div class="fw-semibold">{{ parent.email }}</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted small">Phone Number</label>
+
+                        <div class="fw-semibold">{{ parent.phone }}</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label text-muted small">Relationship</label>
+
+                        <div class="fw-semibold">{{ parent.relationship }}</div>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <label class="form-label text-muted small">Address</label>
+
+                        <div class="fw-semibold">{{ parent.address }}</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+CHILDREN
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Linked Children</h5>
+
+            <small class="text-muted">Students connected to this parent account</small>
+
+        </div>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            {% for child in children %}
+
+            <div class="col-md-6">
+
+                <div class="border rounded-4 p-3 d-flex align-items-center gap-3 h-100">
+
+                    <img src="{{ child.avatar or 'https://ui-avatars.com/api/?name=' ~ child.name|replace(' ', '+') ~ '&background=64748B&color=fff' }}"
+                         alt="{{ child.name }}"
+                         width="56"
+                         height="56"
+                         class="rounded-circle">
+
+                    <div class="flex-grow-1">
+
+                        <div class="fw-semibold">{{ child.name }}</div>
+
+                        <div class="small text-muted">{{ child.class_name }}</div>
+
+                    </div>
+
+                    <a href="{{ url_for('parent_dashboard.child_profile', id=child.id) }}"
+                       class="btn btn-sm btn-outline-primary">
+
+                        View
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+ACCOUNT SETTINGS
+========================================================= -->
+
+<div class="row g-4">
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Notification Preferences</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                {% for item in notification_settings %}
+
+                <div class="d-flex justify-content-between align-items-center py-3 {% if not loop.last %}border-bottom{% endif %}">
+
+                    <div>
+
+                        <div class="fw-medium">{{ item.label }}</div>
+
+                        <div class="small text-muted">{{ item.description }}</div>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               {% if item.enabled %}checked{% endif %}>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+    <div class="card border-0 shadow-sm rounded-4 h-100">
+
+        <div class="card-header bg-white border-0">
+
+            <h5 class="mb-0 fw-semibold">Security</h5>
+
+        </div>
+
+        <div class="card-body d-flex flex-column gap-3">
+
+            <!-- Change Password / Security Page -->
+            <a href="{{ url_for('parent_dashboard.profile_security') }}"
+               class="btn btn-outline-primary text-start">
+
+                <i class="bi bi-lock me-2"></i>
+                Change Password
+
+            </a>
+
+            <!-- 2FA setup (for now point to same security page) -->
+            <a href="{{ url_for('parent_dashboard.profile_security') }}"
+               class="btn btn-outline-primary text-start">
+
+                <i class="bi bi-shield-check me-2"></i>
+                Enable Two-Factor Authentication
+
+            </a>
+
+            <!-- Recent login activity (same page for now) -->
+            <a href="{{ url_for('parent_dashboard.profile_security') }}"
+               class="btn btn-outline-secondary text-start">
+
+                <i class="bi bi-clock-history me-2"></i>
+                Recent Login Activity
+
+            </a>
+
+            <hr>
+
+            <!-- Sign out -->
+            <a href="{{ url_for('auth.logout') }}"
+               class="btn btn-outline-danger text-start">
+
+                <i class="bi bi-box-arrow-right me-2"></i>
+                Sign Out
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+{% endblock %}
