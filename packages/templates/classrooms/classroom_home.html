@@ -16,7 +16,7 @@ Classroom Management | reInsight
         page_title="Classroom Management",
         page_subtitle="Manage classrooms, class teachers and student allocations.",
         button_text="Create Classroom",
-        button_url=url_for('classroom_create'),
+        button_url=url_for('classrooms.classroom_create'),
         button_icon="bi bi-plus-circle-fill"
     %}
         {% include "components/header.html" %}
@@ -309,7 +309,7 @@ Classroom Management | reInsight
                         <td class="text-end">
 
                             <a
-                                href="{{ url_for('classroom_profile', classroom_id=classroom.id) }}"
+                                href="{{ url_for('classrooms.classroom_profile', classroom_id=classroom.id) }}"
                                 class="btn btn-sm btn-outline-primary">
 
                                 <i class="bi bi-eye"></i>
@@ -317,7 +317,7 @@ Classroom Management | reInsight
                             </a>
 
                             <a
-                                href="{{ url_for('classroom_edit', classroom_id=classroom.id) }}"
+                                href="{{ url_for('classrooms.classroom_edit', classroom_id=classroom.id) }}"
                                 class="btn btn-sm btn-outline-warning">
 
                                 <i class="bi bi-pencil"></i>
@@ -349,7 +349,7 @@ Classroom Management | reInsight
                             </p>
 
                             <a
-                                href="{{ url_for('classroom_create') }}"
+                                href="{{ url_for('classrooms.classroom_create') }}"
                                 class="btn btn-primary">
 
                                 <i class="bi bi-plus-circle me-2"></i>

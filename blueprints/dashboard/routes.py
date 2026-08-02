@@ -103,7 +103,7 @@ def profile():
         primary_button={
             "text":"Settings",
             "icon":"bi bi-gear-fill",
-            "url":url_for("settings")
+            "url":url_for("dashboard.settings")
         },
 
         user=None
