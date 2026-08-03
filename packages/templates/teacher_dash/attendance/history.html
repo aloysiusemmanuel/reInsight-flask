@@ -1,0 +1,296 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Attendance History | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Attendance History</h2>
+
+        <p class="text-muted mb-0">Review previously recorded attendance across your classes.</p>
+
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <a href="{{ url_for('teacher_dashboard.attendance_take') }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-check2-square me-2"></i>
+            Take Attendance
+
+        </a>
+
+        <a href="{{ url_for('teacher_dashboard.attendance') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Back
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+FILTERS
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <form class="row g-3 align-items-end">
+
+            <div class="col-md-4">
+
+                <label class="form-label fw-medium">Class</label>
+
+                <select class="form-select">
+
+                    <option>All Classes</option>
+                    <option>JSS 2A</option>
+                    <option>JSS 2B</option>
+                    <option>JSS 3A</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">From</label>
+
+                <input type="date" class="form-control" value="2026-08-01">
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">To</label>
+
+                <input type="date" class="form-control" value="2026-08-31">
+
+            </div>
+
+            <div class="col-md-2 d-grid">
+
+                <button class="btn btn-primary">
+
+                    <i class="bi bi-funnel me-1"></i>
+                    Filter
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+SUMMARY
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Records</div>
+
+                <div class="display-6 fw-bold text-primary">{{ summary.records }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Present</div>
+
+                <div class="display-6 fw-bold text-success">{{ summary.present }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Late</div>
+
+                <div class="display-6 fw-bold text-warning">{{ summary.late }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="text-muted small mb-2">Absent</div>
+
+                <div class="display-6 fw-bold text-danger">{{ summary.absent }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+HISTORY TABLE
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Attendance Records</h5>
+
+            <small class="text-muted">{{ records|length }} entries found</small>
+
+        </div>
+
+        <button class="btn btn-sm btn-outline-secondary">
+
+            <i class="bi bi-download me-1"></i>
+            Export
+
+        </button>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Date</th> 
+                        <th>Class</th>
+                        <th class="text-center">Present</th>
+                        <th class="text-center">Late</th>
+                        <th class="text-center">Absent</th>
+                        <th class="text-center">Rate</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for record in records %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="fw-semibold">{{ record.date }}</div>
+                            <div class="small text-muted">{{ record.day }}</div>
+
+                        </td>
+
+                        <td>
+
+                            <div class="fw-semibold">{{ record.class_name }}</div>
+                            <div class="small text-muted">{{ record.total }} students</div>
+
+                        </td>
+
+                        <td class="text-center text-success fw-semibold">{{ record.present }}</td>
+
+                        <td class="text-center text-warning fw-semibold">{{ record.late }}</td>
+
+                        <td class="text-center text-danger fw-semibold">{{ record.absent }}</td>
+
+                        <td class="text-center">
+
+                            <div class="fw-semibold">{{ record.rate }}%</div>
+
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ url_for('teacher_dashboard.attendance_edit', record_id=record.id) }}"
+                                class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil-square me-1"></i>
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+
+                            {% if record.status == 'Completed' %}
+
+                            <span class="badge bg-success-subtle text-success">
+
+                                <i class="bi bi-check-circle-fill me-1"></i>
+                                Completed
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-warning-subtle text-warning">
+
+                                <i class="bi bi-clock-fill me-1"></i>
+                                Draft
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

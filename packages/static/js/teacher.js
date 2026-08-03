@@ -488,3 +488,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     TeacherApp.init();
 });
+
+document.getElementById('markAllPresent')?.addEventListener('click', () => {
+    document.querySelectorAll('input[value="present"]').forEach(r => r.checked = true);
+});
+
+document.getElementById('markAllLate')?.addEventListener('click', () => {
+    document.querySelectorAll('input[value="late"]').forEach(r => r.checked = true);
+});
+
+document.getElementById('markAllAbsent')?.addEventListener('click', () => {
+    document.querySelectorAll('input[value="absent"]').forEach(r => r.checked = true);
+});
