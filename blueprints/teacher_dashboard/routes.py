@@ -197,43 +197,127 @@ def attendance_edit(record_id):
         students=students
     )
 
-
 # ==========================================================
-# ASSESSMENT
-# ==========================================================
-
-@teacher_dash_bp.route("/assessment")
-def assessment():
-    return render_template("assessment/home.html")
-
-
-@teacher_dash_bp.route("/assessment/create")
-def assessment_create():
-    return render_template("assessment/create.html")
-
-
-@teacher_dash_bp.route("/assessment/edit")
-def assessment_edit():
-    return render_template("assessment/edit.html")
-
-
-# ==========================================================
-# RESULTS
+# ACADEMICS HOME
 # ==========================================================
 
-@teacher_dash_bp.route("/results")
-def results():
-    return render_template("results/home.html")
+@teacher_dash_bp.route("/academics", endpoint="academics_home")
+def academics_home():
+
+    stats = {
+        "ca_entries": 24,
+        "exam_entries": 12,
+        "published_results": 8,
+        "class_average": 74
+    }
+
+    activities = [
+        {
+            "title": "Algebra Test 1",
+            "type": "CA Entry",
+            "class_name": "JSS 2A",
+            "date": "04 Aug 2026",
+            "status": "Published"
+        },
+        {
+            "title": "Mid-Term Examination",
+            "type": "Exam Entry",
+            "class_name": "JSS 2B",
+            "date": "03 Aug 2026",
+            "status": "Saved"
+        },
+        {
+            "title": "Practical Worksheet",
+            "type": "CA Entry",
+            "class_name": "JSS 3A",
+            "date": "02 Aug 2026",
+            "status": "Published"
+        },
+        {
+            "title": "Term Results",
+            "type": "Result Publication",
+            "class_name": "JSS 2A",
+            "date": "01 Aug 2026",
+            "status": "Published"
+        }
+    ]
+
+    return render_template(
+        "teacher_dash/academics/home.html",
+        stats=stats,
+        activities=activities
+    )
 
 
-@teacher_dash_bp.route("/results/class")
-def class_results():
-    return render_template("results/class_results.html")
+# ==========================================================
+# ACADEMICS CA
+# ==========================================================
+
+@teacher_dash_bp.route("/academics/ca", endpoint="academics_ca")
+def academics_ca():
+
+    students = [
+        {"name": "David James", "admission_no": "J2A/001", "score": 18},
+        {"name": "Sarah James", "admission_no": "J2A/002", "score": 16},
+        {"name": "Daniel Okafor", "admission_no": "J2A/003", "score": 14},
+        {"name": "Grace Bello", "admission_no": "J2A/004", "score": 19},
+        {"name": "Samuel Adeyemi", "admission_no": "J2A/005", "score": 12},
+    ]
+
+    return render_template(
+        "teacher_dash/academics/ca.html",
+        students=students
+    )
 
 
-@teacher_dash_bp.route("/results/subject")
-def subject_results():
-    return render_template("results/subject_results.html")
+@teacher_dash_bp.route("/academics/edit")
+def assessments_edit():
+    return render_template("academics/edit.html")
+
+
+# ==========================================================
+# ACADEMICS RESULTS
+# ==========================================================
+
+@teacher_dash_bp.route("/academics/ca", endpoint="academics_results")
+def academics_results():
+
+    assessment_options = [
+        {"label": "Algebra Test 1 · JSS 2A", "selected": True},
+        {"label": "Comprehension Quiz · JSS 2B", "selected": False},
+        {"label": "Practical Worksheet · JSS 3A", "selected": False},
+    ]
+
+    current_assessment = {
+        "title": "Algebra Test 1",
+        "subject": "Mathematics",
+        "class_name": "JSS 2A",
+        "date": "03 Aug 2026",
+        "max_score": 100
+    }
+
+    summary = {
+        "average": 78,
+        "highest": 96,
+        "lowest": 42,
+        "pass_rate": 91
+    }
+
+    results = [
+        {"name": "David James", "admission_no": "J2A/001", "score": 92, "grade": "A", "passed": True},
+        {"name": "Sarah James", "admission_no": "J2A/002", "score": 84, "grade": "B", "passed": True},
+        {"name": "Daniel Okafor", "admission_no": "J2A/003", "score": 76, "grade": "C", "passed": True},
+        {"name": "Grace Bello", "admission_no": "J2A/004", "score": 68, "grade": "C", "passed": True},
+        {"name": "Samuel Adeyemi", "admission_no": "J2A/005", "score": 42, "grade": "F", "passed": False},
+    ]
+
+    return render_template(
+        "teacher_dash/academics/results.html",
+        assessment_options=assessment_options,
+        current_assessment=current_assessment,
+        summary=summary,
+        results=results
+    )
 
 
 # ==========================================================
@@ -274,12 +358,37 @@ def timetable():
 
 
 # ==========================================================
-# REPORTS
+# REPORTS HOME
 # ==========================================================
 
-@teacher_dash_bp.route("/reports")
-def reports():
-    return render_template("reports/home.html")
+@teacher_dash_bp.route("/reports", endpoint="reports_home")
+def reports_home():
+
+    reports = [
+        {
+            "title": "JSS 2A Assessment Summary",
+            "type": "Assessment",
+            "date": "04 Aug 2026",
+            "format": "PDF"
+        },
+        {
+            "title": "JSS 2B Attendance Report",
+            "type": "Attendance",
+            "date": "03 Aug 2026",
+            "format": "Excel"
+        },
+        {
+            "title": "JSS 3A Behaviour Report",
+            "type": "Behaviour",
+            "date": "02 Aug 2026",
+            "format": "PDF"
+        }
+    ]
+
+    return render_template(
+        "teacher_dash/reports/home.html",
+        reports=reports
+    )
 
 
 # ==========================================================
@@ -380,4 +489,32 @@ def attendance_history():
         "teacher_dash/attendance/history.html",
         summary=summary,
         records=records
+    )
+    
+# ==========================================================
+# EXAM ENTRY
+# ==========================================================
+
+@teacher_dash_bp.route("/academics/exam", endpoint="academics_exam")
+def academics_exam():
+
+    students = [
+        {"name": "David James", "admission_no": "J2A/001", "score": 72, "grade": "A"},
+        {"name": "Sarah James", "admission_no": "J2A/002", "score": 64, "grade": "B"},
+        {"name": "Daniel Okafor", "admission_no": "J2A/003", "score": 58, "grade": "C"},
+        {"name": "Grace Bello", "admission_no": "J2A/004", "score": 76, "grade": "A"},
+        {"name": "Samuel Adeyemi", "admission_no": "J2A/005", "score": 41, "grade": "F"},
+    ]
+
+    summary = {
+        "average": 62,
+        "highest": 76,
+        "lowest": 41,
+        "pass_rate": 80
+    }
+
+    return render_template(
+        "teacher_dash/academics/exam.html",
+        students=students,
+        summary=summary
     )

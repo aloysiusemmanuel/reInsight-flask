@@ -49,7 +49,7 @@ def results():
     )
 
 @academics_bp.route("/assessments", endpoint="assessments")
-def assessments():
+def assessments_home():
     students = Student.query.order_by(Student.last_name).all()
     return render_template("academics/academics_assessments.html", students=students)
 

@@ -1,0 +1,291 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Assessment Reports | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Assessment Reports</h2>
+        <p class="text-muted mb-0">Generate printable and downloadable assessment reports.</p>
+
+    </div>
+
+    <a href="{{ url_for('teacher_dashboard.academics_home') }}"
+       class="btn btn-outline-primary">
+
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Assessments
+
+    </a>
+
+</div>
+
+<!-- GENERATE REPORT -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Generate Report</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <form class="row g-4">
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-medium">Assessment</label>
+
+                <select class="form-select">
+
+                    {% for item in assessments %}
+
+                    <option>{{ item }}</option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-medium">Class</label>
+
+                <select class="form-select">
+
+                    {% for item in classes %}
+
+                    <option>{{ item }}</option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-medium">Report Type</label>
+
+                <select class="form-select">
+
+                    <option>Class Summary</option>
+                    <option>Individual Student Reports</option>
+                    <option>Performance Analysis</option>
+                    <option>Pass/Fail List</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-medium">Format</label>
+
+                <select class="form-select">
+
+                    <option>PDF</option>
+                    <option>Excel</option>
+                    <option>CSV</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-12 d-flex flex-wrap gap-3">
+
+                <button type="button" class="btn btn-primary">
+
+                    <i class="bi bi-file-earmark-pdf me-2"></i>
+                    Generate PDF
+
+                </button>
+
+                <button type="button" class="btn btn-outline-success">
+
+                    <i class="bi bi-file-earmark-excel me-2"></i>
+                    Export Excel
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- QUICK REPORTS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center p-4">
+
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:64px;height:64px;">
+
+                    <i class="bi bi-people-fill fs-3"></i>
+
+                </div>
+
+                <h5 class="fw-semibold mb-2">Class Summary</h5>
+
+                <p class="text-muted mb-4">Average, highest, lowest, and pass rate for the selected class.</p>
+
+                <button class="btn btn-outline-primary w-100">Generate</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center p-4">
+
+                <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:64px;height:64px;">
+
+                    <i class="bi bi-person-lines-fill fs-3"></i>
+
+                </div>
+
+                <h5 class="fw-semibold mb-2">Student Reports</h5>
+
+                <p class="text-muted mb-4">Individual score sheets and printable result slips.</p>
+
+                <button class="btn btn-outline-success w-100">Generate</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center p-4">
+
+                <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:64px;height:64px;">
+
+                    <i class="bi bi-graph-up-arrow fs-3"></i>
+
+                </div>
+
+                <h5 class="fw-semibold mb-2">Performance Analysis</h5>
+
+                <p class="text-muted mb-4">Grade distribution and performance insights.</p>
+
+                <button class="btn btn-outline-warning w-100">Generate</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- RECENT REPORTS -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Recent Reports</h5>
+            <small class="text-muted">Previously generated reports</small>
+
+        </div>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Report</th>
+                        <th>Generated</th>
+                        <th>Format</th>
+                        <th class="text-end">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for report in recent_reports %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="fw-semibold">{{ report.name }}</div>
+                            <div class="small text-muted">{{ report.description }}</div>
+
+                        </td>
+
+                        <td>{{ report.date }}</td>
+
+                        <td>
+
+                            <span class="badge bg-light text-dark">{{ report.format }}</span>
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-download"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
