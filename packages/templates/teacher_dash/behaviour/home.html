@@ -1,0 +1,301 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Behaviour | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Behaviour</h2>
+
+        <p class="text-muted mb-0">
+            Record incidents, commendations, and monitor student conduct.
+        </p>
+
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <a href="{{ url_for('teacher_dashboard.behaviour-create') }}"
+           class="btn btn-primary">
+    
+            <i class="bi bi-plus-circle me-2"></i>
+            New Record
+
+        </a>
+
+        <a href="{{ url_for('teacher_dashboard.behaviour-history') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-clock-history me-2"></i>
+            History
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- SUMMARY CARDS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-sm rounded-4 text-center h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-2">Commendations</div>
+                <div class="display-6 fw-bold text-success">{{ stats.commendations }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-sm rounded-4 text-center h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-2">Warnings</div>
+                <div class="display-6 fw-bold text-warning">{{ stats.warnings }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-sm rounded-4 text-center h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-2">Serious Cases</div>
+                <div class="display-6 fw-bold text-danger">{{ stats.serious }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-sm rounded-4 text-center h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-2">Resolved</div>
+                <div class="display-6 fw-bold text-primary">{{ stats.resolved }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- QUICK ACTIONS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center p-4">
+
+                <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:64px;height:64px;">
+
+                    <i class="bi bi-hand-thumbs-up-fill fs-3"></i>
+
+                </div>
+
+                <h5 class="fw-semibold mb-2">Commendation</h5>
+
+                <p class="text-muted mb-4">
+                    Recognize punctuality, leadership, and good conduct.
+                </p>
+
+                <a href="{{ url_for('teacher_dashboard.behaviour-create') }}"
+                   class="btn btn-outline-success w-100">
+
+                    Add Commendation
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center p-4">
+
+                <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:64px;height:64px;">
+
+                    <i class="bi bi-exclamation-triangle-fill fs-3"></i>
+
+                </div>
+
+                <h5 class="fw-semibold mb-2">Warning</h5>
+
+                <p class="text-muted mb-4">
+                    Record minor misconduct and classroom concerns.
+                </p>
+
+                <a href="{{ url_for('teacher_dashboard.behaviour-create') }}"
+                   class="btn btn-outline-warning w-100">
+
+                    Add Warning
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center p-4">
+
+                <div class="bg-danger-subtle text-danger rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:64px;height:64px;">
+
+                    <i class="bi bi-shield-fill-exclamation fs-3"></i>
+
+                </div>
+
+                <h5 class="fw-semibold mb-2">Serious Incident</h5>
+
+                <p class="text-muted mb-4">
+                    Escalate bullying, violence, or repeated misconduct.
+                </p>
+
+                <a href="{{ url_for('teacher_dashboard.behaviour-create') }}"
+                   class="btn btn-outline-danger w-100">
+
+                    Report Incident
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- RECENT RECORDS -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Recent Behaviour Records</h5>
+
+            <small class="text-muted">Latest classroom and disciplinary activities</small>
+
+        </div>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Student</th>
+                        <th>Type</th>
+                        <th>Class</th>
+                        <th>Date</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in records %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="fw-semibold">{{ item.student }}</div>
+
+                            <div class="small text-muted">{{ item.note }}</div>
+
+                        </td>
+
+                        <td>
+
+                            {% if item.type == "Commendation" %}
+
+                            <span class="badge bg-success-subtle text-success">Commendation</span>
+
+                            {% elif item.type == "Warning" %}
+
+                            <span class="badge bg-warning-subtle text-warning">Warning</span>
+
+                            {% else %}
+
+                            <span class="badge bg-danger-subtle text-danger">Incident</span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ item.class_name }}</td>
+
+                        <td>{{ item.date }}</td>
+
+                        <td>
+
+                            <span class="badge bg-light text-dark">{{ item.status }}</span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

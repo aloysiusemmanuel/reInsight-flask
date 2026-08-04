@@ -1,6 +1,6 @@
 {% extends "teacher_dash/teacher_base.html" %}
 
-{% block title %}Academics | reInsight Teacher Portal{% endblock %}
+{% block title %}Results | reInsight Teacher Portal{% endblock %}
 
 {% block content %}
 
@@ -12,29 +12,29 @@ PAGE HEADER
 
     <div>
 
-        <h2 class="fw-bold mb-1">Academics</h2>
+        <h2 class="fw-bold mb-1">Results</h2>
 
         <p class="text-muted mb-0">
-            Manage continuous assessments, examinations, results, and grading activities.
+            View class results, student reports, and publish examination outcomes.
         </p>
 
     </div>
 
     <div class="d-flex flex-wrap gap-2">
 
-        <a href="{{ url_for('teacher_dashboard.academics-ca') }}"
+        <a href="{{ url_for('teacher_dashboard.class-result') }}"
            class="btn btn-primary">
 
-            <i class="bi bi-plus-circle me-2"></i>
-            New CA
+            <i class="bi bi-people me-2"></i>
+            Class Result
 
         </a>
 
-        <a href="{{ url_for('teacher_dashboard.academics-exam') }}"
+        <a href="{{ url_for('teacher_dashboard.reports-home') }}"
            class="btn btn-outline-primary">
 
-            <i class="bi bi-journal-check me-2"></i>
-            New Exam
+            <i class="bi bi-file-earmark-text me-2"></i>
+            Reports
 
         </a>
 
@@ -57,13 +57,13 @@ SUMMARY CARDS
                 <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                      style="width:56px;height:56px;">
 
-                    <i class="bi bi-pencil-square fs-4"></i>
+                    <i class="bi bi-people-fill fs-4"></i>
 
                 </div>
 
-                <div class="fw-bold fs-3 text-primary">{{ stats.ca_entries }}</div>
+                <div class="fw-bold fs-3 text-primary">{{ stats.students }}</div>
 
-                <div class="text-muted">CA Entries</div>
+                <div class="text-muted">Students</div>
 
             </div>
 
@@ -80,36 +80,13 @@ SUMMARY CARDS
                 <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                      style="width:56px;height:56px;">
 
-                    <i class="bi bi-journal-check fs-4"></i>
+                    <i class="bi bi-check-circle-fill fs-4"></i>
 
                 </div>
 
-                <div class="fw-bold fs-3 text-success">{{ stats.exam_entries }}</div>
+                <div class="fw-bold fs-3 text-success">{{ stats.published }}</div>
 
-                <div class="text-muted">Exam Entries</div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-12 col-sm-6 col-xl-3">
-
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-
-            <div class="card-body text-center">
-
-                <div class="bg-info-subtle text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                     style="width:56px;height:56px;">
-
-                    <i class="bi bi-bar-chart-line fs-4"></i>
-
-                </div>
-
-                <div class="fw-bold fs-3 text-info">{{ stats.published_results }}</div>
-
-                <div class="text-muted">Published Results</div>
+                <div class="text-muted">Published</div>
 
             </div>
 
@@ -126,13 +103,36 @@ SUMMARY CARDS
                 <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                      style="width:56px;height:56px;">
 
-                    <i class="bi bi-graph-up-arrow fs-4"></i>
+                    <i class="bi bi-hourglass-split fs-4"></i>
 
                 </div>
 
-                <div class="fw-bold fs-3 text-warning">{{ stats.class_average }}%</div>
+                <div class="fw-bold fs-3 text-warning">{{ stats.pending }}</div>
 
-                <div class="text-muted">Class Average</div>
+                <div class="text-muted">Pending</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-info-subtle text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-bar-chart-line-fill fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-info">{{ stats.average }}%</div>
+
+                <div class="text-muted">Average</div>
 
             </div>
 
@@ -148,7 +148,7 @@ QUICK ACTIONS
 
 <div class="row g-4 mb-4">
 
-    <div class="col-md-6 col-xl-3">
+    <div class="col-md-4">
 
         <div class="card border-0 shadow-sm rounded-4 h-100">
 
@@ -157,20 +157,20 @@ QUICK ACTIONS
                 <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                      style="width:64px;height:64px;">
 
-                    <i class="bi bi-pencil-square fs-3"></i>
+                    <i class="bi bi-table fs-3"></i>
 
                 </div>
 
-                <h5 class="fw-semibold mb-2">Continuous Assessment</h5>
+                <h5 class="fw-semibold mb-2">Class Results</h5>
 
                 <p class="text-muted mb-4">
-                    Enter tests, assignments, projects, and practical scores.
+                    View totals, grades, positions, and class performance.
                 </p>
 
-                <a href="{{ url_for('teacher_dashboard.academics-ca') }}"
+                <a href="{{ url_for('teacher_dashboard.class-result') }}"
                    class="btn btn-primary w-100">
 
-                    Open CA
+                    Open
 
                 </a>
 
@@ -180,7 +180,7 @@ QUICK ACTIONS
 
     </div>
 
-    <div class="col-md-6 col-xl-3">
+    <div class="col-md-4">
 
         <div class="card border-0 shadow-sm rounded-4 h-100">
 
@@ -189,20 +189,20 @@ QUICK ACTIONS
                 <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                      style="width:64px;height:64px;">
 
-                    <i class="bi bi-journal-check fs-3"></i>
+                    <i class="bi bi-person-lines-fill fs-3"></i>
 
                 </div>
 
-                <h5 class="fw-semibold mb-2">Examinations</h5>
+                <h5 class="fw-semibold mb-2">Student Results</h5>
 
                 <p class="text-muted mb-4">
-                    Record mid-term, end-of-term, and final examination scores.
+                    Search and view individual student result sheets.
                 </p>
 
-                <a href="{{ url_for('teacher_dashboard.academics-exam') }}"
+                <a href="{{ url_for('teacher_dashboard.student-result', student_id=1) }}"
                    class="btn btn-outline-success w-100">
 
-                    Open Exams
+                    View Sample
 
                 </a>
 
@@ -212,7 +212,7 @@ QUICK ACTIONS
 
     </div>
 
-    <div class="col-md-6 col-xl-3">
+    <div class="col-md-4">
 
         <div class="card border-0 shadow-sm rounded-4 h-100">
 
@@ -221,52 +221,20 @@ QUICK ACTIONS
                 <div class="bg-info-subtle text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
                      style="width:64px;height:64px;">
 
-                    <i class="bi bi-bar-chart-line fs-3"></i>
-
-                </div>
-
-                <h5 class="fw-semibold mb-2">Results</h5>
-
-                <p class="text-muted mb-4">
-                    View totals, grades, positions, and performance analysis.
-                </p>
-
-                <a href="{{ url_for('teacher_dashboard.result-home') }}"
-                   class="btn btn-outline-info w-100">
-
-                    View Results
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-6 col-xl-3">
-
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-
-            <div class="card-body text-center p-4">
-
-                <div class="bg-secondary-subtle text-secondary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
-                     style="width:64px;height:64px;">
-
                     <i class="bi bi-file-earmark-text fs-3"></i>
 
                 </div>
 
-                <h5 class="fw-semibold mb-2">Reports</h5>
+                <h5 class="fw-semibold mb-2">Result Reports</h5>
 
                 <p class="text-muted mb-4">
-                    Generate class summaries and academic reports.
+                    Generate printable and exportable academic reports.
                 </p>
 
                 <a href="{{ url_for('teacher_dashboard.reports-home') }}"
-                   class="btn btn-outline-secondary w-100">
+                   class="btn btn-outline-info w-100">
 
-                    Open Reports
+                    Generate
 
                 </a>
 
@@ -279,7 +247,7 @@ QUICK ACTIONS
 </div>
 
 <!-- =========================================================
-RECENT ACTIVITIES
+RECENT RESULT ACTIVITIES
 ========================================================= -->
 
 <div class="card border-0 shadow-sm rounded-4">
@@ -288,9 +256,9 @@ RECENT ACTIVITIES
 
         <div>
 
-            <h5 class="mb-0 fw-semibold">Recent Academic Activities</h5>
+            <h5 class="mb-0 fw-semibold">Recent Result Activities</h5>
 
-            <small class="text-muted">Latest score entry and publication activities</small>
+            <small class="text-muted">Latest publication and review activities</small>
 
         </div>
 
@@ -335,7 +303,7 @@ RECENT ACTIVITIES
 
                         <td>
 
-                            <span class="badge {% if item.status == 'Published' %}bg-success-subtle text-success{% elif item.status == 'Saved' %}bg-warning-subtle text-warning{% else %}bg-primary-subtle text-primary{% endif %}">
+                            <span class="badge {% if item.status == 'Published' %}bg-success-subtle text-success{% elif item.status == 'Pending' %}bg-warning-subtle text-warning{% else %}bg-primary-subtle text-primary{% endif %}">
 
                                 {{ item.status }}
 

@@ -1,6 +1,6 @@
 {% extends "teacher_dash/teacher_base.html" %}
 
-{% block title %}Continuous Assessment | reInsight Teacher Portal{% endblock %}
+{% block title %}Examinations | reInsight Teacher Portal{% endblock %}
 
 {% block content %}
 
@@ -12,10 +12,10 @@ PAGE HEADER
 
     <div>
 
-        <h2 class="fw-bold mb-1">Continuous Assessment</h2>
+        <h2 class="fw-bold mb-1">Examinations</h2>
 
         <p class="text-muted mb-0">
-            Enter tests, assignments, projects, and practical scores for students.
+            Enter and manage mid-term, end-of-term, mock, and final examination scores.
         </p>
 
     </div>
@@ -31,13 +31,13 @@ PAGE HEADER
 </div>
 
 <!-- =========================================================
-ASSESSMENT SETUP
+EXAM SETUP
 ========================================================= -->
 
 <div class="card border-0 shadow-sm rounded-4 mb-4">
 
     <div class="card-header bg-white border-0">
-        <h5 class="mb-0 fw-semibold">Assessment Setup</h5>
+        <h5 class="mb-0 fw-semibold">Examination Setup</h5>
     </div>
 
     <div class="card-body">
@@ -94,13 +94,13 @@ ASSESSMENT SETUP
 
             <div class="col-md-4">
 
-                <label class="form-label fw-medium">Assessment Type</label>
+                <label class="form-label fw-medium">Examination Type</label>
 
                 <select class="form-select">
 
-                    {% for item in assessment_types %}
+                    {% for exam in exam_types %}
 
-                    <option {% if item.selected %}selected{% endif %}>{{ item.name }}</option>
+                    <option {% if exam.selected %}selected{% endif %}>{{ exam.name }}</option>
 
                     {% endfor %}
 
@@ -116,7 +116,7 @@ ASSESSMENT SETUP
                        class="form-control"
                        value="{{ max_score }}"
                        min="1"
-                       max="40">
+                       max="100">
 
             </div>
 
@@ -138,10 +138,10 @@ SCORE ENTRY
 
             <div>
 
-                <h5 class="mb-0 fw-semibold">Score Entry</h5>
+                <h5 class="mb-0 fw-semibold">Examination Score Entry</h5>
 
                 <small class="text-muted">
-                    {{ current_class }} · {{ current_subject }} · {{ current_assessment }}
+                    {{ current_class }} · {{ current_subject }} · {{ current_exam }}
                 </small>
 
             </div>
@@ -162,6 +162,7 @@ SCORE ENTRY
 
                             <th style="min-width: 240px;">Student</th>
                             <th class="text-center" style="width: 140px;">Score</th>
+                            <th class="text-center" style="width: 120px;">Grade</th>
                             <th style="min-width: 220px;">Remark</th>
 
                         </tr>
@@ -206,6 +207,14 @@ SCORE ENTRY
 
                             </td>
 
+                            <td class="text-center">
+
+                                <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                    {{ student.grade }}
+                                </span>
+
+                            </td>
+
                             <td>
 
                                 <input type="text"
@@ -243,7 +252,7 @@ SCORE ENTRY
         <button type="submit" class="btn btn-primary">
 
             <i class="bi bi-check2-circle me-2"></i>
-            Submit CA Scores
+            Submit Exam Scores
 
         </button>
 

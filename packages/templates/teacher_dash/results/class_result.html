@@ -1,0 +1,299 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Class Result | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Class Result</h2>
+
+        <p class="text-muted mb-0">
+            View totals, grades, positions, and class performance analysis.
+        </p>
+
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <button class="btn btn-outline-secondary">
+
+            <i class="bi bi-download me-2"></i>
+            Export PDF
+
+        </button>
+
+        <a href="{{ url_for('teacher_dashboard.result-home') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Back to Results
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+FILTERS
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <form class="row g-4 align-items-end">
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">Class</label>
+
+                <select class="form-select">
+
+                    <option selected>JSS 2A</option>
+                    <option>JSS 2B</option>
+                    <option>JSS 3A</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">Term</label>
+
+                <select class="form-select">
+
+                    <option selected>First Term</option>
+                    <option>Second Term</option>
+                    <option>Third Term</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">Session</label>
+
+                <select class="form-select">
+
+                    <option selected>2026/2027</option>
+                    <option>2025/2026</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3 d-grid">
+
+                <button type="button" class="btn btn-primary">
+
+                    <i class="bi bi-search me-2"></i>
+                    Load Result
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+SUMMARY CARDS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-sm rounded-4 text-center h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-2">Students</div>
+                <div class="display-6 fw-bold text-primary">{{ summary.students }}</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-sm rounded-4 text-center h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-2">Average</div>
+                <div class="display-6 fw-bold text-success">{{ summary.average }}%</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-sm rounded-4 text-center h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-2">Highest</div>
+                <div class="display-6 fw-bold text-info">{{ summary.highest }}%</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-0 shadow-sm rounded-4 text-center h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted small mb-2">Pass Rate</div>
+                <div class="display-6 fw-bold text-warning">{{ summary.pass_rate }}%</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+RESULT TABLE
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">{{ class_name }} - {{ term }}</h5>
+
+            <small class="text-muted">{{ results|length }} students</small>
+
+        </div>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th style="min-width: 240px;">Student</th>
+                        <th class="text-center">CA</th>
+                        <th class="text-center">Exam</th>
+                        <th class="text-center">Total</th>
+                        <th class="text-center">Grade</th>
+                        <th class="text-center">Position</th>
+                        <th class="text-end">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for student in results %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <img src="https://ui-avatars.com/api/?name={{ student.name|replace(' ', '+') }}&background=64748B&color=fff"
+                                     width="40"
+                                     height="40"
+                                     class="rounded-circle">
+
+                                <div>
+
+                                    <div class="fw-semibold">{{ student.name }}</div>
+
+                                    <div class="small text-muted">{{ student.admission_no }}</div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td class="text-center">{{ student.ca }}</td>
+
+                        <td class="text-center">{{ student.exam }}</td>
+
+                        <td class="text-center fw-bold">{{ student.total }}</td>
+
+                        <td class="text-center">
+
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                {{ student.grade }}
+                            </span>
+
+                        </td>
+
+                        <td class="text-center">{{ student.position }}</td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <a href="{{ url_for('teacher_dashboard.student-result', student_id=student.id) }}"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </a>
+
+                                <a href="{{ url_for('teacher_dashboard.academics-edit', student_id=student.id) }}"
+                                   class="btn btn-sm btn-outline-secondary">
+
+                                    <i class="bi bi-pencil-square"></i>
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

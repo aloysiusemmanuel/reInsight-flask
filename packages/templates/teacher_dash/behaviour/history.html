@@ -1,0 +1,270 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Behaviour History | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Behaviour History</h2>
+
+        <p class="text-muted mb-0">
+            Review all commendations, warnings, and disciplinary incidents.
+        </p>
+
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <a href="{{ url_for('teacher_dashboard.behaviour-create') }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-circle me-2"></i>
+            New Record
+
+        </a>
+
+        <a href="{{ url_for('teacher_dashboard.behaviour-home') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Back
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+FILTERS
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <form class="row g-4 align-items-end">
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">Class</label>
+
+                <select class="form-select">
+
+                    <option>All Classes</option>
+                    <option>JSS 2A</option>
+                    <option>JSS 2B</option>
+                    <option>JSS 3A</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">Record Type</label>
+
+                <select class="form-select">
+
+                    <option>All Types</option>
+                    <option>Commendation</option>
+                    <option>Warning</option>
+                    <option>Incident</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">Status</label>
+
+                <select class="form-select">
+
+                    <option>All Statuses</option>
+                    <option>Pending</option>
+                    <option>Under Review</option>
+                    <option>Resolved</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3 d-grid">
+
+                <button type="button" class="btn btn-outline-primary">
+
+                    <i class="bi bi-search me-2"></i>
+                    Filter
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+HISTORY TABLE
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Behaviour Records</h5>
+
+            <small class="text-muted">{{ records|length }} records found</small>
+
+        </div>
+
+        <button class="btn btn-sm btn-outline-secondary">
+
+            <i class="bi bi-download me-1"></i>
+            Export
+
+        </button>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Student</th>
+                        <th>Type</th>
+                        <th>Class</th>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in records %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <img src="https://ui-avatars.com/api/?name={{ item.student|replace(' ', '+') }}&background=64748B&color=fff"
+                                     width="40"
+                                     height="40"
+                                     class="rounded-circle">
+
+                                <div>
+
+                                    <div class="fw-semibold">{{ item.student }}</div>
+
+                                    <div class="small text-muted">{{ item.admission_no }}</div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            {% if item.type == "Commendation" %}
+
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Commendation
+                            </span>
+
+                            {% elif item.type == "Warning" %}
+
+                            <span class="badge bg-warning-subtle text-warning px-3 py-2">
+                                Warning
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-danger-subtle text-danger px-3 py-2">
+                                Incident
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ item.class_name }}</td>
+
+                        <td>
+
+                            <div class="fw-semibold">{{ item.title }}</div>
+
+                            <div class="small text-muted text-truncate" style="max-width:220px;">
+                                {{ item.note }}
+                            </div>
+
+                        </td>
+
+                        <td>{{ item.date }}</td>
+
+                        <td>
+
+                            <span class="badge {% if item.status == 'Resolved' %}bg-success-subtle text-success{% elif item.status == 'Pending' %}bg-warning-subtle text-warning{% else %}bg-primary-subtle text-primary{% endif %} px-3 py-2">
+
+                                {{ item.status }}
+
+                            </span>
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <a href="{{ url_for('teacher_dashboard.behaviour-edit', record_id=item.id) }}"
+                                   class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
