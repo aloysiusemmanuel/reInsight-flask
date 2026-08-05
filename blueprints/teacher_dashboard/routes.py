@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, jsonify
 from datetime import date
 
 from . import teacher_dash_bp
@@ -853,4 +853,196 @@ def academics_exam():
         "teacher_dash/academics/exam.html",
         students=students,
         summary=summary
+    )
+    
+#======================================================================
+# GENERATE LESSON_NOTE
+#======================================================================
+
+@teacher_dash_bp.route("/lesson-notes/generate", methods=["POST"])
+def generate_lesson_note(note):
+    data = request.get_json()
+
+    prompt = f"""
+    Generate a professional lesson note for a Nigerian secondary school teacher.
+
+    Class: {data['class_name']}
+    Subject: {data['subject']}
+    Topic: {data['topic']}
+    Week: {data['week']}
+    Duration: {data['duration']}
+
+    Include:
+    - Behavioural objectives
+    - Prior knowledge
+    - Instructional materials
+    - Step-by-step presentation
+    - Evaluation
+    - Assignment
+    """
+
+    # Call AI provider here
+
+    return jsonify(note)
+
+
+# ==========================================================
+# LESSON NOTES HOME
+# ==========================================================
+
+@teacher_dash_bp.route("/lesson-notes", endpoint="lesson-notes-home")
+def lesson_notes_home():
+
+    stats = {
+        "total_notes": 24,
+        "approved": 18,
+        "pending": 4,
+        "ai_generated": 12
+    }
+
+    notes = [
+        {
+            "id": 1,
+            "topic": "Gradient of a Line",
+            "subject": "Mathematics",
+            "class_name": "JSS 2A",
+            "week": 3,
+            "ai_generated": True,
+            "status": "Approved",
+            "date": "04 Aug 2026"
+        },
+        {
+            "id": 2,
+            "topic": "Simple Interest",
+            "subject": "Mathematics",
+            "class_name": "JSS 2A",
+            "week": 4,
+            "ai_generated": False,
+            "status": "Pending",
+            "date": "03 Aug 2026"
+        }
+    ]
+
+    return render_template(
+        "teacher_dash/lesson_notes/home.html",
+        stats=stats,
+        notes=notes
+    )
+    
+# ==========================================================
+# CREATE LESSON NOTE
+# ==========================================================
+
+@teacher_dash_bp.route("/lesson-notes/create",
+                       methods=["GET", "POST"],
+                       endpoint="lesson-notes-create")
+def lesson_notes_create():
+
+    classrooms = [
+        {"id": 1, "name": "JSS 2A"},
+        {"id": 2, "name": "JSS 2B"},
+        {"id": 3, "name": "JSS 3A"},
+    ]
+
+    subjects = [
+        "Mathematics",
+        "English",
+        "Basic Science",
+        "ICT"
+    ]
+
+    if request.method == "POST":
+        flash("Lesson note created successfully.", "success")
+        return redirect(url_for("teacher_dashboard.lesson-notes-home"))
+
+    return render_template(
+        "teacher_dash/lesson_notes/create.html",
+        classrooms=classrooms,
+        subjects=subjects
+    )
+    
+# ==========================================================
+# EDIT LESSON NOTE
+# ==========================================================
+
+@teacher_dash_bp.route("/lesson-notes/edit/<int:note_id>",
+                       methods=["GET", "POST"],
+                       endpoint="lesson-notes-edit")
+def lesson_notes_edit(note_id):
+
+    classrooms = [
+        {"id": 1, "name": "JSS 2A"},
+        {"id": 2, "name": "JSS 2B"},
+        {"id": 3, "name": "JSS 3A"},
+    ]
+
+    subjects = [
+        "Mathematics",
+        "English",
+        "Basic Science",
+        "ICT"
+    ]
+
+    note = {
+        "id": note_id,
+        "classroom_id": 1,
+        "class_name": "JSS 2A",
+        "subject": "Mathematics",
+        "week": 3,
+        "duration": "40 minutes",
+        "curriculum": "NERDC",
+        "topic": "Gradient of a Line",
+        "objectives": "Students should be able to calculate gradient.",
+        "prior_knowledge": "Students know Cartesian coordinates.",
+        "instructional_materials": "Graph board, ruler, marker.",
+        "presentation_steps": "Introduce gradient, explain rise and run, solve examples.",
+        "evaluation": "Calculate gradient of given lines.",
+        "assignment": "Solve exercise 3.",
+        "ai_generated": True
+    }
+
+    if request.method == "POST":
+        flash("Lesson note updated successfully.", "success")
+        return redirect(url_for("teacher_dashboard.lesson-notes-home"))
+
+    return render_template(
+        "teacher_dash/lesson_notes/lesson_edit.html",
+        note=note,
+        classrooms=classrooms,
+        subjects=subjects
+    )
+    
+# ==========================================================
+# VIEW LESSON NOTE
+# ==========================================================
+
+@teacher_dash_bp.route("/lesson-notes/view/<int:note_id>",
+                       endpoint="lesson-notes-view")
+def lesson_notes_view(note_id):
+
+    note = {
+        "id": note_id,
+        "class_name": "JSS 2A",
+        "subject": "Mathematics",
+        "week": 3,
+        "topic": "Gradient of a Line"
+    }
+
+    return render_template(
+        "teacher_dash/lesson_notes/view.html",
+        note=note
+    )
+# ==========================================================
+# LESSON NOTES ARCHIVE
+# ==========================================================
+
+@teacher_dash_bp.route("/lesson-notes/archive",
+                       endpoint="lesson-notes-archive")
+def lesson_notes_archive():
+
+    notes = []
+
+    return render_template(
+        "teacher_dash/lesson_notes/archive.html",
+        notes=notes
     )

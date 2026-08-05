@@ -32,6 +32,7 @@ from .association import teacher_classrooms, teacher_subjects
 from .class_subject_assignment import ClassSubjectAssignment
 from .academic_session import AcademicSession
 from .term import Term
+from .lesson_note import LessonNote
 
 __all__ = [
     "BaseModel",
@@ -54,4 +55,5 @@ __all__ = [
     "Term",
     "Role",
     "User",
+    "LessonNote"
 ]

@@ -1,0 +1,259 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Lesson Notes Archive | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Lesson Notes Archive</h2>
+
+        <p class="text-muted mb-0">
+            Access previous weeks, terms, and archived lesson notes.
+        </p>
+
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <a href="{{ url_for('teacher_dashboard.lesson-notes-create') }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-circle me-2"></i>
+            New Lesson Note
+
+        </a>
+
+        <a href="{{ url_for('teacher_dashboard.lesson-notes-home') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Back
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+FILTERS
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <form class="row g-4 align-items-end">
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">Session</label>
+
+                <select class="form-select">
+
+                    <option selected>2026/2027</option>
+                    <option>2025/2026</option>
+                    <option>2024/2025</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">Term</label>
+
+                <select class="form-select">
+
+                    <option>All Terms</option>
+                    <option>First Term</option>
+                    <option>Second Term</option>
+                    <option>Third Term</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <label class="form-label fw-medium">Class</label>
+
+                <select class="form-select">
+
+                    <option>All Classes</option>
+                    <option>JSS 2A</option>
+                    <option>JSS 2B</option>
+                    <option>JSS 3A</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-3 d-grid">
+
+                <button type="button" class="btn btn-outline-primary">
+
+                    <i class="bi bi-search me-2"></i>
+                    Filter
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+ARCHIVE TABLE
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Archived Lesson Notes</h5>
+
+            <small class="text-muted">{{ notes|length }} notes found</small>
+
+        </div>
+
+        <button class="btn btn-sm btn-outline-secondary">
+
+            <i class="bi bi-download me-1"></i>
+            Export
+
+        </button>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Topic</th>
+                        <th>Class</th>
+                        <th>Week</th>
+                        <th>Term</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th class="text-end">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for note in notes %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="fw-semibold">{{ note.topic }}</div>
+
+                            <div class="small text-muted">{{ note.subject }}</div>
+
+                        </td>
+
+                        <td>{{ note.class_name }}</td>
+
+                        <td>{{ note.week }}</td>
+
+                        <td>{{ note.term }}</td>
+
+                        <td>
+
+                            {% if note.ai_generated %}
+
+                            <span class="badge bg-info-subtle text-info px-3 py-2">
+
+                                <i class="bi bi-stars me-1"></i> AI
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-secondary-subtle text-secondary px-3 py-2">
+                                Manual
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ note.date }}</td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <a href="{{ url_for('teacher_dashboard.lesson-notes-view', note_id=note.id) }}"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </a>
+
+                                <a href="{{ url_for('teacher_dashboard.lesson-notes-edit', note_id=note.id) }}"
+                                   class="btn btn-sm btn-outline-secondary">
+
+                                    <i class="bi bi-pencil-square"></i>
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+
+                        <td colspan="7" class="text-center py-5">
+
+                            <div class="text-muted">
+
+                                <i class="bi bi-archive fs-1 d-block mb-3"></i>
+                                <div class="fw-semibold">No archived lesson notes found</div>
+                                <div class="small">Use the filter above or create a new lesson note.</div>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,262 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}View Lesson Note | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">{{ note.topic }}</h2>
+
+        <p class="text-muted mb-0">
+            {{ note.subject }} · {{ note.class_name }} · Week {{ note.week }}
+        </p>
+
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <a href="{{ url_for('teacher_dashboard.lesson-notes-edit', note_id=note.id) }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-pencil-square me-2"></i>
+            Edit
+
+        </a>
+
+        <button class="btn btn-outline-secondary">
+
+            <i class="bi bi-download me-2"></i>
+            Export PDF
+
+        </button>
+
+        <a href="{{ url_for('teacher_dashboard.lesson-notes-home') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-arrow-left me-2"></i>
+            Back
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+SUMMARY CARD
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <div class="row g-4">
+
+            <div class="col-md-3">
+
+                <div class="small text-muted mb-1">Class</div>
+                <div class="fw-semibold">{{ note.class_name }}</div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="small text-muted mb-1">Subject</div>
+                <div class="fw-semibold">{{ note.subject }}</div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="small text-muted mb-1">Week</div>
+                <div class="fw-semibold">{{ note.week }}</div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="small text-muted mb-1">Duration</div>
+                <div class="fw-semibold">{{ note.duration or "40 minutes" }}</div>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="d-flex flex-wrap gap-3 align-items-center">
+
+            <span class="badge bg-success-subtle text-success px-3 py-2">
+                {{ note.status or "Approved" }}
+            </span>
+
+            {% if note.ai_generated %}
+
+            <span class="badge bg-info-subtle text-info px-3 py-2">
+                <i class="bi bi-stars me-1"></i>
+                AI Generated
+            </span>
+
+            {% endif %}
+
+            <span class="small text-muted">
+                Created: {{ note.created_at or "04 Aug 2026" }}
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+LESSON CONTENT
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Behavioural Objectives</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="lesson-content">
+            {{ note.objectives|safe }}
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Prior Knowledge</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="lesson-content">
+            {{ note.prior_knowledge|safe }}
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Instructional Materials</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="lesson-content">
+            {{ note.instructional_materials|safe }}
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Presentation / Lesson Steps</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="lesson-content">
+            {{ note.presentation_steps|safe }}
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Evaluation</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="lesson-content">
+            {{ note.evaluation|safe }}
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Assignment</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="lesson-content">
+            {{ note.assignment|safe }}
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+FOOTER ACTIONS
+========================================================= -->
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+
+    <div class="text-muted small">
+        Last updated: {{ note.updated_at or "04 Aug 2026, 10:30 AM" }}
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <a href="{{ url_for('teacher_dashboard.lesson-notes-edit', note_id=note.id) }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-pencil-square me-2"></i>
+            Edit Note
+
+        </a>
+
+        <button class="btn btn-outline-secondary">
+
+            <i class="bi bi-printer me-2"></i>
+            Print
+
+        </button>
+
+    </div>
+
+</div>
+
+{% endblock %}

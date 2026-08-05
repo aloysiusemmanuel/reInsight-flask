@@ -1,0 +1,319 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Edit Lesson Note | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Edit Lesson Note</h2>
+        <p class="text-muted mb-0">Update an existing lesson note.</p>
+    </div>
+
+    <a href="{{ url_for('teacher_dashboard.lesson-notes-home') }}"
+       class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Lesson Notes
+    </a>
+
+</div>
+
+<form method="POST">
+
+    <div class="row g-4">
+
+        <!-- MAIN FORM -->
+        <div class="col-lg-8">
+
+            <!-- BASIC INFORMATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Basic Information</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Class</label>
+
+                            <select class="form-select" name="classroom_id">
+
+                                {% for cls in classrooms %}
+
+                                <option value="{{ cls.id }}"
+                                    {% if cls.id == note.classroom_id %}selected{% endif %}>
+                                    {{ cls.name }}
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Subject</label>
+
+                            <select class="form-select" name="subject">
+
+                                {% for subject in subjects %}
+
+                                <option value="{{ subject }}"
+                                    {% if subject == note.subject %}selected{% endif %}>
+                                    {{ subject }}
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">Week</label>
+
+                            <input type="number"
+                                   class="form-control"
+                                   name="week"
+                                   value="{{ note.week }}">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">Duration</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="duration"
+                                   value="{{ note.duration }}">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">Curriculum</label>
+
+                            <select class="form-select" name="curriculum">
+
+                                <option {% if note.curriculum == 'NERDC' %}selected{% endif %}>NERDC</option>
+                                <option {% if note.curriculum == 'WAEC' %}selected{% endif %}>WAEC</option>
+                                <option {% if note.curriculum == 'NECO' %}selected{% endif %}>NECO</option>
+                                <option {% if note.curriculum == 'Cambridge' %}selected{% endif %}>Cambridge</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label class="form-label fw-medium">Topic</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="topic"
+                                   value="{{ note.topic }}">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- OBJECTIVES -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Behavioural Objectives</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="objectives"
+                              rows="5">{{ note.objectives }}</textarea>
+
+                </div>
+
+            </div>
+
+            <!-- PRIOR KNOWLEDGE -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Prior Knowledge</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="prior_knowledge"
+                              rows="3">{{ note.prior_knowledge }}</textarea>
+
+                </div>
+
+            </div>
+
+            <!-- MATERIALS -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Instructional Materials</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="instructional_materials"
+                              rows="3">{{ note.instructional_materials }}</textarea>
+
+                </div>
+
+            </div>
+
+            <!-- PRESENTATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Presentation / Lesson Steps</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="presentation_steps"
+                              rows="8">{{ note.presentation_steps }}</textarea>
+
+                </div>
+
+            </div>
+
+            <!-- EVALUATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Evaluation</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="evaluation"
+                              rows="4">{{ note.evaluation }}</textarea>
+
+                </div>
+
+            </div>
+
+            <!-- ASSIGNMENT -->
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Assignment</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="assignment"
+                              rows="4">{{ note.assignment }}</textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SIDE PANEL -->
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Note Summary</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Class</span>
+                        <span class="fw-semibold">{{ note.class_name }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Subject</span>
+                        <span class="fw-semibold">{{ note.subject }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Week</span>
+                        <span class="fw-semibold">{{ note.week }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="text-muted">AI Generated</span>
+
+                        {% if note.ai_generated %}
+
+                        <span class="badge bg-info-subtle text-info">Yes</span>
+
+                        {% else %}
+
+                        <span class="badge bg-secondary-subtle text-secondary">No</span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Actions</h5>
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <button type="submit" class="btn btn-primary">
+
+                        <i class="bi bi-check2-circle me-2"></i>
+                        Update Lesson Note
+
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary">
+
+                        Save Draft
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

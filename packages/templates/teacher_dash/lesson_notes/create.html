@@ -1,0 +1,378 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Create Lesson Note | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Create Lesson Note</h2>
+
+        <p class="text-muted mb-0">
+            Write a lesson note manually or generate one with AI.
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('teacher_dashboard.lesson-notes-home') }}"
+       class="btn btn-outline-primary">
+
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Lesson Notes
+
+    </a>
+
+</div>
+
+<form method="POST">
+
+    <div class="row g-4">
+
+        <!-- MAIN FORM -->
+        <div class="col-lg-8">
+
+            <!-- BASIC INFORMATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                    <h5 class="mb-0 fw-semibold">Basic Information</h5>
+
+                    <button type="button"
+                            class="btn btn-info btn-sm text-white">
+
+                        <i class="bi bi-stars me-1"></i>
+                        Generate with AI
+
+                    </button>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Class</label>
+
+                            <select class="form-select" name="classroom_id">
+
+                                {% for cls in classrooms %}
+
+                                <option value="{{ cls.id }}">{{ cls.name }}</option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Subject</label>
+
+                            <select class="form-select" name="subject">
+
+                                {% for subject in subjects %}
+
+                                <option value="{{ subject }}">{{ subject }}</option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">Week</label>
+
+                            <input type="number"
+                                   class="form-control"
+                                   name="week"
+                                   min="1"
+                                   max="20"
+                                   value="1">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">Duration</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="duration"
+                                   placeholder="40 minutes">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">Curriculum</label>
+
+                            <select class="form-select" name="curriculum">
+
+                                <option selected>NERDC</option>
+                                <option>WAEC</option>
+                                <option>NECO</option>
+                                <option>Cambridge</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label class="form-label fw-medium">Topic</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="topic"
+                                   placeholder="Enter lesson topic">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- OBJECTIVES -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Behavioural Objectives</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="objectives"
+                              rows="5"
+                              placeholder="At the end of the lesson, students should be able to..."></textarea>
+
+                </div>
+
+            </div>
+
+            <!-- PRIOR KNOWLEDGE -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Prior Knowledge</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="prior_knowledge"
+                              rows="3"
+                              placeholder="What do students already know?"></textarea>
+
+                </div>
+
+            </div>
+
+            <!-- MATERIALS -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Instructional Materials</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="instructional_materials"
+                              rows="3"
+                              placeholder="List teaching aids, charts, apparatus, etc."></textarea>
+
+                </div>
+
+            </div>
+
+            <!-- PRESENTATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Presentation / Lesson Steps</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="presentation_steps"
+                              rows="8"
+                              placeholder="Step-by-step teaching procedure"></textarea>
+
+                </div>
+
+            </div>
+
+            <!-- EVALUATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Evaluation</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="evaluation"
+                              rows="4"
+                              placeholder="Questions or activities to assess learning"></textarea>
+
+                </div>
+
+            </div>
+
+            <!-- ASSIGNMENT -->
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Assignment</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <textarea class="form-control"
+                              name="assignment"
+                              rows="4"
+                              placeholder="Homework or follow-up task"></textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SIDE PANEL -->
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">AI Assistant</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p class="text-muted small mb-3">
+                        Fill the class, subject, week, and topic, then click <strong>Generate with AI</strong>.
+                    </p>
+
+                    <div class="d-grid gap-2">
+
+                        <button type="button" class="btn btn-info text-white">
+
+                            <i class="bi bi-stars me-2"></i>
+                            Generate Full Note
+
+                        </button>
+
+                        <button type="button" class="btn btn-outline-info">
+
+                            Generate Objectives
+
+                        </button>
+
+                        <button type="button" class="btn btn-outline-info">
+
+                            Generate Evaluation
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Preview</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="small text-muted mb-2">Class</div>
+                    <div class="fw-semibold mb-3">Select a class</div>
+
+                    <div class="small text-muted mb-2">Subject</div>
+                    <div class="fw-semibold mb-3">Select a subject</div>
+
+                    <div class="small text-muted mb-2">Topic</div>
+                    <div class="fw-semibold">Enter a topic</div>
+
+                </div>
+
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Actions</h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <button type="submit" class="btn btn-primary">
+
+                        <i class="bi bi-check2-circle me-2"></i>
+                        Save Lesson Note
+
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary">
+
+                        Save Draft
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}
