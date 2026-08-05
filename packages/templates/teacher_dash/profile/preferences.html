@@ -1,0 +1,354 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Preferences | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Preferences</h2>
+
+        <p class="text-muted mb-0">
+            Customize your dashboard, notifications, and AI lesson note settings.
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('teacher_dashboard.profile-home') }}"
+       class="btn btn-outline-primary">
+
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Profile
+
+    </a>
+
+</div>
+
+<form method="POST">
+
+    <div class="row g-4">
+
+        <!-- APPEARANCE -->
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Appearance</h5>
+
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div>
+
+                        <label class="form-label fw-medium">Theme</label>
+
+                        <select class="form-select" name="theme">
+
+                            <option value="light" {% if preferences.theme == 'light' %}selected{% endif %}>Light</option>
+                            <option value="dark" {% if preferences.theme == 'dark' %}selected{% endif %}>Dark</option>
+                            <option value="system" {% if preferences.theme == 'system' %}selected{% endif %}>Use System Setting</option>
+
+                        </select>
+
+                    </div>
+
+                    <div>
+
+                        <label class="form-label fw-medium">Dashboard Density</label>
+
+                        <select class="form-select" name="density">
+
+                            <option value="comfortable" {% if preferences.density == 'comfortable' %}selected{% endif %}>Comfortable</option>
+                            <option value="compact" {% if preferences.density == 'compact' %}selected{% endif %}>Compact</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="showAvatars"
+                               name="show_avatars"
+                               {% if preferences.show_avatars %}checked{% endif %}>
+
+                        <label class="form-check-label" for="showAvatars">
+
+                            Show student avatars
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- NOTIFICATIONS -->
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Notifications</h5>
+
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="emailNotif"
+                               name="email_notifications"
+                               {% if preferences.email_notifications %}checked{% endif %}>
+
+                        <label class="form-check-label" for="emailNotif">
+
+                            Email notifications
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="resultNotif"
+                               name="result_notifications"
+                               {% if preferences.result_notifications %}checked{% endif %}>
+
+                        <label class="form-check-label" for="resultNotif">
+
+                            Result publication alerts
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="behaviourNotif"
+                               name="behaviour_notifications"
+                               {% if preferences.behaviour_notifications %}checked{% endif %}>
+
+                        <label class="form-check-label" for="behaviourNotif">
+
+                            Behaviour incident alerts
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="weeklySummary"
+                               name="weekly_summary"
+                               {% if preferences.weekly_summary %}checked{% endif %}>
+
+                        <label class="form-check-label" for="weeklySummary">
+
+                            Weekly summary email
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- AI SETTINGS -->
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                    <h5 class="mb-0 fw-semibold">AI Lesson Notes</h5>
+
+                    <span class="badge bg-info-subtle text-info">
+                        AI
+                    </span>
+
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="enableAI"
+                               name="enable_ai"
+                               {% if preferences.enable_ai %}checked{% endif %}>
+
+                        <label class="form-check-label" for="enableAI">
+
+                            Enable AI lesson note generation
+
+                        </label>
+
+                    </div>
+
+                    <div>
+
+                        <label class="form-label fw-medium">Default Curriculum</label>
+
+                        <select class="form-select" name="curriculum">
+
+                            <option value="NERDC" {% if preferences.curriculum == 'NERDC' %}selected{% endif %}>NERDC</option>
+                            <option value="WAEC" {% if preferences.curriculum == 'WAEC' %}selected{% endif %}>WAEC</option>
+                            <option value="NECO" {% if preferences.curriculum == 'NECO' %}selected{% endif %}>NECO</option>
+                            <option value="Cambridge" {% if preferences.curriculum == 'Cambridge' %}selected{% endif %}>Cambridge</option>
+
+                        </select>
+
+                    </div>
+
+                    <div>
+
+                        <label class="form-label fw-medium">Generation Style</label>
+
+                        <select class="form-select" name="ai_style">
+
+                            <option value="detailed" {% if preferences.ai_style == 'detailed' %}selected{% endif %}>Detailed</option>
+                            <option value="standard" {% if preferences.ai_style == 'standard' %}selected{% endif %}>Standard</option>
+                            <option value="concise" {% if preferences.ai_style == 'concise' %}selected{% endif %}>Concise</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="autoObjectives"
+                               name="auto_objectives"
+                               {% if preferences.auto_objectives %}checked{% endif %}>
+
+                        <label class="form-check-label" for="autoObjectives">
+
+                            Auto-generate objectives
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ACCOUNT -->
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Account</h5>
+
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="twoFactor"
+                               name="two_factor"
+                               {% if preferences.two_factor %}checked{% endif %}>
+
+                        <label class="form-check-label" for="twoFactor">
+
+                            Two-factor authentication
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="sessionTimeout"
+                               name="session_timeout"
+                               {% if preferences.session_timeout %}checked{% endif %}>
+
+                        <label class="form-check-label" for="sessionTimeout">
+
+                            Auto sign-out after inactivity
+
+                        </label>
+
+                    </div>
+
+                    <div>
+
+                        <label class="form-label fw-medium">Language</label>
+
+                        <select class="form-select" name="language">
+
+                            <option value="English" {% if preferences.language == 'English' %}selected{% endif %}>English</option>
+                            <option value="French" {% if preferences.language == 'French' %}selected{% endif %}>French</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+
+    <div class="d-flex flex-column flex-sm-row justify-content-end gap-3 mt-4">
+
+        <a href="{{ url_for('teacher_dashboard.profile-home') }}"
+           class="btn btn-outline-secondary">
+
+            Cancel
+
+        </a>
+
+        <button type="submit" class="btn btn-primary">
+
+            <i class="bi bi-check2-circle me-2"></i>
+            Save Preferences
+
+        </button>
+
+    </div>
+
+</form>
+
+{% endblock %}

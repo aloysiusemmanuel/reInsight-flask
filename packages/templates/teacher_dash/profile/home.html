@@ -1,0 +1,196 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}My Profile | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">My Profile</h2>
+
+        <p class="text-muted mb-0">
+            View and manage your teacher account.
+        </p>
+
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <a href="{{ url_for('teacher_dashboard.profile-edit') }}"
+           class="btn btn-primary">
+
+            <i class="bi bi-pencil-square me-2"></i>
+            Edit Profile
+
+        </a>
+
+        <a href="{{ url_for('teacher_dashboard.profile-security') }}"
+           class="btn btn-outline-primary">
+
+            <i class="bi bi-shield-lock me-2"></i>
+            Security
+
+        </a>
+
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <!-- PROFILE CARD -->
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-body text-center p-4">
+
+                <img src="https://ui-avatars.com/api/?name={{ teacher.name|replace(' ', '+') }}&background=2563EB&color=fff&size=128"
+                     width="128"
+                     height="128"
+                     class="rounded-circle mb-3">
+
+                <h4 class="fw-bold mb-1">{{ teacher.name }}</h4>
+
+                <p class="text-muted mb-3">{{ teacher.role }}</p>
+
+                <span class="badge bg-success-subtle text-success px-3 py-2">
+                    Active
+                </span>
+
+                <hr>
+
+                <div class="text-start">
+
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="text-muted">Employee ID</span>
+                        <span class="fw-semibold">{{ teacher.employee_id }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="text-muted">Department</span>
+                        <span class="fw-semibold">{{ teacher.department }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="text-muted">Joined</span>
+                        <span class="fw-semibold">{{ teacher.joined }}</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DETAILS -->
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Personal Information</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <div class="small text-muted mb-1">Full Name</div>
+                        <div class="fw-semibold">{{ teacher.name }}</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="small text-muted mb-1">Email</div>
+                        <div class="fw-semibold">{{ teacher.email }}</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="small text-muted mb-1">Phone</div>
+                        <div class="fw-semibold">{{ teacher.phone }}</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="small text-muted mb-1">Gender</div>
+                        <div class="fw-semibold">{{ teacher.gender }}</div>
+
+                    </div>
+
+                    <div class="col-12">
+
+                        <div class="small text-muted mb-1">Address</div>
+                        <div class="fw-semibold">{{ teacher.address }}</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0 fw-semibold">Teaching Summary</h5>
+
+                <a href="{{ url_for('teacher_dashboard.profile-preferences') }}"
+                   class="btn btn-sm btn-outline-secondary">
+
+                    Preferences
+
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4 text-center">
+
+                    <div class="col-md-4">
+
+                        <div class="display-6 fw-bold text-primary">{{ teacher.classes }}</div>
+                        <div class="text-muted">Classes</div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="display-6 fw-bold text-success">{{ teacher.students }}</div>
+                        <div class="text-muted">Students</div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="display-6 fw-bold text-info">{{ teacher.notes }}</div>
+                        <div class="text-muted">Lesson Notes</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

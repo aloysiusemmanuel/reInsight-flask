@@ -1046,3 +1046,108 @@ def lesson_notes_archive():
         "teacher_dash/lesson_notes/archive.html",
         notes=notes
     )
+
+# ==========================================================
+# TEACHER PROFILE HOME
+# ==========================================================
+
+@teacher_dash_bp.route("/profile", endpoint="profile-home")
+def profile_home():
+
+    teacher = {
+        "name": "Mr. David James",
+        "role": "Mathematics Teacher",
+        "employee_id": "TCH-1024",
+        "department": "Mathematics",
+        "joined": "Jan 2024",
+        "email": "david.james@school.com",
+        "phone": "+234 801 234 5678",
+        "gender": "Male",
+        "address": "Lagos, Nigeria",
+        "classes": 5,
+        "students": 182,
+        "notes": 24
+    }
+
+    return render_template(
+        "teacher_dash/profile/home.html",
+        teacher=teacher
+    )
+    
+# ==========================================================
+# TEACHER PROFILE PREFERENCES
+# ==========================================================
+
+@teacher_dash_bp.route("/profile/preferences",
+                       methods=["GET", "POST"],
+                       endpoint="profile-preferences")
+def profile_preferences():
+
+    preferences = {
+        "theme": "light",
+        "density": "comfortable",
+        "show_avatars": True,
+        "email_notifications": True,
+        "result_notifications": True,
+        "behaviour_notifications": False,
+        "weekly_summary": True,
+        "enable_ai": True,
+        "curriculum": "NERDC",
+        "ai_style": "detailed",
+        "auto_objectives": True,
+        "two_factor": False,
+        "session_timeout": True,
+        "language": "English"
+    }
+
+    if request.method == "POST":
+        flash("Preferences updated successfully.", "success")
+        return redirect(url_for("teacher_dashboard.profile-preferences"))
+
+    return render_template(
+        "teacher_dash/profile/preferences.html",
+        preferences=preferences
+    )
+    
+# ==========================================================
+# TEACHER PROFILE EDIT
+# ==========================================================
+
+@teacher_dash_bp.route("/profile/edit",
+                       methods=["GET", "POST"],
+                       endpoint="profile-edit")
+def profile_edit():
+
+    teacher = {
+        "name": "Mr. David James",
+        "first_name": "David",
+        "last_name": "James",
+        "role": "Mathematics Teacher",
+        "employee_id": "TCH-1024",
+        "department": "Mathematics",
+        "subject": "Mathematics",
+        "qualification": "B.Sc. Mathematics",
+        "email": "david.james@school.com",
+        "phone": "+234 801 234 5678",
+        "gender": "Male",
+        "dob": "1990-05-15",
+        "address": "Lagos, Nigeria"
+    }
+
+    if request.method == "POST":
+        flash("Profile updated successfully.", "success")
+        return redirect(url_for("teacher_dashboard.profile-home"))
+
+    return render_template(
+        "teacher_dash/profile/edit.html",
+        teacher=teacher
+    )
+
+
+# ==========================================================
+# TEACHER PROFILE SECURITY
+# ==========================================================
+
+@teacher_dash_bp.route("/profile/security", endpoint="profile-security")
+def profile_security():
+    return render_template("teacher_dash/profile/security.html")
