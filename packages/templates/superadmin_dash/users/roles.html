@@ -1,0 +1,435 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Roles | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Roles</h2>
+
+        <p class="text-muted mb-0">
+            Manage platform roles and the access level assigned to each role.
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('superadmin.create_role') }}"
+       class="btn btn-primary">
+
+        <i class="bi bi-plus-circle me-2"></i>
+        Create Role
+
+    </a>
+
+</div>
+
+<!-- =========================================================
+SUMMARY
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-md-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-shield-lock fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-primary">6</div>
+
+                <div class="text-muted">Total Roles</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-md-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-check-circle fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-success">5</div>
+
+                <div class="text-muted">Active Roles</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-md-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-people fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-warning">4,286</div>
+
+                <div class="text-muted">Assigned Users</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+ROLES TABLE
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Platform Roles</h5>
+
+            <small class="text-muted">Roles and access scope</small>
+
+        </div>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Role</th>
+                        <th>Description</th>
+                        <th>Users</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="bg-danger-subtle text-danger rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width:44px;height:44px;">
+
+                                    <i class="bi bi-shield-lock"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <div class="fw-semibold">Super Admin</div>
+
+                                    <small class="text-muted">Platform Owner</small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>Full access to all platform modules and settings.</td>
+
+                        <td>2</td>
+
+                        <td>
+
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Active
+                            </span>
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width:44px;height:44px;">
+
+                                    <i class="bi bi-building"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <div class="fw-semibold">School Admin</div>
+
+                                    <small class="text-muted">School Management</small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>Manage one school, teachers, students, and reports.</td>
+
+                        <td>128</td>
+
+                        <td>
+
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Active
+                            </span>
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="bg-info-subtle text-info rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width:44px;height:44px;">
+
+                                    <i class="bi bi-person-workspace"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <div class="fw-semibold">Teacher</div>
+
+                                    <small class="text-muted">Academic Staff</small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>Manage classes, attendance, lesson notes, and results.</td>
+
+                        <td>1,246</td>
+
+                        <td>
+
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Active
+                            </span>
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width:44px;height:44px;">
+
+                                    <i class="bi bi-people"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <div class="fw-semibold">Parent</div>
+
+                                    <small class="text-muted">Guardian Access</small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>View child performance, attendance, and reports.</td>
+
+                        <td>2,910</td>
+
+                        <td>
+
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Active
+                            </span>
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="bg-secondary-subtle text-secondary rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width:44px;height:44px;">
+
+                                    <i class="bi bi-eye"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <div class="fw-semibold">Viewer</div>
+
+                                    <small class="text-muted">Read Only</small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>Read-only access to selected modules.</td>
+
+                        <td>0</td>
+
+                        <td>
+
+                            <span class="badge bg-secondary-subtle text-secondary px-3 py-2">
+                                Inactive
+                            </span>
+
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

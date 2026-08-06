@@ -1,0 +1,674 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Reports | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Reports & Analytics</h2>
+
+        <p class="text-muted mb-0">
+            View platform performance, revenue trends, user growth, and school analytics.
+        </p>
+
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <button class="btn btn-outline-primary">
+
+            <i class="bi bi-funnel me-2"></i>
+            Filter
+
+        </button>
+
+        <button class="btn btn-primary">
+
+            <i class="bi bi-download me-2"></i>
+            Export Report
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+SUMMARY CARDS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-cash-stack fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-primary">₦12.8M</div>
+
+                <div class="text-muted">Total Revenue</div>
+
+                <small class="text-success">
+                    <i class="bi bi-arrow-up-right"></i>
+                    +18% this month
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-buildings fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-success">128</div>
+
+                <div class="text-muted">Active Schools</div>
+
+                <small class="text-success">
+                    <i class="bi bi-arrow-up-right"></i>
+                    +6 new schools
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-info-subtle text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-people-fill fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-info">4,286</div>
+
+                <div class="text-muted">Total Users</div>
+
+                <small class="text-success">
+                    <i class="bi bi-arrow-up-right"></i>
+                    +124 this week
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+
+                    <i class="bi bi-graph-up-arrow fs-4"></i>
+
+                </div>
+
+                <div class="fw-bold fs-3 text-warning">94.2%</div>
+
+                <div class="text-muted">Retention Rate</div>
+
+                <small class="text-success">
+                    <i class="bi bi-arrow-up-right"></i>
+                    +1.4%
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+CHARTS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <!-- REVENUE TREND -->
+    <div class="col-lg-8">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0 fw-semibold">Revenue Trend</h5>
+
+                    <small class="text-muted">Monthly subscription revenue</small>
+
+                </div>
+
+                <select class="form-select form-select-sm w-auto">
+
+                    <option>Last 12 Months</option>
+                    <option>Last 6 Months</option>
+                    <option>Last 30 Days</option>
+
+                </select>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-end justify-content-between gap-2"
+                     style="height:240px;">
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-primary rounded-3 w-100" style="height:90px;"></div>
+                        <small class="text-muted">Jan</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-primary rounded-3 w-100" style="height:120px;"></div>
+                        <small class="text-muted">Feb</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-primary rounded-3 w-100" style="height:110px;"></div>
+                        <small class="text-muted">Mar</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-primary rounded-3 w-100" style="height:150px;"></div>
+                        <small class="text-muted">Apr</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-primary rounded-3 w-100" style="height:170px;"></div>
+                        <small class="text-muted">May</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-primary rounded-3 w-100" style="height:200px;"></div>
+                        <small class="text-muted">Jun</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-primary rounded-3 w-100" style="height:220px;"></div>
+                        <small class="text-muted">Jul</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-primary rounded-3 w-100" style="height:240px;"></div>
+                        <small class="text-muted">Aug</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- PLAN DISTRIBUTION -->
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Plan Distribution</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column justify-content-center">
+
+                <div class="text-center mb-4">
+
+                    <div class="mx-auto rounded-circle border border-5 border-primary d-flex align-items-center justify-content-center"
+                         style="width:160px;height:160px;">
+
+                        <div>
+
+                            <div class="fw-bold fs-3">128</div>
+
+                            <small class="text-muted">Schools</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex flex-column gap-3">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="rounded-circle bg-primary" style="width:10px;height:10px;"></span>
+                            <span>Premium</span>
+                        </div>
+                        <span class="fw-semibold">58</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="rounded-circle bg-info" style="width:10px;height:10px;"></span>
+                            <span>Standard</span>
+                        </div>
+                        <span class="fw-semibold">42</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="rounded-circle bg-secondary" style="width:10px;height:10px;"></span>
+                            <span>Basic</span>
+                        </div>
+                        <span class="fw-semibold">21</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="rounded-circle bg-warning" style="width:10px;height:10px;"></span>
+                            <span>Trial</span>
+                        </div>
+                        <span class="fw-semibold">7</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+GROWTH & TOP SCHOOLS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+    <!-- USER GROWTH -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0 fw-semibold">User Growth</h5>
+
+                    <small class="text-muted">New users over time</small>
+
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="d-flex align-items-end justify-content-between gap-2"
+                     style="height:220px;">
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-info rounded-3 w-100" style="height:60px;"></div>
+                        <small class="text-muted">Mon</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-info rounded-3 w-100" style="height:90px;"></div>
+                        <small class="text-muted">Tue</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-info rounded-3 w-100" style="height:80px;"></div>
+                        <small class="text-muted">Wed</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-info rounded-3 w-100" style="height:120px;"></div>
+                        <small class="text-muted">Thu</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-info rounded-3 w-100" style="height:140px;"></div>
+                        <small class="text-muted">Fri</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-info rounded-3 w-100" style="height:110px;"></div>
+                        <small class="text-muted">Sat</small>
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center gap-2 flex-fill">
+                        <div class="bg-info rounded-3 w-100" style="height:130px;"></div>
+                        <small class="text-muted">Sun</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TOP SCHOOLS -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="mb-0 fw-semibold">Top Schools by Revenue</h5>
+
+                    <small class="text-muted">Highest contributing schools</small>
+
+                </div>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-4">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:40px;height:40px;">
+
+                            <i class="bi bi-building"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-semibold">Greenfield College</div>
+
+                            <small class="text-muted">Premium</small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="fw-bold">₦450k</span>
+
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:40px;height:40px;">
+
+                            <i class="bi bi-building"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-semibold">Future Stars Academy</div>
+
+                            <small class="text-muted">Premium</small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="fw-bold">₦450k</span>
+
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:40px;height:40px;">
+
+                            <i class="bi bi-building"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-semibold">Sunrise Academy</div>
+
+                            <small class="text-muted">Standard</small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="fw-bold">₦35k</span>
+
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:40px;height:40px;">
+
+                            <i class="bi bi-building"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-semibold">Harmony High School</div>
+
+                            <small class="text-muted">Basic</small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="fw-bold">₦120k</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+RECENT REPORTS
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Recent Reports</h5>
+
+            <small class="text-muted">Generated analytics and exports</small>
+
+        </div>
+
+        <button class="btn btn-sm btn-outline-secondary">
+
+            View All
+
+        </button>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Report</th>
+                        <th>Type</th>
+                        <th>Generated By</th>
+                        <th>Date</th>
+                        <th class="text-end">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="fw-semibold">August Revenue Report</div>
+
+                            <small class="text-muted">PDF · 1.2 MB</small>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                Revenue
+                            </span>
+
+                        </td>
+
+                        <td>Michael Brown</td>
+                        <td>07 Aug 2026</td>
+
+                        <td class="text-end">
+
+                            <button class="btn btn-sm btn-outline-primary">
+
+                                <i class="bi bi-download"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="fw-semibold">School Growth Analysis</div>
+
+                            <small class="text-muted">Excel · 856 KB</small>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Growth
+                            </span>
+
+                        </td>
+
+                        <td>System</td>
+                        <td>06 Aug 2026</td>
+
+                        <td class="text-end">
+
+                            <button class="btn btn-sm btn-outline-primary">
+
+                                <i class="bi bi-download"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+
+                            <div class="fw-semibold">User Activity Summary</div>
+
+                            <small class="text-muted">PDF · 642 KB</small>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-info-subtle text-info px-3 py-2">
+                                Users
+                            </span>
+
+                        </td>
+
+                        <td>Michael Brown</td>
+                        <td>05 Aug 2026</td>
+
+                        <td class="text-end">
+
+                            <button class="btn btn-sm btn-outline-primary">
+
+                                <i class="bi bi-download"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

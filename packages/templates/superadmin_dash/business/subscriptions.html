@@ -1,0 +1,320 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Subscriptions | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Subscriptions</h2>
+        <p class="text-muted mb-0">
+            Monitor school subscriptions, plans, renewals, and recurring revenue.
+        </p>
+    </div>
+
+    <a href="{{ url_for('superadmin.subscription_create') }}"
+       class="btn btn-primary">
+        <i class="bi bi-plus-circle me-2"></i>
+        New Subscription
+    </a>
+
+</div>
+
+<!-- SUMMARY CARDS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body text-center">
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-card-checklist fs-4"></i>
+                </div>
+                <div class="fw-bold fs-3 text-primary">128</div>
+                <div class="text-muted">Total Subscriptions</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body text-center">
+                <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-check-circle fs-4"></i>
+                </div>
+                <div class="fw-bold fs-3 text-success">112</div>
+                <div class="text-muted">Active</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body text-center">
+                <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-exclamation-circle fs-4"></i>
+                </div>
+                <div class="fw-bold fs-3 text-warning">9</div>
+                <div class="text-muted">Expiring Soon</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body text-center">
+                <div class="bg-info-subtle text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-cash-stack fs-4"></i>
+                </div>
+                <div class="fw-bold fs-3 text-info">₦2.45M</div>
+                <div class="text-muted">Monthly Revenue</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- FILTERS -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <form class="row g-4 align-items-end">
+
+            <div class="col-md-4">
+                <label class="form-label fw-medium">Search School</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="School name or code">
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label fw-medium">Plan</label>
+                <select class="form-select">
+                    <option>All Plans</option>
+                    <option>Premium</option>
+                    <option>Standard</option>
+                    <option>Basic</option>
+                    <option>Trial</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label fw-medium">Status</label>
+                <select class="form-select">
+                    <option>All Status</option>
+                    <option>Active</option>
+                    <option>Expired</option>
+                    <option>Cancelled</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 d-grid">
+                <button type="button" class="btn btn-outline-primary">
+                    Filter
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- SUBSCRIPTIONS TABLE -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+            <h5 class="mb-0 fw-semibold">School Subscriptions</h5>
+            <small class="text-muted">128 subscriptions found</small>
+        </div>
+
+        <button class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-download me-1"></i>
+            Export
+        </button>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th>School</th>
+                        <th>Plan</th>
+                        <th>Billing</th>
+                        <th>Amount</th>
+                        <th>Expiry</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">Greenfield College</div>
+                            <small class="text-muted">SCH-001</small>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                Premium
+                            </span>
+                        </td>
+
+                        <td>Yearly</td>
+                        <td>₦450,000</td>
+                        <td>31 Dec 2026</td>
+
+                        <td>
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Active
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-arrow-repeat"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">Sunrise Academy</div>
+                            <small class="text-muted">SCH-014</small>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-info-subtle text-info px-3 py-2">
+                                Standard
+                            </span>
+                        </td>
+
+                        <td>Monthly</td>
+                        <td>₦35,000</td>
+                        <td>18 Aug 2026</td>
+
+                        <td>
+                            <span class="badge bg-warning-subtle text-warning px-3 py-2">
+                                Expiring
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-arrow-repeat"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">Harmony High School</div>
+                            <small class="text-muted">SCH-032</small>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-secondary-subtle text-secondary px-3 py-2">
+                                Basic
+                            </span>
+                        </td>
+
+                        <td>Yearly</td>
+                        <td>₦120,000</td>
+                        <td>Expired</td>
+
+                        <td>
+                            <span class="badge bg-danger-subtle text-danger px-3 py-2">
+                                Expired
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-arrow-repeat"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

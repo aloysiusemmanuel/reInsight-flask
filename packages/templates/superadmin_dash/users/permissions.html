@@ -1,0 +1,334 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Permissions | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Permissions</h2>
+
+        <p class="text-muted mb-0">
+            Configure what each role can access and manage across the platform.
+        </p>
+
+    </div>
+
+    <button class="btn btn-primary">
+
+        <i class="bi bi-check2-circle me-2"></i>
+        Save Changes
+
+    </button>
+
+</div>
+
+<!-- =========================================================
+ROLE SELECTOR
+========================================================= -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <div class="row g-4 align-items-end">
+
+            <div class="col-md-6">
+
+                <label class="form-label fw-medium">Select Role</label>
+
+                <select class="form-select">
+
+                    <option>Super Admin</option>
+                    <option selected>School Admin</option>
+                    <option>Teacher</option>
+                    <option>Parent</option>
+                    <option>Viewer</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-6 text-md-end">
+
+                <div class="text-muted small mb-1">Current Role</div>
+
+                <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                    School Admin
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+PERMISSIONS GRID
+========================================================= -->
+
+<div class="row g-4">
+
+    <!-- STUDENTS -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0 d-flex align-items-center gap-2">
+
+                <i class="bi bi-mortarboard text-primary"></i>
+
+                <h5 class="mb-0 fw-semibold">Students</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">View students</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Create students</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Edit students</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox">
+                    <label class="form-check-label">Delete students</label>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TEACHERS -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0 d-flex align-items-center gap-2">
+
+                <i class="bi bi-person-workspace text-success"></i>
+
+                <h5 class="mb-0 fw-semibold">Teachers</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">View teachers</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Create teachers</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Edit teachers</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox">
+                    <label class="form-check-label">Delete teachers</label>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ACADEMICS -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0 d-flex align-items-center gap-2">
+
+                <i class="bi bi-journal-check text-info"></i>
+
+                <h5 class="mb-0 fw-semibold">Academics</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">View results</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Manage CA</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Manage exams</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Publish results</label>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ATTENDANCE -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0 d-flex align-items-center gap-2">
+
+                <i class="bi bi-calendar-check text-warning"></i>
+
+                <h5 class="mb-0 fw-semibold">Attendance</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">View attendance</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Take attendance</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Edit attendance</label>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- LESSON NOTES -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0 d-flex align-items-center gap-2">
+
+                <i class="bi bi-journal-text text-secondary"></i>
+
+                <h5 class="mb-0 fw-semibold">Lesson Notes</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">View lesson notes</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Create lesson notes</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Use AI generation</label>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- REPORTS -->
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0 d-flex align-items-center gap-2">
+
+                <i class="bi bi-graph-up-arrow text-danger"></i>
+
+                <h5 class="mb-0 fw-semibold">Reports</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">View reports</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Export reports</label>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox">
+                    <label class="form-check-label">Delete reports</label>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+FOOTER ACTIONS
+========================================================= -->
+
+<div class="d-flex justify-content-end gap-3 mt-4">
+
+    <button class="btn btn-outline-secondary">
+
+        Reset
+
+    </button>
+
+    <button class="btn btn-primary">
+
+        <i class="bi bi-check2-circle me-2"></i>
+        Save Permissions
+
+    </button>
+
+</div>
+
+{% endblock %}

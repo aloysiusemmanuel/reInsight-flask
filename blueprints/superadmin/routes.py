@@ -259,33 +259,87 @@ def users():
     )
 
 
+# ==========================================================
+# CREATE USER
+# ==========================================================
+
 @superadmin_bp.route("/users/create", methods=["GET", "POST"])
 # @login_required
 # @superadmin_required
 def create_user():
+
+    if request.method == "POST":
+        flash("User created successfully.", "success")
+        return redirect(url_for("superadmin.users"))
 
     return render_template(
         "superadmin_dash/users/create_user.html"
     )
 
 
+# ==========================================================
+# USER DETAILS
+# ==========================================================
+
 @superadmin_bp.route("/users/<int:id>")
 # @login_required
 # @superadmin_required
 def user_details(id):
 
+    user = {
+        "id": id,
+        "name": "David James",
+        "username": "davidjames",
+        "email": "david.james@school.com",
+        "phone": "+234 801 234 5678",
+        "gender": "Male",
+        "role": "School Admin",
+        "status": "Active",
+        "school": "Greenfield College",
+        "school_code": "SCH-001",
+        "joined": "15 Jan 2025",
+        "last_login": "Today · 08:15 AM",
+        "activity": "24 actions",
+        "security": "2FA Enabled",
+        "two_factor": "Enabled"
+    }
+
     return render_template(
-        "superadmin_dash/users/user_details.html"
+        "superadmin_dash/users/user_details.html",
+        user=user
     )
 
+
+# ==========================================================
+# EDIT USER
+# ==========================================================
 
 @superadmin_bp.route("/users/<int:id>/edit", methods=["GET", "POST"])
 # @login_required
 # @superadmin_required
 def edit_user(id):
 
+    user = {
+        "id": id,
+        "first_name": "David",
+        "last_name": "James",
+        "username": "davidjames",
+        "email": "david.james@school.com",
+        "phone": "+234 801 234 5678",
+        "gender": "Male",
+        "role": "School Admin",
+        "status": "Active",
+        "school": "Greenfield College",
+        "two_factor": "Enabled"
+    }
+
+    if request.method == "POST":
+        flash("User updated successfully.", "success")
+        return redirect(url_for("superadmin.user_details", id=id))
+
     return render_template(
-        "superadmin_dash/users/edit_user.html"
+        "superadmin_dash/users/edit_user.html",
+        user=user
     )
 
 
@@ -299,17 +353,25 @@ def edit_user(id):
 def roles():
 
     return render_template(
-        "superadmin_dash/roles/home.html"
+        "superadmin_dash/users/roles.html"
     )
 
+
+# ==========================================================
+# CREATE ROLE
+# ==========================================================
 
 @superadmin_bp.route("/roles/create", methods=["GET", "POST"])
 # @login_required
 # @superadmin_required
 def create_role():
 
+    if request.method == "POST":
+        flash("Role created successfully.", "success")
+        return redirect(url_for("superadmin.roles"))
+
     return render_template(
-        "superadmin_dash/roles/create_role.html"
+        "superadmin_dash/users/create_role.html"
     )
 
 
@@ -322,7 +384,7 @@ def create_role():
 # @login_required
 # @superadmin_required
 def permissions():
-    return render_template("superadmin_dash/roles/permissions.html")
+    return render_template("superadmin_dash/users/permissions.html")
 
 
 # ==========================================================
@@ -335,16 +397,24 @@ def permissions():
 def subscriptions():
 
     return render_template(
-        "superadmin_dash/subscriptions/home.html"
+        "superadmin_dash/business/subscriptions.html"
     )
 
-@superadmin_bp.route("/subscriptions/create")
+# ==========================================================
+# CREATE SUBSCRIPTION
+# ==========================================================
+
+@superadmin_bp.route("/subscriptions/create", methods=["GET", "POST"])
 # @login_required
 # @superadmin_required
 def subscription_create():
 
+    if request.method == "POST":
+        flash("Subscription created successfully.", "success")
+        return redirect(url_for("superadmin.subscriptions"))
+
     return render_template(
-        "superadmin_dash/subscriptions/subscriptions_create.html"
+        "superadmin_dash/business/subscription_create.html"
     )
 
 # ==========================================================
@@ -357,17 +427,21 @@ def subscription_create():
 def payments():
 
     return render_template(
-        "superadmin_dash/payments/home.html"
+        "superadmin_dash/business/payments.html"
     )
-
 
 # ==========================================================
 # REPORTS
 # ==========================================================
 
 @superadmin_bp.route("/reports")
+# @login_required
+# @superadmin_required
 def reports():
-    return render_template("superadmin_dash/reports/home.html")
+
+    return render_template(
+        "superadmin_dash/reports/home.html"
+    )
 
 
 

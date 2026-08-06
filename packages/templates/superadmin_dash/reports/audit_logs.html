@@ -1,0 +1,407 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Audit Logs | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Audit Logs</h2>
+        <p class="text-muted mb-0">
+            Track user activities, security events, configuration changes, and system actions.
+        </p>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <button class="btn btn-outline-primary">
+            <i class="bi bi-funnel me-2"></i>
+            Filter
+        </button>
+
+        <button class="btn btn-primary">
+            <i class="bi bi-download me-2"></i>
+            Export Logs
+        </button>
+
+    </div>
+
+</div>
+
+<!-- SUMMARY CARDS -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-list-check fs-4"></i>
+                </div>
+
+                <div class="fw-bold fs-3 text-primary">12,842</div>
+
+                <div class="text-muted">Total Events</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-shield-check fs-4"></i>
+                </div>
+
+                <div class="fw-bold fs-3 text-success">98%</div>
+
+                <div class="text-muted">Normal Events</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-exclamation-triangle fs-4"></i>
+                </div>
+
+                <div class="fw-bold fs-3 text-warning">37</div>
+
+                <div class="text-muted">Warnings</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-danger-subtle text-danger rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-shield-lock fs-4"></i>
+                </div>
+
+                <div class="fw-bold fs-3 text-danger">4</div>
+
+                <div class="text-muted">Security Alerts</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- FILTERS -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <form class="row g-4 align-items-end">
+
+            <div class="col-md-3">
+                <label class="form-label fw-medium">Search</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="User, action, or IP">
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label fw-medium">Level</label>
+                <select class="form-select">
+                    <option>All</option>
+                    <option>Info</option>
+                    <option>Warning</option>
+                    <option>Error</option>
+                    <option>Critical</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label fw-medium">Module</label>
+                <select class="form-select">
+                    <option>All</option>
+                    <option>Authentication</option>
+                    <option>Users</option>
+                    <option>Schools</option>
+                    <option>Subscriptions</option>
+                    <option>Payments</option>
+                    <option>System</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label fw-medium">Date</label>
+                <input type="date" class="form-control">
+            </div>
+
+            <div class="col-md-2 d-grid">
+                <button type="button" class="btn btn-outline-primary">
+                    Apply
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- LOG TABLE -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+            <h5 class="mb-0 fw-semibold">Recent Events</h5>
+            <small class="text-muted">Latest system and user activities</small>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-success-subtle text-success px-3 py-2">Live</span>
+        </div>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th>Time</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Module</th>
+                        <th>IP Address</th>
+                        <th>Level</th>
+                        <th class="text-end">Details</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">10:42 AM</div>
+                            <small class="text-muted">07 Aug 2026</small>
+                        </td>
+
+                        <td>
+                            <div class="fw-semibold">Michael Brown</div>
+                            <small class="text-muted">Super Admin</small>
+                        </td>
+
+                        <td>Created new school</td>
+
+                        <td>
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                Schools
+                            </span>
+                        </td>
+
+                        <td>102.89.12.45</td>
+
+                        <td>
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Info
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">09:18 AM</div>
+                            <small class="text-muted">07 Aug 2026</small>
+                        </td>
+
+                        <td>
+                            <div class="fw-semibold">David James</div>
+                            <small class="text-muted">School Admin</small>
+                        </td>
+
+                        <td>Updated teacher profile</td>
+
+                        <td>
+                            <span class="badge bg-info-subtle text-info px-3 py-2">
+                                Users
+                            </span>
+                        </td>
+
+                        <td>102.89.18.77</td>
+
+                        <td>
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Info
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">08:55 AM</div>
+                            <small class="text-muted">07 Aug 2026</small>
+                        </td>
+
+                        <td>
+                            <div class="fw-semibold">System</div>
+                            <small class="text-muted">Automated</small>
+                        </td>
+
+                        <td>Subscription renewed</td>
+
+                        <td>
+                            <span class="badge bg-warning-subtle text-warning px-3 py-2">
+                                Billing
+                            </span>
+                        </td>
+
+                        <td>127.0.0.1</td>
+
+                        <td>
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Info
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">07:31 AM</div>
+                            <small class="text-muted">07 Aug 2026</small>
+                        </td>
+
+                        <td>
+                            <div class="fw-semibold">Unknown</div>
+                            <small class="text-muted">Guest</small>
+                        </td>
+
+                        <td>Failed login attempt</td>
+
+                        <td>
+                            <span class="badge bg-danger-subtle text-danger px-3 py-2">
+                                Auth
+                            </span>
+                        </td>
+
+                        <td>185.44.23.91</td>
+
+                        <td>
+                            <span class="badge bg-warning-subtle text-warning px-3 py-2">
+                                Warning
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">06:14 AM</div>
+                            <small class="text-muted">07 Aug 2026</small>
+                        </td>
+
+                        <td>
+                            <div class="fw-semibold">System</div>
+                            <small class="text-muted">Automated</small>
+                        </td>
+
+                        <td>Database backup completed</td>
+
+                        <td>
+                            <span class="badge bg-secondary-subtle text-secondary px-3 py-2">
+                                System
+                            </span>
+                        </td>
+
+                        <td>127.0.0.1</td>
+
+                        <td>
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Info
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

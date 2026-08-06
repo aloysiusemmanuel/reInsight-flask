@@ -1,0 +1,309 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Create User | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Create User</h2>
+
+        <p class="text-muted mb-0">
+            Create a new platform user and assign a role and school.
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('superadmin.users') }}"
+       class="btn btn-outline-primary">
+
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Users
+
+    </a>
+
+</div>
+
+<form method="POST">
+
+    <div class="row g-4">
+
+        <!-- MAIN FORM -->
+        <div class="col-lg-8">
+
+            <!-- USER INFORMATION -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">User Information</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">First Name</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="first_name"
+                                   placeholder="John">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Last Name</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="last_name"
+                                   placeholder="Doe">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Email Address</label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   name="email"
+                                   placeholder="john.doe@example.com">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Phone Number</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="phone"
+                                   placeholder="+234 801 234 5678">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Username</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="username"
+                                   placeholder="johndoe">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Gender</label>
+
+                            <select class="form-select" name="gender">
+
+                                <option selected disabled>Select gender</option>
+                                <option>Male</option>
+                                <option>Female</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ROLE & SCHOOL -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Role & School</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Role</label>
+
+                            <select class="form-select" name="role">
+
+                                <option selected disabled>Select role</option>
+                                <option>Super Admin</option>
+                                <option>School Admin</option>
+                                <option>Teacher</option>
+                                <option>Parent</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Assign School</label>
+
+                            <select class="form-select" name="school_id">
+
+                                <option selected disabled>Select school</option>
+                                <option>Greenfield College</option>
+                                <option>Sunrise Academy</option>
+                                <option>Harmony High School</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SECURITY -->
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Security</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Password</label>
+
+                            <input type="password"
+                                   class="form-control"
+                                   name="password">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Confirm Password</label>
+
+                            <input type="password"
+                                   class="form-control"
+                                   name="confirm_password">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SIDE PANEL -->
+        <div class="col-lg-4">
+
+            <!-- ACCOUNT OPTIONS -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Account Options</h5>
+
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               checked>
+
+                        <label class="form-check-label">
+
+                            Activate immediately
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               checked>
+
+                        <label class="form-check-label">
+
+                            Send welcome email
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               checked>
+
+                        <label class="form-check-label">
+
+                            Require password reset on first login
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Actions</h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <button type="submit" class="btn btn-primary">
+
+                        <i class="bi bi-person-plus me-2"></i>
+                        Create User
+
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary">
+
+                        Save Draft
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}
