@@ -1,0 +1,348 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Create School Administrator | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Create School Administrator</h2>
+
+        <p class="text-muted mb-0">
+            Assign a platform administrator to manage a specific school.
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('superadmin.schools') }}"
+       class="btn btn-outline-primary">
+
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Schools
+
+    </a>
+
+</div>
+
+<form method="POST">
+
+    <div class="row g-4">
+
+        <!-- MAIN FORM -->
+        <div class="col-lg-8">
+
+            <!-- ADMIN INFORMATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Administrator Information</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">First Name</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="first_name"
+                                   placeholder="Sarah">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Last Name</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="last_name"
+                                   placeholder="Johnson">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Email Address</label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   name="email"
+                                   placeholder="admin@school.com">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Phone Number</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="phone"
+                                   placeholder="+234 801 234 5678">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SCHOOL ASSIGNMENT -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">School Assignment</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Select School</label>
+
+                            <select class="form-select" name="school_id">
+
+                                <option selected disabled>Select a school</option>
+                                <option value="1">Greenfield College</option>
+                                <option value="2">Sunrise Academy</option>
+                                <option value="3">Harmony High School</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Role</label>
+
+                            <select class="form-select" name="role">
+
+                                <option selected>School Administrator</option>
+                                <option>Principal</option>
+                                <option>Vice Principal</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SECURITY -->
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Security</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Temporary Password</label>
+
+                            <input type="password"
+                                   class="form-control"
+                                   name="password"
+                                   placeholder="Enter temporary password">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Confirm Password</label>
+
+                            <input type="password"
+                                   class="form-control"
+                                   name="confirm_password"
+                                   placeholder="Confirm password">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SIDE PANEL -->
+        <div class="col-lg-4">
+
+            <!-- ACCOUNT OPTIONS -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Account Options</h5>
+
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="activeSwitch"
+                               checked>
+
+                        <label class="form-check-label" for="activeSwitch">
+
+                            Activate immediately
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="emailSwitch"
+                               checked>
+
+                        <label class="form-check-label" for="emailSwitch">
+
+                            Send welcome email
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="resetSwitch"
+                               checked>
+
+                        <label class="form-check-label" for="resetSwitch">
+
+                            Require password reset on first login
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PERMISSIONS -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Permissions</h5>
+
+                </div>
+
+                <div class="card-body d-flex flex-column gap-2">
+
+                    <div class="form-check">
+
+                        <input class="form-check-input" type="checkbox" checked>
+
+                        <label class="form-check-label">Manage teachers</label>
+
+                    </div>
+
+                    <div class="form-check">
+
+                        <input class="form-check-input" type="checkbox" checked>
+
+                        <label class="form-check-label">Manage students</label>
+
+                    </div>
+
+                    <div class="form-check">
+
+                        <input class="form-check-input" type="checkbox" checked>
+
+                        <label class="form-check-label">View reports</label>
+
+                    </div>
+
+                    <div class="form-check">
+
+                        <input class="form-check-input" type="checkbox" checked>
+
+                        <label class="form-check-label">Manage attendance</label>
+
+                    </div>
+
+                    <div class="form-check">
+
+                        <input class="form-check-input" type="checkbox" checked>
+
+                        <label class="form-check-label">Manage lesson notes</label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Actions</h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <button type="submit" class="btn btn-primary">
+
+                        <i class="bi bi-person-plus me-2"></i>
+                        Create Administrator
+
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary">
+
+                        Save Draft
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,267 @@
+{% extends "teacher_dash/teacher_base.html" %}
+
+{% block title %}Settings | reInsight Teacher Portal{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Settings</h2>
+
+        <p class="text-muted mb-0">
+            Manage dashboard behavior, notifications, and teaching preferences.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <!-- GENERAL -->
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">General</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div>
+
+                    <label class="form-label fw-medium">Language</label>
+
+                    <select class="form-select">
+
+                        <option selected>English</option>
+                        <option>French</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label class="form-label fw-medium">Time Zone</label>
+
+                    <select class="form-select">
+
+                        <option selected>Africa/Lagos (UTC+1)</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-check form-switch">
+
+                    <input class="form-check-input" type="checkbox" checked id="autoSave">
+
+                    <label class="form-check-label" for="autoSave">
+
+                        Enable auto-save for lesson notes
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- NOTIFICATIONS -->
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Notifications</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="form-check form-switch">
+
+                    <input class="form-check-input" type="checkbox" checked id="emailAlerts">
+
+                    <label class="form-check-label" for="emailAlerts">
+
+                        Email alerts
+
+                    </label>
+
+                </div>
+
+                <div class="form-check form-switch">
+
+                    <input class="form-check-input" type="checkbox" checked id="resultAlerts">
+
+                    <label class="form-check-label" for="resultAlerts">
+
+                        Result publication alerts
+
+                    </label>
+
+                </div>
+
+                <div class="form-check form-switch">
+
+                    <input class="form-check-input" type="checkbox" id="behaviourAlerts">
+
+                    <label class="form-check-label" for="behaviourAlerts">
+
+                        Behaviour incident alerts
+
+                    </label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- LESSON NOTES -->
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Lesson Notes</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="form-check form-switch">
+
+                    <input class="form-check-input" type="checkbox" checked id="enableAI">
+
+                    <label class="form-check-label" for="enableAI">
+
+                        Enable AI lesson note generation
+
+                    </label>
+
+                </div>
+
+                <div>
+
+                    <label class="form-label fw-medium">Default Curriculum</label>
+
+                    <select class="form-select">
+
+                        <option selected>NERDC</option>
+                        <option>WAEC</option>
+                        <option>NECO</option>
+                        <option>Cambridge</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label class="form-label fw-medium">Generation Style</label>
+
+                    <select class="form-select">
+
+                        <option selected>Detailed</option>
+                        <option>Standard</option>
+                        <option>Concise</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ACCOUNT -->
+
+    <div class="col-lg-6">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Account</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="form-check form-switch">
+
+                    <input class="form-check-input" type="checkbox" checked id="twoFactor">
+
+                    <label class="form-check-label" for="twoFactor">
+
+                        Two-factor authentication
+
+                    </label>
+
+                </div>
+
+                <div class="form-check form-switch">
+
+                    <input class="form-check-input" type="checkbox" checked id="sessionTimeout">
+
+                    <label class="form-check-label" for="sessionTimeout">
+
+                        Auto sign-out after inactivity
+
+                    </label>
+
+                </div>
+
+                <button class="btn btn-outline-danger mt-2">
+
+                    <i class="bi bi-box-arrow-right me-2"></i>
+                    Sign Out Everywhere
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="d-flex justify-content-end gap-3 mt-4">
+
+    <button class="btn btn-outline-secondary">
+
+        Reset
+
+    </button>
+
+    <button class="btn btn-primary">
+
+        <i class="bi bi-check2-circle me-2"></i>
+        Save Settings
+
+    </button>
+
+</div>
+
+{% endblock %}

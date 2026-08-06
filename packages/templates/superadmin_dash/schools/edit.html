@@ -1,0 +1,289 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Edit School | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Edit School</h2>
+        <p class="text-muted mb-0">Update school information, subscription, and status.</p>
+    </div>
+
+    <a href="{{ url_for('superadmin.schools') }}"
+       class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Schools
+    </a>
+
+</div>
+
+<form method="POST" enctype="multipart/form-data">
+
+    <div class="row g-4">
+
+        <!-- MAIN FORM -->
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">School Information</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">School Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="name"
+                                   value="{{ school.name }}">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">School Code</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="code"
+                                   value="{{ school.code }}"
+                                   readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Email Address</label>
+                            <input type="email"
+                                   class="form-control"
+                                   name="email"
+                                   value="{{ school.email }}">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Phone Number</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="phone"
+                                   value="{{ school.phone }}">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">School Type</label>
+                            <select class="form-select" name="school_type">
+                                <option value="Primary" {% if school.school_type == 'Primary' %}selected{% endif %}>Primary</option>
+                                <option value="Secondary" {% if school.school_type == 'Secondary' %}selected{% endif %}>Secondary</option>
+                                <option value="Primary & Secondary" {% if school.school_type == 'Primary & Secondary' %}selected{% endif %}>Primary & Secondary</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Ownership</label>
+                            <select class="form-select" name="ownership">
+                                <option value="Private" {% if school.ownership == 'Private' %}selected{% endif %}>Private</option>
+                                <option value="Public" {% if school.ownership == 'Public' %}selected{% endif %}>Public</option>
+                                <option value="Mission" {% if school.ownership == 'Mission' %}selected{% endif %}>Mission</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Address</label>
+                            <textarea class="form-control"
+                                      name="address"
+                                      rows="3">{{ school.address }}</textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- LOCATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Location</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-medium">Country</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="country"
+                                   value="{{ school.country }}">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-medium">State</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="state"
+                                   value="{{ school.state }}">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-medium">City</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="city"
+                                   value="{{ school.city }}">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- LOGO -->
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Branding</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+
+                        <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:72px;height:72px;">
+                            <i class="bi bi-building fs-2"></i>
+                        </div>
+
+                        <div>
+                            <div class="fw-semibold">Current Logo</div>
+                            <small class="text-muted">Upload a new logo to replace the current one.</small>
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-medium">New Logo</label>
+                        <input type="file"
+                               class="form-control"
+                               name="logo">
+                    </div>
+
+                    <small class="text-muted">
+                        PNG or JPG, maximum 2MB.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SIDE PANEL -->
+        <div class="col-lg-4">
+
+            <!-- SUBSCRIPTION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Subscription</h5>
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div>
+                        <label class="form-label fw-medium">Plan</label>
+                        <select class="form-select" name="plan">
+                            <option value="Premium" {% if school.plan == 'Premium' %}selected{% endif %}>Premium</option>
+                            <option value="Standard" {% if school.plan == 'Standard' %}selected{% endif %}>Standard</option>
+                            <option value="Basic" {% if school.plan == 'Basic' %}selected{% endif %}>Basic</option>
+                            <option value="Trial" {% if school.plan == 'Trial' %}selected{% endif %}>Trial</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="form-label fw-medium">Status</label>
+                        <select class="form-select" name="status">
+                            <option value="Active" {% if school.status == 'Active' %}selected{% endif %}>Active</option>
+                            <option value="Trial" {% if school.status == 'Trial' %}selected{% endif %}>Trial</option>
+                            <option value="Suspended" {% if school.status == 'Suspended' %}selected{% endif %}>Suspended</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="form-label fw-medium">Expiry Date</label>
+                        <input type="date"
+                               class="form-control"
+                               name="expiry_date"
+                               value="{{ school.expiry_date }}">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- STATS -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">School Statistics</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Students</span>
+                        <span class="fw-semibold">{{ school.students }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Teachers</span>
+                        <span class="fw-semibold">{{ school.teachers }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="text-muted">Created</span>
+                        <span class="fw-semibold">{{ school.created }}</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Actions</h5>
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check2-circle me-2"></i>
+                        Save Changes
+                    </button>
+
+                    <button type="button" class="btn btn-outline-danger">
+                        <i class="bi bi-slash-circle me-2"></i>
+                        Suspend School
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,393 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Register School | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+PAGE HEADER
+========================================================= -->
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Register School</h2>
+
+        <p class="text-muted mb-0">
+            Create a new school account and assign a subscription plan.
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('superadmin.schools') }}"
+       class="btn btn-outline-primary">
+
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Schools
+
+    </a>
+
+</div>
+
+<form method="POST" enctype="multipart/form-data">
+
+    <div class="row g-4">
+
+        <!-- MAIN FORM -->
+        <div class="col-lg-8">
+
+            <!-- SCHOOL INFORMATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">School Information</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">School Name</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="name"
+                                   placeholder="Greenfield College">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">School Code</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="code"
+                                   placeholder="SCH-001">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Email Address</label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   name="email"
+                                   placeholder="info@school.com">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Phone Number</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="phone"
+                                   placeholder="+234 801 234 5678">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">School Type</label>
+
+                            <select class="form-select" name="school_type">
+
+                                <option selected disabled>Select type</option>
+                                <option>Primary</option>
+                                <option>Secondary</option>
+                                <option>Primary & Secondary</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-medium">Ownership</label>
+
+                            <select class="form-select" name="ownership">
+
+                                <option selected disabled>Select ownership</option>
+                                <option>Private</option>
+                                <option>Public</option>
+                                <option>Mission</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-12">
+
+                            <label class="form-label fw-medium">Address</label>
+
+                            <textarea class="form-control"
+                                      name="address"
+                                      rows="3"
+                                      placeholder="Enter school address"></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- LOCATION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Location</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">Country</label>
+
+                            <select class="form-select" name="country">
+
+                                <option selected>Nigeria</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">State</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="state"
+                                   placeholder="Lagos">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-medium">City</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="city"
+                                   placeholder="Ikeja">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- LOGO -->
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Branding</h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+
+                        <label class="form-label fw-medium">School Logo</label>
+
+                        <input type="file"
+                               class="form-control"
+                               name="logo">
+
+                    </div>
+
+                    <small class="text-muted">
+                        PNG or JPG, maximum 2MB.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SIDE PANEL -->
+        <div class="col-lg-4">
+
+            <!-- SUBSCRIPTION -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Subscription</h5>
+
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div>
+
+                        <label class="form-label fw-medium">Plan</label>
+
+                        <select class="form-select" name="plan">
+
+                            <option selected>Premium</option>
+                            <option>Standard</option>
+                            <option>Basic</option>
+                            <option>Trial</option>
+
+                        </select>
+
+                    </div>
+
+                    <div>
+
+                        <label class="form-label fw-medium">Billing Cycle</label>
+
+                        <select class="form-select" name="billing_cycle">
+
+                            <option selected>Yearly</option>
+                            <option>Monthly</option>
+
+                        </select>
+
+                    </div>
+
+                    <div>
+
+                        <label class="form-label fw-medium">Start Date</label>
+
+                        <input type="date"
+                               class="form-control"
+                               name="start_date">
+
+                    </div>
+
+                    <div>
+
+                        <label class="form-label fw-medium">Expiry Date</label>
+
+                        <input type="date"
+                               class="form-control"
+                               name="expiry_date">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACCOUNT STATUS -->
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Account Status</h5>
+
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="activeSwitch"
+                               checked>
+
+                        <label class="form-check-label" for="activeSwitch">
+
+                            Activate immediately
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="trialSwitch">
+
+                        <label class="form-check-label" for="trialSwitch">
+
+                            Start as trial
+
+                        </label>
+
+                    </div>
+
+                    <div class="form-check form-switch">
+
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="welcomeSwitch"
+                               checked>
+
+                        <label class="form-check-label" for="welcomeSwitch">
+
+                            Send welcome email
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="mb-0 fw-semibold">Actions</h5>
+
+                </div>
+
+                <div class="card-body d-grid gap-3">
+
+                    <button type="submit" class="btn btn-primary">
+
+                        <i class="bi bi-check2-circle me-2"></i>
+                        Create School
+
+                    </button>
+
+                    <button type="button" class="btn btn-outline-secondary">
+
+                        Save Draft
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

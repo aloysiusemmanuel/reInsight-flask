@@ -129,47 +129,119 @@ def notifications():
 # @superadmin_required
 def schools():
 
-    return render_template(
-        "superadmin/schools.html"
-    )
+   return render_template("superadmin_dash/schools/home.html")
 
+
+# ==========================================================
+# REGISTER SCHOOL
+# ==========================================================
 
 @superadmin_bp.route("/schools/create", methods=["GET", "POST"])
 # @login_required
 # @superadmin_required
 def create_school():
 
+    if request.method == "POST":
+        flash("School registered successfully.", "success")
+        return redirect(url_for("superadmin.schools"))
+
     return render_template(
-        "superadmin/create_school.html"
+        "superadmin_dash/schools/create.html"
     )
     
+# ==========================================================
+# CREATE SCHOOL ADMINISTRATOR
+# ==========================================================
+
 @superadmin_bp.route("/schools-admins/create", methods=["GET", "POST"])
 # @login_required
 # @superadmin_required
 def create_school_admin():
 
+    if request.method == "POST":
+        flash("School administrator created successfully.", "success")
+        return redirect(url_for("superadmin.schools"))
+
     return render_template(
-        "superadmin/create_school_admin.html"
+        "superadmin_dash/schools/create_school_admin.html"
     )
 
+
+# ==========================================================
+# SCHOOL DETAILS
+# ==========================================================
 
 @superadmin_bp.route("/schools/<int:id>")
 # @login_required
 # @superadmin_required
 def school_details(id):
 
+    school = {
+        "id": id,
+        "name": "Greenfield College",
+        "code": "SCH-001",
+        "status": "Active",
+        "plan": "Premium",
+        "email": "info@greenfield.edu.ng",
+        "phone": "+234 801 234 5678",
+        "school_type": "Primary & Secondary",
+        "ownership": "Private",
+        "address": "12 Allen Avenue, Ikeja, Lagos",
+        "country": "Nigeria",
+        "state": "Lagos",
+        "city": "Ikeja",
+        "students": 1240,
+        "teachers": 68,
+        "revenue": "₦450,000",
+        "billing": "Yearly",
+        "start_date": "01 Jan 2026",
+        "expiry_display": "31 Dec 2026",
+        "admin_name": "Mrs. Sarah Johnson",
+        "admin_email": "admin@greenfield.edu.ng"
+    }
+
     return render_template(
-        "superadmin/school_details.html"
+        "superadmin_dash/schools/school_details.html",
+        school=school
     )
 
+
+# ==========================================================
+# EDIT SCHOOL
+# ==========================================================
 
 @superadmin_bp.route("/schools/<int:id>/edit", methods=["GET", "POST"])
 # @login_required
 # @superadmin_required
 def edit_school(id):
 
+    school = {
+        "id": id,
+        "name": "Greenfield College",
+        "code": "SCH-001",
+        "email": "info@greenfield.edu.ng",
+        "phone": "+234 801 234 5678",
+        "school_type": "Primary & Secondary",
+        "ownership": "Private",
+        "address": "12 Allen Avenue, Ikeja, Lagos",
+        "country": "Nigeria",
+        "state": "Lagos",
+        "city": "Ikeja",
+        "plan": "Premium",
+        "status": "Active",
+        "expiry_date": "2026-12-31",
+        "students": 1240,
+        "teachers": 68,
+        "created": "15 Jan 2025"
+    }
+
+    if request.method == "POST":
+        flash("School updated successfully.", "success")
+        return redirect(url_for("superadmin.school_details", id=id))
+
     return render_template(
-        "superadmin/edit_school.html"
+        "superadmin_dash/schools/edit.html",
+        school=school
     )
 
 
@@ -183,7 +255,7 @@ def edit_school(id):
 def users():
 
     return render_template(
-        "superadmin/users.html"
+        "superadmin_dash/users/home.html"
     )
 
 
@@ -193,7 +265,7 @@ def users():
 def create_user():
 
     return render_template(
-        "superadmin/create_user.html"
+        "superadmin_dash/users/create_user.html"
     )
 
 
@@ -203,7 +275,7 @@ def create_user():
 def user_details(id):
 
     return render_template(
-        "superadmin/user_details.html"
+        "superadmin_dash/users/user_details.html"
     )
 
 
@@ -213,7 +285,7 @@ def user_details(id):
 def edit_user(id):
 
     return render_template(
-        "superadmin/edit_user.html"
+        "superadmin_dash/users/edit_user.html"
     )
 
 
@@ -227,7 +299,7 @@ def edit_user(id):
 def roles():
 
     return render_template(
-        "superadmin/roles.html"
+        "superadmin_dash/roles/home.html"
     )
 
 
@@ -237,8 +309,9 @@ def roles():
 def create_role():
 
     return render_template(
-        "superadmin/create_role.html"
+        "superadmin_dash/roles/create_role.html"
     )
+
 
 
 # ==========================================================
@@ -249,10 +322,7 @@ def create_role():
 # @login_required
 # @superadmin_required
 def permissions():
-
-    return render_template(
-        "superadmin/permissions.html"
-    )
+    return render_template("superadmin_dash/roles/permissions.html")
 
 
 # ==========================================================
@@ -265,7 +335,7 @@ def permissions():
 def subscriptions():
 
     return render_template(
-        "superadmin/subscriptions.html"
+        "superadmin_dash/subscriptions/home.html"
     )
 
 @superadmin_bp.route("/subscriptions/create")
@@ -274,7 +344,7 @@ def subscriptions():
 def subscription_create():
 
     return render_template(
-        "superadmin/subscriptions_create.html"
+        "superadmin_dash/subscriptions/subscriptions_create.html"
     )
 
 # ==========================================================
@@ -287,7 +357,7 @@ def subscription_create():
 def payments():
 
     return render_template(
-        "superadmin/payments.html"
+        "superadmin_dash/payments/home.html"
     )
 
 
@@ -296,13 +366,9 @@ def payments():
 # ==========================================================
 
 @superadmin_bp.route("/reports")
-# @login_required
-# @superadmin_required
 def reports():
+    return render_template("superadmin_dash/reports/home.html")
 
-    return render_template(
-        "superadmin/reports.html"
-    )
 
 
 # ==========================================================
@@ -315,7 +381,7 @@ def reports():
 def audit_logs():
 
     return render_template(
-        "superadmin/audit_logs.html"
+        "superadmin_dash/reports/audit_logs.html"
     )
 
 
@@ -329,7 +395,7 @@ def audit_logs():
 def system():
 
     return render_template(
-        "superadmin/system.html"
+        "superadmin_dash/platform/system.html"
     )
 
 
@@ -343,7 +409,7 @@ def system():
 def backups():
 
     return render_template(
-        "superadmin/backups.html"
+        "superadmin_dash/platform/backups.html"
     )
 
 
@@ -357,9 +423,12 @@ def backups():
 def platform():
 
     return render_template(
-        "superadmin/platform.html"
+        "superadmin_dash/platform/platform.html"
     )
 
+@superadmin_bp.route("/platform")
+def platform_settings():
+    return render_template("superadmin_dash/platform/settings.html")
 
 # ==========================================================
 # HELP

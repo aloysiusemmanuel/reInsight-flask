@@ -670,18 +670,6 @@ def behaviour_edit(record_id):
     )
 
 
-# ==========================================================
-# LESSON NOTES
-# ==========================================================
-
-@teacher_dash_bp.route("/lesson-notes", endpoint="lesson-notes")
-def lesson_notes():
-    return render_template("lesson_notes/home.html")
-
-
-@teacher_dash_bp.route("/lesson-notes/create")
-def lesson_note_create():
-    return render_template("lesson_notes/create.html")
 
 
 # ==========================================================
@@ -727,22 +715,6 @@ def reports_home():
     )
 
 
-# ==========================================================
-# PROFILE
-# ==========================================================
-
-@teacher_dash_bp.route("/profile")
-def profile():
-    return render_template("profile/home.html")
-
-
-# ==========================================================
-# SETTINGS
-# ==========================================================
-
-@teacher_dash_bp.route("/settings")
-def settings():
-    return render_template("settings/home.html")
 
 # ==========================================================
 # ATTENDANCE HISTORY
@@ -890,8 +862,8 @@ def generate_lesson_note(note):
 # LESSON NOTES HOME
 # ==========================================================
 
-@teacher_dash_bp.route("/lesson-notes", endpoint="lesson-notes-home")
-def lesson_notes_home():
+@teacher_dash_bp.route("/lesson-notes", endpoint="lesson-notes")
+def lesson_notes():
 
     stats = {
         "total_notes": 24,
@@ -953,7 +925,7 @@ def lesson_notes_create():
 
     if request.method == "POST":
         flash("Lesson note created successfully.", "success")
-        return redirect(url_for("teacher_dashboard.lesson-notes-home"))
+        return redirect(url_for("teacher_dashboard.lesson-notes"))
 
     return render_template(
         "teacher_dash/lesson_notes/create.html",
@@ -1003,7 +975,7 @@ def lesson_notes_edit(note_id):
 
     if request.method == "POST":
         flash("Lesson note updated successfully.", "success")
-        return redirect(url_for("teacher_dashboard.lesson-notes-home"))
+        return redirect(url_for("teacher_dashboard.lesson-notes"))
 
     return render_template(
         "teacher_dash/lesson_notes/lesson_edit.html",
@@ -1051,8 +1023,8 @@ def lesson_notes_archive():
 # TEACHER PROFILE HOME
 # ==========================================================
 
-@teacher_dash_bp.route("/profile", endpoint="profile-home")
-def profile_home():
+@teacher_dash_bp.route("/profile", endpoint="teacher_profile")
+def teacher_profile():
 
     teacher = {
         "name": "Mr. David James",
@@ -1136,7 +1108,7 @@ def profile_edit():
 
     if request.method == "POST":
         flash("Profile updated successfully.", "success")
-        return redirect(url_for("teacher_dashboard.profile-home"))
+        return redirect(url_for("teacher_dashboard.teacher_profile"))
 
     return render_template(
         "teacher_dash/profile/edit.html",
@@ -1151,3 +1123,11 @@ def profile_edit():
 @teacher_dash_bp.route("/profile/security", endpoint="profile-security")
 def profile_security():
     return render_template("teacher_dash/profile/security.html")
+
+# ==========================================================
+# TEACHER SETTINGS HOME
+# ==========================================================
+
+@teacher_dash_bp.route("/settings", endpoint="teacher-settings")
+def teacher_settings():
+    return render_template("teacher_dash/settings/home.html")
