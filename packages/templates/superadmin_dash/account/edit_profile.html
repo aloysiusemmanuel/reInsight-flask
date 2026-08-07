@@ -1,0 +1,293 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Edit Profile | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Edit Profile</h2>
+        <p class="text-muted mb-0">
+            Update your personal information, contact details, and profile preferences.
+        </p>
+    </div>
+
+    <a href="{{ url_for('superadmin.account_profile') }}"
+       class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left me-2"></i>
+        Back to Profile
+    </a>
+
+</div>
+
+<form method="POST" enctype="multipart/form-data">
+
+    <div class="row g-4">
+
+        <!-- LEFT COLUMN -->
+        <div class="col-lg-4">
+
+            <!-- PHOTO -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Profile Photo</h5>
+                </div>
+
+                <div class="card-body text-center">
+
+                    <img src="https://ui-avatars.com/api/?name=Michael+Brown&background=2563EB&color=fff&size=200"
+                         class="rounded-circle border border-4 border-white shadow-sm mb-3"
+                         width="140"
+                         height="140"
+                         alt="Profile">
+
+                    <div class="d-grid gap-2">
+
+                        <input type="file" class="form-control">
+
+                        <button type="button" class="btn btn-outline-danger btn-sm">
+                            Remove Photo
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACCOUNT -->
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Account</h5>
+                </div>
+
+                <div class="card-body d-flex flex-column gap-3">
+
+                    <div>
+                        <label class="form-label fw-medium">Username</label>
+                        <input type="text"
+                               class="form-control"
+                               value="michaelbrown">
+                    </div>
+
+                    <div>
+                        <label class="form-label fw-medium">Role</label>
+                        <input type="text"
+                               class="form-control"
+                               value="Super Administrator"
+                               disabled>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col-lg-8">
+
+            <!-- PERSONAL -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Personal Information</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">First Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   value="Michael">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Last Name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   value="Brown">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Email Address</label>
+                            <input type="email"
+                                   class="form-control"
+                                   value="michael@reinsight.app">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Phone Number</label>
+                            <input type="text"
+                                   class="form-control"
+                                   value="+234 801 234 5678">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Date of Birth</label>
+                            <input type="date"
+                                   class="form-control"
+                                   value="1990-05-12">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Gender</label>
+                            <select class="form-select">
+                                <option selected>Male</option>
+                                <option>Female</option>
+                                <option>Prefer not to say</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ADDRESS -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Address</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Street Address</label>
+                            <input type="text"
+                                   class="form-control"
+                                   value="12 Admiralty Way">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-medium">City</label>
+                            <input type="text"
+                                   class="form-control"
+                                   value="Lagos">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-medium">State</label>
+                            <input type="text"
+                                   class="form-control"
+                                   value="Lagos">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-medium">Country</label>
+                            <select class="form-select">
+                                <option selected>Nigeria</option>
+                                <option>Ghana</option>
+                                <option>Kenya</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PREFERENCES -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-semibold">Preferences</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Timezone</label>
+                            <select class="form-select">
+                                <option selected>Africa/Lagos</option>
+                                <option>UTC</option>
+                                <option>Europe/London</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Language</label>
+                            <select class="form-select">
+                                <option selected>English</option>
+                                <option>French</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 d-flex flex-column gap-3">
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       checked>
+                                <label class="form-check-label">Receive email notifications</label>
+                            </div>
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       checked>
+                                <label class="form-check-label">Receive security alerts</label>
+                            </div>
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       type="checkbox">
+                                <label class="form-check-label">Receive product updates</label>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+
+                    <div class="text-muted small">
+                        Last updated: Today, 10:42 AM
+                    </div>
+
+                    <div class="d-flex gap-2">
+
+                        <a href="{{ url_for('superadmin.account_profile') }}"
+                           class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            <i class="bi bi-check2-circle me-2"></i>
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

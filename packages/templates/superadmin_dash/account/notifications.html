@@ -1,0 +1,339 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Notifications | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">Notifications</h2>
+
+        <p class="text-muted mb-0">
+            View platform alerts, payment updates, security events, and system notifications.
+        </p>
+
+    </div>
+
+    <div class="d-flex gap-2">
+
+        <button class="btn btn-outline-primary">
+            <i class="bi bi-check2-all me-2"></i>
+            Mark All Read
+        </button>
+
+        <button class="btn btn-primary">
+            <i class="bi bi-gear me-2"></i>
+            Preferences
+        </button>
+
+    </div>
+
+</div>
+
+<!-- FILTERS -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <div class="row g-3 align-items-center">
+
+            <div class="col-md-4">
+
+                <div class="input-group">
+
+                    <span class="input-group-text bg-white">
+                        <i class="bi bi-search"></i>
+                    </span>
+
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Search notifications">
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <select class="form-select">
+                    <option>All Types</option>
+                    <option>Security</option>
+                    <option>Payments</option>
+                    <option>Schools</option>
+                    <option>System</option>
+                </select>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <select class="form-select">
+                    <option>All Status</option>
+                    <option>Unread</option>
+                    <option>Read</option>
+                </select>
+
+            </div>
+
+            <div class="col-md-2 d-grid">
+
+                <button class="btn btn-outline-primary">
+                    Filter
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- NOTIFICATION LIST -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h5 class="mb-0 fw-semibold">Recent Notifications</h5>
+
+            <small class="text-muted">You have 5 unread notifications</small>
+
+        </div>
+
+        <span class="badge bg-primary-subtle text-primary px-3 py-2">5 Unread</span>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <!-- UNREAD -->
+
+        <div class="p-4 border-bottom bg-light-subtle">
+
+            <div class="d-flex align-items-start gap-3">
+
+                <div class="bg-danger-subtle text-danger rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:44px;height:44px;">
+
+                    <i class="bi bi-shield-exclamation"></i>
+
+                </div>
+
+                <div class="flex-grow-1">
+
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+
+                        <div class="fw-semibold">New login from an unrecognized device</div>
+
+                        <small class="text-muted">2 min ago</small>
+
+                    </div>
+
+                    <p class="text-muted mb-2">
+                        A login was detected from Chrome on Windows in Abuja, Nigeria.
+                    </p>
+
+                    <div class="d-flex gap-2">
+
+                        <button class="btn btn-sm btn-outline-primary">Review</button>
+
+                        <button class="btn btn-sm btn-outline-secondary">Mark Read</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="p-4 border-bottom bg-light-subtle">
+
+            <div class="d-flex align-items-start gap-3">
+
+                <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:44px;height:44px;">
+
+                    <i class="bi bi-credit-card-2-front"></i>
+
+                </div>
+
+                <div class="flex-grow-1">
+
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+
+                        <div class="fw-semibold">Subscription payment received</div>
+
+                        <small class="text-muted">18 min ago</small>
+
+                    </div>
+
+                    <p class="text-muted mb-2">
+                        Greenfield College paid ₦450,000 for a yearly Premium subscription.
+                    </p>
+
+                    <div class="d-flex gap-2">
+
+                        <button class="btn btn-sm btn-outline-primary">View Payment</button>
+
+                        <button class="btn btn-sm btn-outline-secondary">Mark Read</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="p-4 border-bottom bg-light-subtle">
+
+            <div class="d-flex align-items-start gap-3">
+
+                <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:44px;height:44px;">
+
+                    <i class="bi bi-building-add"></i>
+
+                </div>
+
+                <div class="flex-grow-1">
+
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+
+                        <div class="fw-semibold">New school registered</div>
+
+                        <small class="text-muted">1 hour ago</small>
+
+                    </div>
+
+                    <p class="text-muted mb-2">
+                        Sunrise Academy was successfully registered and is awaiting admin activation.
+                    </p>
+
+                    <div class="d-flex gap-2">
+
+                        <button class="btn btn-sm btn-outline-primary">Open School</button>
+
+                        <button class="btn btn-sm btn-outline-secondary">Mark Read</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- READ -->
+
+        <div class="p-4 border-bottom">
+
+            <div class="d-flex align-items-start gap-3">
+
+                <div class="bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:44px;height:44px;">
+
+                    <i class="bi bi-exclamation-triangle"></i>
+
+                </div>
+
+                <div class="flex-grow-1">
+
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+
+                        <div class="fw-semibold">Storage usage reached 80%</div>
+
+                        <small class="text-muted">Yesterday</small>
+
+                    </div>
+
+                    <p class="text-muted mb-2">
+                        Backup storage is approaching the configured limit. Consider cleaning old backups.
+                    </p>
+
+                    <button class="btn btn-sm btn-outline-primary">Manage Storage</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="p-4 border-bottom">
+
+            <div class="d-flex align-items-start gap-3">
+
+                <div class="bg-info-subtle text-info rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:44px;height:44px;">
+
+                    <i class="bi bi-cloud-check"></i>
+
+                </div>
+
+                <div class="flex-grow-1">
+
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+
+                        <div class="fw-semibold">Backup completed successfully</div>
+
+                        <small class="text-muted">Yesterday</small>
+
+                    </div>
+
+                    <p class="text-muted mb-2">
+                        The automated database backup finished successfully at 02:00 AM.
+                    </p>
+
+                    <button class="btn btn-sm btn-outline-primary">View Backup</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="p-4">
+
+            <div class="d-flex align-items-start gap-3">
+
+                <div class="bg-secondary-subtle text-secondary rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:44px;height:44px;">
+
+                    <i class="bi bi-megaphone"></i>
+
+                </div>
+
+                <div class="flex-grow-1">
+
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+
+                        <div class="fw-semibold">Platform update available</div>
+
+                        <small class="text-muted">3 days ago</small>
+
+                    </div>
+
+                    <p class="text-muted mb-2">
+                        reInsight v1.0.1 includes performance improvements and security enhancements.
+                    </p>
+
+                    <button class="btn btn-sm btn-outline-primary">Read Changelog</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

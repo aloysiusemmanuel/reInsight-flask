@@ -1,0 +1,531 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Backups | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Backups</h2>
+        <p class="text-muted mb-0">
+            Manage automated backups, create manual backups, and restore previous snapshots.
+        </p>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+
+        <button class="btn btn-outline-primary">
+            <i class="bi bi-arrow-clockwise me-2"></i>
+            Refresh
+        </button>
+
+        <button class="btn btn-primary">
+            <i class="bi bi-cloud-arrow-up me-2"></i>
+            Create Backup
+        </button>
+
+    </div>
+
+</div>
+
+<!-- SUMMARY -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-primary-subtle text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-hdd-stack fs-4"></i>
+                </div>
+
+                <div class="fw-bold fs-3 text-primary">28</div>
+
+                <div class="text-muted">Stored Backups</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-check-circle fs-4"></i>
+                </div>
+
+                <div class="fw-bold fs-3 text-success">06:14 AM</div>
+
+                <div class="text-muted">Last Successful</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-info-subtle text-info rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-device-hdd fs-4"></i>
+                </div>
+
+                <div class="fw-bold fs-3 text-info">42 GB</div>
+
+                <div class="text-muted">Backup Storage</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-body text-center">
+
+                <div class="bg-warning-subtle text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                     style="width:56px;height:56px;">
+                    <i class="bi bi-calendar-event fs-4"></i>
+                </div>
+
+                <div class="fw-bold fs-3 text-warning">Tomorrow</div>
+
+                <div class="text-muted">Next Scheduled</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- BACKUP CONFIG -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+            <h5 class="mb-0 fw-semibold">Backup Configuration</h5>
+            <small class="text-muted">Automatic backup schedule and retention</small>
+        </div>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <label class="form-label fw-medium">Schedule</label>
+
+                <select class="form-select">
+                    <option selected>Daily</option>
+                    <option>Weekly</option>
+                    <option>Monthly</option>
+                </select>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <label class="form-label fw-medium">Backup Time</label>
+
+                <input type="time"
+                       class="form-control"
+                       value="02:00">
+
+            </div>
+
+            <div class="col-md-4">
+
+                <label class="form-label fw-medium">Retention</label>
+
+                <select class="form-select">
+                    <option>7 days</option>
+                    <option selected>30 days</option>
+                    <option>90 days</option>
+                    <option>1 year</option>
+                </select>
+
+            </div>
+
+            <div class="col-12">
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           checked>
+                    <label class="form-check-label">Enable automatic backups</label>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- BACKUP HISTORY -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+        <div>
+            <h5 class="mb-0 fw-semibold">Backup History</h5>
+            <small class="text-muted">Recent backup snapshots</small>
+        </div>
+
+        <button class="btn btn-sm btn-outline-secondary">
+            View All
+        </button>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th>Backup</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">backup_2026_08_07_0614.sql</div>
+                            <small class="text-muted">Automatic</small>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                Full
+                            </span>
+                        </td>
+
+                        <td>1.8 GB</td>
+                        <td>07 Aug 2026 · 06:14 AM</td>
+
+                        <td>
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Completed
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">backup_2026_08_06_0614.sql</div>
+                            <small class="text-muted">Automatic</small>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                Full
+                            </span>
+                        </td>
+
+                        <td>1.7 GB</td>
+                        <td>06 Aug 2026 · 06:14 AM</td>
+
+                        <td>
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Completed
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">manual_backup_before_update.sql</div>
+                            <small class="text-muted">Manual</small>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-info-subtle text-info px-3 py-2">
+                                Manual
+                            </span>
+                        </td>
+
+                        <td>1.6 GB</td>
+                        <td>05 Aug 2026 · 07:42 PM</td>
+
+                        <td>
+                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                Completed
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <div class="btn-group">
+
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-outline-success">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <div class="fw-semibold">backup_2026_08_04_0614.sql</div>
+                            <small class="text-muted">Automatic</small>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                Full
+                            </span>
+                        </td>
+
+                        <td>1.7 GB</td>
+                        <td>04 Aug 2026 · 06:14 AM</td>
+
+                        <td>
+                            <span class="badge bg-danger-subtle text-danger px-3 py-2">
+                                Failed
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <button class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-info-circle"></i>
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- STORAGE BREAKDOWN -->
+
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Storage Breakdown</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-4 align-items-center">
+
+            <div class="col-lg-4 text-center">
+
+                <div class="mx-auto rounded-circle border border-5 border-primary d-flex align-items-center justify-content-center"
+                     style="width:180px;height:180px;">
+
+                    <div>
+
+                        <div class="fw-bold fs-2">42 GB</div>
+
+                        <small class="text-muted">Used</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-8">
+
+                <div class="d-flex flex-column gap-4">
+
+                    <div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Database Backups</span>
+                            <span class="fw-semibold">28 GB</span>
+                        </div>
+
+                        <div class="progress" style="height:10px;">
+                            <div class="progress-bar bg-primary" style="width:67%"></div>
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>File Backups</span>
+                            <span class="fw-semibold">10 GB</span>
+                        </div>
+
+                        <div class="progress" style="height:10px;">
+                            <div class="progress-bar bg-success" style="width:24%"></div>
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Logs & Metadata</span>
+                            <span class="fw-semibold">4 GB</span>
+                        </div>
+
+                        <div class="progress" style="height:10px;">
+                            <div class="progress-bar bg-warning" style="width:9%"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- QUICK ACTIONS -->
+
+<div class="card border-0 shadow-sm rounded-4">
+
+    <div class="card-header bg-white border-0">
+
+        <h5 class="mb-0 fw-semibold">Quick Actions</h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            <div class="col-md-6 col-xl-3 d-grid">
+
+                <button class="btn btn-outline-primary">
+                    <i class="bi bi-cloud-arrow-up me-2"></i>
+                    Backup Now
+                </button>
+
+            </div>
+
+            <div class="col-md-6 col-xl-3 d-grid">
+
+                <button class="btn btn-outline-success">
+                    <i class="bi bi-arrow-counterclockwise me-2"></i>
+                    Restore Latest
+                </button>
+
+            </div>
+
+            <div class="col-md-6 col-xl-3 d-grid">
+
+                <button class="btn btn-outline-warning">
+                    <i class="bi bi-trash me-2"></i>
+                    Clean Old Backups
+                </button>
+
+            </div>
+
+            <div class="col-md-6 col-xl-3 d-grid">
+
+                <button class="btn btn-outline-danger">
+                    <i class="bi bi-shield-lock me-2"></i>
+                    Verify Integrity
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

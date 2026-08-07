@@ -1,0 +1,346 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Profile | reInsight Super Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">Profile</h2>
+        <p class="text-muted mb-0">
+            View and manage your super administrator account information.
+        </p>
+    </div>
+
+    <a href="{{ url_for('superadmin.account_edit_profile') }}"
+       class="btn btn-primary">
+        <i class="bi bi-pencil-square me-2"></i>
+        Edit Profile
+    </a>
+
+</div>
+
+<div class="row g-4">
+
+    <!-- LEFT COLUMN -->
+    <div class="col-lg-4">
+
+        <!-- PROFILE CARD -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+            <div class="card-body text-center p-4">
+
+                <div class="position-relative d-inline-block mb-3">
+
+                    <img src="https://ui-avatars.com/api/?name=Michael+Brown&background=2563EB&color=fff&size=160"
+                         class="rounded-circle border border-4 border-white shadow-sm"
+                         width="120"
+                         height="120"
+                         alt="Profile">
+
+                    <span class="position-absolute bottom-0 end-0 bg-success rounded-circle border border-3 border-white"
+                          style="width:22px;height:22px;"></span>
+
+                </div>
+
+                <h4 class="fw-bold mb-1">Michael Brown</h4>
+
+                <p class="text-muted mb-3">Platform Owner / Super Admin</p>
+
+                <div class="d-flex justify-content-center gap-2 mb-4">
+
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2">Super Admin</span>
+
+                    <span class="badge bg-success-subtle text-success px-3 py-2">Active</span>
+
+                </div>
+
+                <div class="d-grid gap-2">
+
+                    <button class="btn btn-outline-primary">
+                        <i class="bi bi-camera me-2"></i>
+                        Change Photo
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ACCOUNT STATUS -->
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Account Status</h5>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-3">
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <span>Email Verified</span>
+
+                    <span class="badge bg-success-subtle text-success px-3 py-2">Verified</span>
+
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <span>Two-Factor Auth</span>
+
+                    <span class="badge bg-warning-subtle text-warning px-3 py-2">Disabled</span>
+
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <span>Last Login</span>
+
+                    <small class="text-muted">Today, 10:42 AM</small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col-lg-8">
+
+        <!-- PERSONAL INFORMATION -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0 fw-semibold">Personal Information</h5>
+
+                <a href="{{ url_for('superadmin.account_edit_profile') }}"
+                   class="btn btn-sm btn-outline-primary">
+                    Edit
+                </a>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <div class="text-muted small mb-1">Full Name</div>
+
+                        <div class="fw-semibold">Michael Brown</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="text-muted small mb-1">Username</div>
+
+                        <div class="fw-semibold">michaelbrown</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="text-muted small mb-1">Email Address</div>
+
+                        <div class="fw-semibold">michael@reinsight.app</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="text-muted small mb-1">Phone Number</div>
+
+                        <div class="fw-semibold">+234 801 234 5678</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="text-muted small mb-1">Role</div>
+
+                        <div class="fw-semibold">Super Administrator</div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="text-muted small mb-1">Timezone</div>
+
+                        <div class="fw-semibold">Africa/Lagos</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PLATFORM STATISTICS -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="mb-0 fw-semibold">Platform Statistics</h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-4 text-center">
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="bg-light rounded-4 p-3 h-100">
+
+                            <div class="text-primary fs-4 mb-2">
+                                <i class="bi bi-buildings"></i>
+                            </div>
+
+                            <div class="fw-bold fs-4">128</div>
+
+                            <small class="text-muted">Schools</small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="bg-light rounded-4 p-3 h-100">
+
+                            <div class="text-success fs-4 mb-2">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+
+                            <div class="fw-bold fs-4">4,286</div>
+
+                            <small class="text-muted">Users</small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="bg-light rounded-4 p-3 h-100">
+
+                            <div class="text-warning fs-4 mb-2">
+                                <i class="bi bi-credit-card"></i>
+                            </div>
+
+                            <div class="fw-bold fs-4">112</div>
+
+                            <small class="text-muted">Active Plans</small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="bg-light rounded-4 p-3 h-100">
+
+                            <div class="text-info fs-4 mb-2">
+                                <i class="bi bi-cash-stack"></i>
+                            </div>
+
+                            <div class="fw-bold fs-4">₦12.8M</div>
+
+                            <small class="text-muted">Revenue</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RECENT ACTIVITY -->
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0 fw-semibold">Recent Activity</h5>
+
+                <a href="{{ url_for('superadmin.audit_logs') }}"
+                   class="btn btn-sm btn-outline-secondary">
+                    View All
+                </a>
+
+            </div>
+
+            <div class="card-body d-flex flex-column gap-4">
+
+                <div class="d-flex align-items-start gap-3">
+
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                         style="width:40px;height:40px;">
+                        <i class="bi bi-building-add"></i>
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <div class="fw-semibold">Created Greenfield College</div>
+
+                        <small class="text-muted">Today · 10:42 AM</small>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex align-items-start gap-3">
+
+                    <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center"
+                         style="width:40px;height:40px;">
+                        <i class="bi bi-credit-card-2-front"></i>
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <div class="fw-semibold">Approved subscription payment</div>
+
+                        <small class="text-muted">Today · 09:18 AM</small>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex align-items-start gap-3">
+
+                    <div class="bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center"
+                         style="width:40px;height:40px;">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+
+                    <div class="flex-grow-1">
+
+                        <div class="fw-semibold">Updated platform security settings</div>
+
+                        <small class="text-muted">Yesterday · 07:42 PM</small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

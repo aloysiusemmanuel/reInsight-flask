@@ -14,12 +14,16 @@ from flask import (
     url_for,
     flash,
     request,
+    
 )
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from blueprints.superadmin import superadmin_bp
 from .decorators import superadmin_required
+from packages import db
+from packages.models.school_admin import SchoolAdmin
 
 
 # ==========================================================
@@ -43,25 +47,30 @@ def dashboard():
 @superadmin_bp.route("/profile")
 # @login_required
 # @superadmin_required
-def profile():
+def account_profile():
 
     return render_template(
-        "superadmin/superadmin_profile.html"
+        "superadmin_dash/account/profile.html"
     )
 
 
 # ==========================================================
-# EDIT PROFILE
+# EDIT ACCOUNT
 # ==========================================================
 
 @superadmin_bp.route("/profile/edit", methods=["GET", "POST"])
 # @login_required
 # @superadmin_required
-def edit_profile():
+def account_edit_profile():
+
+    if request.method == "POST":
+        flash("Profile updated successfully.", "success")
+        return redirect(url_for("superadmin.account-edit-profile"))
 
     return render_template(
-        "superadmin/superadmin_edit.html"
+        "superadmin_dash/account/edit_profile.html"
     )
+
 
 
 # ==========================================================
@@ -73,23 +82,61 @@ def edit_profile():
 # @superadmin_required
 def change_password():
 
+    if request.method == "POST":
+
+        current_password = request.form.get("current_password")
+        new_password = request.form.get("new_password")
+        confirm_password = request.form.get("confirm_password")
+
+        # Validate fields
+        if not current_password or not new_password or not confirm_password:
+            flash("All fields are required.", "danger")
+            return redirect(url_for("superadmin.change_password"))
+
+        # Check current password
+        if not check_password_hash(current_user.password_hash, current_password):
+            flash("Current password is incorrect.", "danger")
+            return redirect(url_for("superadmin.change_password"))
+
+        # Check password match
+        if new_password != confirm_password:
+            flash("New passwords do not match.", "danger")
+            return redirect(url_for("superadmin.change_password"))
+
+        # Check length
+        if len(new_password) < 8:
+            flash("Password must be at least 8 characters long.", "warning")
+            return redirect(url_for("superadmin.change_password"))
+
+        # Prevent using the same password
+        if check_password_hash(current_user.password_hash, new_password):
+            flash("New password must be different from the current password.", "warning")
+            return redirect(url_for("superadmin.change_password"))
+
+        # Update password
+        current_user.password_hash = generate_password_hash(new_password)
+
+        db.session.commit()
+
+        flash("Password updated successfully.", "success")
+        return redirect(url_for("superadmin.security"))
+
     return render_template(
-        "superadmin/superadmin_change_password.html"
+        "superadmin_dash/account/change_password.html"
     )
 
 
 # ==========================================================
-# SETTINGS
+# ACCOUNT SETTINGS
 # ==========================================================
-
-@superadmin_bp.route("/settings")
+@superadmin_bp.route("/account/settings")
 # @login_required
 # @superadmin_required
-def settings():
-
+def account_settings():
     return render_template(
-        "superadmin/superadmin_settings.html"
+        "superadmin_dash/account/settings.html"
     )
+
 
 
 # ==========================================================
@@ -99,10 +146,10 @@ def settings():
 @superadmin_bp.route("/security")
 # @login_required
 # @superadmin_required
-def security():
+def account_security():
 
     return render_template(
-        "superadmin/superadmin_security.html"
+        "superadmin_dash/account/security.html"
     )
 
 
@@ -113,10 +160,10 @@ def security():
 @superadmin_bp.route("/notifications")
 # @login_required
 # @superadmin_required
-def notifications():
+def account_notifications():
 
     return render_template(
-        "superadmin/superadmin_notifications.html"
+        "superadmin_dash/account/notifications.html"
     )
 
 
@@ -487,32 +534,29 @@ def backups():
     )
 
 
+
 # ==========================================================
 # PLATFORM SETTINGS
 # ==========================================================
 
-@superadmin_bp.route("/platform")
+@superadmin_bp.route("/platform", endpoint="platform-settings")
 # @login_required
 # @superadmin_required
-def platform():
+def platform_settings():
 
     return render_template(
-        "superadmin_dash/platform/platform.html"
+        "superadmin_dash/platform/platform_settings.html"
     )
 
-@superadmin_bp.route("/platform")
-def platform_settings():
-    return render_template("superadmin_dash/platform/settings.html")
-
 # ==========================================================
-# HELP
+# HELP CENTER
 # ==========================================================
 
-@superadmin_bp.route("/help")
+@superadmin_bp.route("/help-center")
 # @login_required
 # @superadmin_required
 def help_center():
 
     return render_template(
-        "superadmin/help.html"
+        "superadmin_dash/help/help_center.html"
     )

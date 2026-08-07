@@ -110,6 +110,10 @@ class SchoolAdmin(BaseModel, db.Model):
         db.DateTime,
         nullable=True
     )
+    password_hash = db.Column(
+        db.String(255), 
+        nullable=False
+        )
 
     # =====================================================
     # REPRESENTATION
