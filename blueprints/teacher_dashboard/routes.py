@@ -3,6 +3,11 @@ from datetime import date
 
 from . import teacher_dash_bp
 
+from packages.extensions import db
+from packages.models.student import Student
+from packages.models.classroom import Classroom
+from packages.models.parent import Parent
+
 
 # ==========================================================
 # TEACHER DASHBOARD

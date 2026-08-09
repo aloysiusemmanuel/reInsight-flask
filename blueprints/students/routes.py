@@ -1,4 +1,5 @@
 from flask import render_template, redirect, request, flash, url_for
+from datetime import datetime
 
 from packages.extensions import db
 
@@ -78,52 +79,61 @@ def students():
 def student_create():
     
     if request.method == "POST":
+        
 
         student = Student(
 
-            first_name=request.form.get(
-                "first_name"
-            ),
+            school_id=1,  # replace later with current user's school
 
-            last_name=request.form.get(
-                "last_name"
-            ),
+            parent_id=request.form.get("parent_id"),
 
-            other_name=request.form.get(
-                "other_name"
-            ),
+            classroom_id=request.form.get("classroom_id"),
 
-            gender=request.form.get(
-                "gender"
-            ),
+            first_name=request.form.get("first_name"),
 
-            admission_number=request.form.get(
-                "admission_number"
-            )
+            last_name=request.form.get("last_name"),
+
+            other_name=request.form.get("other_name"),
+
+            gender=request.form.get("gender"),
+
+            admission_number=request.form.get("admission_number"),
+
+            date_of_birth=datetime.strptime(
+                request.form.get("date_of_birth"),
+                "%Y-%m-%d"
+            ).date(),
+
+            admission_date=datetime.strptime(
+                request.form.get("admission_date"),
+                "%Y-%m-%d"
+            ).date(),
+
+            academic_session=request.form.get("academic_session"),
+
+            status=request.form.get("status", "Active")
 
         )
-
 
         db.session.add(student)
 
         db.session.commit()
 
+        flash("Student created successfully", "success")
 
-        flash(
-            "Student created successfully",
-            "success"
-        )
-
-
-        return redirect(
-            url_for("students.dashboard")
-        )
-
+        return redirect(url_for("students.students"))
 
     parents = Parent.query.all()
 
     classrooms = Classroom.query.all()
-    return render_template("students/create.html", parents=parents, classrooms=classrooms)
+
+    return render_template(
+        "students/create.html",
+        parents=parents,
+        classrooms=classrooms
+    )
+
+        
 
 # =========================================================
 # PROFILE
