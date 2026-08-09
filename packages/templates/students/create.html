@@ -200,9 +200,12 @@ Add Student | reInsight
 
                                 <select
                                     name="classroom_id"
-                                    class="form-select">
+                                    class="form-select" required>
 
-                                    <option>Select Classroom</option>
+                                    <option value="">Select Classroom</option>
+                                    {% for classroom in classrooms %}
+                                        <option value="{{ classroom.id }}">{{ classroom.name }}</option>
+                                    {% endfor %}
 
                                 </select>
 

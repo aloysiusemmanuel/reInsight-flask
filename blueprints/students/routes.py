@@ -27,7 +27,15 @@ def students():
     ]
 
     rows = []
-    students = Student.query.all()
+    students = (
+    Student.query
+    .order_by(
+        Student.first_name.asc(),
+        Student.last_name.asc(),
+        Student.other_name.asc()
+    )
+    .all()
+    )
 
     student_count = Student.query.count()
 
@@ -72,64 +80,142 @@ def students():
 
     )
 
-# =========================================================
-# CREATE
-# =========================================================
-@students_bp.route("/create", endpoint="student_create", methods=["GET", "POST"])
+# ==========================================================
+# CREATE STUDENT
+# ==========================================================
+
+@students_bp.route(
+    "/create",
+    endpoint="student_create",
+    methods=["GET", "POST"]
+)
 def student_create():
-    
+
     if request.method == "POST":
-        
 
-        student = Student(
+        try:
 
-            school_id=1,  # replace later with current user's school
-
-            parent_id=request.form.get("parent_id"),
-
-            classroom_id=request.form.get("classroom_id"),
-
-            first_name=request.form.get("first_name"),
-
-            last_name=request.form.get("last_name"),
-
-            other_name=request.form.get("other_name"),
-
-            gender=request.form.get("gender"),
-
-            admission_number=request.form.get("admission_number"),
-
-            date_of_birth=datetime.strptime(
+            date_of_birth = datetime.strptime(
                 request.form.get("date_of_birth"),
                 "%Y-%m-%d"
-            ).date(),
+            ).date()
 
-            admission_date=datetime.strptime(
+            admission_date = datetime.strptime(
                 request.form.get("admission_date"),
                 "%Y-%m-%d"
-            ).date(),
+            ).date()
 
-            academic_session=request.form.get("academic_session"),
+            student = Student(
 
-            status=request.form.get("status", "Active")
+                school_id=1,   # TODO: i will replace with current_user.school_id when auth is complete
 
-        )
+                parent_id=int(
+                    request.form.get("parent_id")
+                ),
 
-        db.session.add(student)
+                classroom_id=int(
+                    request.form.get("classroom_id")
+                ),
 
-        db.session.commit()
+                admission_number=request.form.get(
+                    "admission_number"
+                ),
 
-        flash("Student created successfully", "success")
+                first_name=request.form.get(
+                    "first_name"
+                ),
 
-        return redirect(url_for("students.students"))
+                last_name=request.form.get(
+                    "last_name"
+                ),
 
-    parents = Parent.query.all()
+                other_name=request.form.get(
+                    "other_name"
+                ),
 
-    classrooms = Classroom.query.all()
+                gender=request.form.get(
+                    "gender"
+                ),
+
+                date_of_birth=date_of_birth,
+
+                admission_date=admission_date,
+
+                academic_session=request.form.get(
+                    "academic_session"
+                ),
+
+                status=request.form.get(
+                    "status",
+                    "Active"
+                ),
+
+                stream=request.form.get(
+                    "stream"
+                ),
+
+                address=request.form.get(
+                    "address"
+                ),
+
+                blood_group=request.form.get(
+                    "blood_group"
+                ),
+
+                genotype=request.form.get(
+                    "genotype"
+                ),
+
+                allergies=request.form.get(
+                    "allergies"
+                ),
+
+                medical_conditions=request.form.get(
+                    "medical_conditions"
+                )
+
+            )
+
+            db.session.add(student)
+
+            db.session.commit()
+
+            flash(
+                "Student created successfully.",
+                "success"
+            )
+
+            return redirect(
+                url_for("students.students")
+            )
+
+        except Exception as e:
+
+            db.session.rollback()
+
+            flash(
+                f"Error creating student: {str(e)}",
+                "danger"
+            )
+
+    parents = (
+        Parent.query
+        .order_by(Parent.first_name.asc(), Parent.last_name.asc())
+        .all()
+    )
+
+    classrooms = (
+        Classroom.query
+        .order_by(Classroom.name.asc())
+        .all()
+    )
 
     return render_template(
+
         "students/create.html",
+
         parents=parents,
+
         classrooms=classrooms
     )
 
@@ -170,57 +256,166 @@ def student_profile(student_id):
 
     )
 
-# =========================================================
-# EDIT
-# =========================================================
+# ==========================================================
+# EDIT STUDENT
+# ==========================================================
 
-@students_bp.route("/edit<int:student_id>", endpoint="student_edit", methods=["GET", "POST"])
-def student_edit(student_id):
-    student = Student.query.get_or_404(
-        student_id
-    )
-    
+@students_bp.route(
+    "/<int:id>/edit",
+    endpoint="student_edit",
+    methods=["GET", "POST"]
+)
+def student_edit(id):
+
+    student = Student.query.get_or_404(id)
+
     if request.method == "POST":
 
+        try:
 
-        student.first_name = request.form.get(
-            "first_name"
-        )
-
-
-        student.last_name = request.form.get(
-            "last_name"
-        )
-
-
-        student.gender = request.form.get(
-            "gender"
-        )
-
-
-        db.session.commit()
-
-
-        flash(
-            "Student updated successfully",
-            "success"
-        )
-
-
-        return redirect(
-            url_for(
-                "students.student_profile",
-                student_id=student.id
+            student.parent_id = int(
+                request.form.get("parent_id")
             )
-        )
 
+            student.classroom_id = int(
+                request.form.get("classroom_id")
+            )
+
+            student.admission_number = request.form.get(
+                "admission_number"
+            )
+
+            student.first_name = request.form.get(
+                "first_name"
+            )
+
+            student.last_name = request.form.get(
+                "last_name"
+            )
+
+            student.other_name = request.form.get(
+                "other_name"
+            )
+
+            student.gender = request.form.get(
+                "gender"
+            )
+
+            student.date_of_birth = datetime.strptime(
+                request.form.get("date_of_birth"),
+                "%Y-%m-%d"
+            ).date()
+
+            student.admission_date = datetime.strptime(
+                request.form.get("admission_date"),
+                "%Y-%m-%d"
+            ).date()
+
+            student.academic_session = request.form.get(
+                "academic_session"
+            )
+
+            student.status = request.form.get(
+                "status"
+            )
+
+            student.stream = request.form.get(
+                "stream"
+            )
+
+            student.address = request.form.get(
+                "address"
+            )
+
+            student.blood_group = request.form.get(
+                "blood_group"
+            )
+
+            student.genotype = request.form.get(
+                "genotype"
+            )
+
+            student.allergies = request.form.get(
+                "allergies"
+            )
+
+            student.medical_conditions = request.form.get(
+                "medical_conditions"
+            )
+
+            db.session.commit()
+
+            flash(
+                "Student updated successfully.",
+                "success"
+            )
+
+            return redirect(
+                url_for(
+                    "students.student_details",
+                    id=student.id
+                )
+            )
+
+        except Exception as e:
+
+            db.session.rollback()
+
+            flash(
+                f"Error updating student: {str(e)}",
+                "danger"
+            )
+
+    parents = Parent.query.all()
 
     classrooms = Classroom.query.all()
 
-    parents = Parent.query.all()
     return render_template(
+
         "students/edit.html",
-        student=student, classrooms=classrooms, parents=parents
+
+        student=student,
+
+        parents=parents,
+
+        classrooms=classrooms
+    )
+
+# ==========================================================
+# DELETE STUDENT
+# ==========================================================
+
+@students_bp.route(
+    "/<int:id>/delete",
+    endpoint="student_delete",
+    methods=["POST"]
+)
+def student_delete(id):
+
+    student = Student.query.get_or_404(id)
+
+    try:
+
+        db.session.delete(student)
+
+        db.session.commit()
+
+        flash(
+            "Student deleted successfully.",
+            "success"
+        )
+
+    except Exception as e:
+
+        db.session.rollback()
+
+        flash(
+            f"Error deleting student: {str(e)}",
+            "danger"
+        )
+
+    return redirect(
+        url_for("students.students")
     )
 
 # =========================================================
