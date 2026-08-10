@@ -346,10 +346,10 @@ Add Student | reInsight
 
                         <select
                             name="parent_id"
-                            class="form-select mb-3">
+                            class="form-select mb-3" required>
+                            <option value="">Select Parent</option>
                         {% for parent in parents %}
                             <option value="{{parent.id}}">
-                                {% if student.parent_id == parent.id %}selected{% endif %}
                                 {{ parent.first_name }} {{ parent.last_name}}
                             </option>
 

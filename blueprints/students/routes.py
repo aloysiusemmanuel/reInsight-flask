@@ -16,26 +16,60 @@ from blueprints.attendance.services import get_student_attendance
 
 @students_bp.route("/", endpoint="students")
 def students():
+
     columns = [
-    "Admission No.",
-    "Student Name",
-    "Gender",
-    "Class",
-    "Parent",
-    "Status",
-    "Actions"
+        "Admission No.",
+        "Student Name",
+        "Gender",
+        "Class",
+        "Parent",
+        "Status",
+        "Actions"
     ]
 
-    rows = []
     students = (
-    Student.query
-    .order_by(
-        Student.first_name.asc(),
-        Student.last_name.asc(),
-        Student.other_name.asc()
+        Student.query
+        .order_by(
+            Student.first_name.asc(),
+            Student.last_name.asc(),
+            Student.other_name.asc()
+        )
+        .all()
     )
-    .all()
-    )
+
+    rows = []
+
+    for student in students:
+
+        parent_name = "-"
+
+        if student.parent:
+            parent_name = (
+                f"{student.parent.first_name} "
+                f"{student.parent.last_name}"
+            )
+
+        classroom_name = "-"
+
+        if student.classroom:
+            classroom_name = student.classroom.name
+
+        actions = (
+            f'<a href="{url_for("students.student_profile", student_id=student.id)}" '
+            f'class="btn btn-sm btn-outline-primary me-1">View</a>'
+            f'<a href="{url_for("students.student_edit", student_id=student.id)}" '
+            f'class="btn btn-sm btn-outline-secondary me-1">Edit</a>'
+        )
+
+        rows.append([
+            student.admission_number,
+            student.full_name,
+            student.gender,
+            classroom_name,
+            parent_name,
+            student.status,
+            actions
+        ])
 
     student_count = Student.query.count()
 
@@ -53,31 +87,46 @@ def students():
 
         page_title="Students",
 
-        page_description="Manage student admissions, profiles, promotions and reports.",
+        page_description=(
+            "Manage student admissions, profiles, "
+            "promotions and reports."
+        ),
 
         page_icon="bi bi-mortarboard-fill",
 
         breadcrumbs=[
-            {"title":"Dashboard",
-             "url":url_for("dashboard.dashboard")},
-            {"title":"Students"}
+            {
+                "title": "Dashboard",
+                "url": url_for("dashboard.dashboard")
+            },
+            {
+                "title": "Students"
+            }
         ],
 
         primary_button={
-            "text":"Add Student",
-            "icon":"bi bi-plus-circle",
-            "url":url_for("students.student_create")
+            "text": "Add Student",
+            "icon": "bi bi-plus-circle",
+            "url": url_for("students.student_create")
         },
-        students=students,
-        student_count=student_count,
-        male_count=male_count,
-        female_count=female_count,
-        new_students=0,
-        table_title="Student Directory",
-        table_description="All registered students",
-        columns=columns,
-        rows=rows
 
+        students=students,
+
+        student_count=student_count,
+
+        male_count=male_count,
+
+        female_count=female_count,
+
+        new_students=0,
+
+        table_title="Student Directory",
+
+        table_description="All registered students",
+
+        columns=columns,
+
+        rows=rows
     )
 
 # ==========================================================
@@ -261,13 +310,13 @@ def student_profile(student_id):
 # ==========================================================
 
 @students_bp.route(
-    "/<int:id>/edit",
+    "/<int:student_id>/edit",
     endpoint="student_edit",
     methods=["GET", "POST"]
 )
-def student_edit(id):
+def student_edit(student_id):
 
-    student = Student.query.get_or_404(id)
+    student = Student.query.get_or_404(student_id)
 
     if request.method == "POST":
 
@@ -353,7 +402,7 @@ def student_edit(id):
             return redirect(
                 url_for(
                     "students.student_details",
-                    id=student.id
+                    student_id=student.id
                 )
             )
 
@@ -386,13 +435,13 @@ def student_edit(id):
 # ==========================================================
 
 @students_bp.route(
-    "/<int:id>/delete",
+    "/<int:student_id>/delete",
     endpoint="student_delete",
     methods=["POST"]
 )
-def student_delete(id):
+def student_delete(student_id):
 
-    student = Student.query.get_or_404(id)
+    student = Student.query.get_or_404(student_id)
 
     try:
 

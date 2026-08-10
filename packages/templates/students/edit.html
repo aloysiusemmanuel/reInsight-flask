@@ -378,8 +378,8 @@ Edit Student | reInsight
 
                         <select
                             class="form-select"
-                            name="parent_id">
-
+                            name="parent_id" required>
+                            <option value="">Select Parent</option>
                             {% for parent in parents %}
 
                             <option value="{{ parent.id }}"

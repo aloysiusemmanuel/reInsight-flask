@@ -58,12 +58,16 @@
         ======================================= -->
 
         {% include "dashboard/navbar.html" %}
+        
 
         <!-- ======================================
-                FLASH MESSAGES
+                PAGE CONTENT
         ======================================= -->
 
-        <div class="container-fluid pt-4">
+        <main class="dashboard-content container mt-4">
+            <!-- ======================================
+                FLASH MESSAGES
+        ======================================= -->
 
             {% with messages = get_flashed_messages(with_categories=true) %}
 
@@ -71,11 +75,11 @@
 
                     {% for category, message in messages %}
 
-                        <div class="alert alert-{{ category }} alert-dismissible fade show">
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
 
                             {{ message }}
 
-                            <button
+                            <button type="button"
                                 class="btn-close"
                                 data-bs-dismiss="alert">
 
@@ -88,14 +92,6 @@
                 {% endif %}
 
             {% endwith %}
-
-        </div>
-
-        <!-- ======================================
-                PAGE CONTENT
-        ======================================= -->
-
-        <main class="dashboard-content">
 
             {% block content %}
 
