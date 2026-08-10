@@ -16,7 +16,7 @@ Edit Student | reInsight
         page_title="Edit Student",
         page_subtitle="Update student information",
         button_text="Back to Students",
-        button_url=url_for('student_home'),
+        button_url=url_for('students.students'),
         button_icon="bi bi-arrow-left"
     %}
         {% include "components/header.html" %}
@@ -27,7 +27,7 @@ Edit Student | reInsight
     ========================================== -->
 
     <form method="POST"
-          action="{{ url_for('student_edit', student_id=student.id) }}"
+          action="{{ url_for('students.student_edit', student_id=student.id) }}"
           enctype="multipart/form-data">
 
         <div class="row">
@@ -421,7 +421,7 @@ Edit Student | reInsight
 
                         </button>
 
-                        <a href="{{ url_for('student_profile', student_id=student.id) }}"
+                        <a href="{{ url_for('students.student_profile', student_id=student.id) }}"
                            class="btn btn-light">
 
                             Cancel

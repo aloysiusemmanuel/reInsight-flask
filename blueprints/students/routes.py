@@ -57,8 +57,19 @@ def students():
         actions = (
             f'<a href="{url_for("students.student_profile", student_id=student.id)}" '
             f'class="btn btn-sm btn-outline-primary me-1">View</a>'
+
             f'<a href="{url_for("students.student_edit", student_id=student.id)}" '
             f'class="btn btn-sm btn-outline-secondary me-1">Edit</a>'
+
+            f'<form method="POST" '
+            f'action="{url_for("students.student_delete", student_id=student.id)}" '
+            f'class="d-inline" '
+            f'onsubmit="return confirm(\'Delete this student?\');">'
+
+            f'<button type="submit" '
+            f'class="btn btn-sm btn-outline-danger me-1">Delete</button>'
+
+            f'</form>'
         )
 
         rows.append([
@@ -401,7 +412,7 @@ def student_edit(student_id):
 
             return redirect(
                 url_for(
-                    "students.student_details",
+                    "students.student_profile",
                     student_id=student.id
                 )
             )
