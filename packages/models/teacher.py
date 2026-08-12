@@ -101,13 +101,6 @@ class Teacher(BaseModel, db.Model):
     # EMPLOYMENT INFORMATION
     # =====================================================
 
-    employee_number = db.Column(
-        db.String(30),
-        unique=True,
-        nullable=False,
-        index=True
-    )
-
     employment_date = db.Column(
         db.Date,
         nullable=True
@@ -289,4 +282,4 @@ class Teacher(BaseModel, db.Model):
     # =====================================================
 
     def __repr__(self):
-        return f"<Teacher {self.employee_number} - {self.full_name}>"
+        return f"<Teacher {self.staff_id} - {self.full_name}>"

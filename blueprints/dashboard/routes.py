@@ -1,5 +1,10 @@
 from flask import render_template, url_for
 
+from packages.models.student import Student
+from packages.models.teacher import Teacher
+from packages.models.parent import Parent
+from packages.models.classroom import Classroom
+
 from . import dashboard_bp
 
 
@@ -9,7 +14,10 @@ from . import dashboard_bp
 
 @dashboard_bp.route("/", endpoint="dashboard")
 def dashboard():
-    return render_template("dashboard/dashboard.html")
+
+    return render_template(
+        "dashboard/dashboard.html"
+        )
 
 @dashboard_bp.route("/dasboard_base", endpoint="dashboard_base")
 def dasboard_base():
