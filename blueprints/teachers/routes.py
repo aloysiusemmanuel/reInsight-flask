@@ -1,4 +1,5 @@
 from flask import render_template, redirect, session, request, flash, url_for
+from flask_login import login_required
 
 from datetime import datetime
 
@@ -27,44 +28,12 @@ def teachers_home():
         "Actions"
         ]
     teachers = (
-        Teacher.query
-        .order_by(
-            Teacher.id.asc()
-        )
-        .all()
+    Teacher.query
+    .filter_by(is_active=True)
+    .order_by(Teacher.id.asc())
+    .all()
     )
-    rows = []
-    
-    for teacher in teachers:
-
-        actions = (
-            f'<a href="{url_for("teachers.teacher_profile", teacher_id=teacher.id)}" '
-            f'class="btn btn-sm btn-outline-primary me-1">View</a>'
-
-            f'<a href="{url_for("teachers.teacher_edit", teacher_id=teacher.id)}" '
-            f'class="btn btn-sm btn-outline-secondary me-1">Edit</a>'
-
-            f'<form method="POST" '
-            f'action="{url_for("teachers.teacher_delete", teacher_id=teacher.id)}" '
-            f'class="d-inline" '
-            f'onsubmit="return confirm(\'Do you Really want to delete this teacher?\');">'
-
-            f'<button type="submit" '
-            f'class="btn btn-sm btn-outline-danger me-1">Delete</button>'
-
-            f'</form>'
-        )
-        rows.append([
-                teacher.id,
-                teacher.staff_id,
-                teacher.first_name,
-                teacher.last_name,
-                teacher.phone or "-",
-                teacher.gender,
-                teacher.email,
-                teacher.status,
-                actions
-            ])
+ 
     total_teachers = len(teachers)
 
     active_teachers = sum(1 for t in teachers if t.status)
@@ -80,7 +49,7 @@ def teachers_home():
                            class_teachers=class_teachers,
                            subject_assigned=subject_assigned,
                            columns=columns,
-                           rows=rows,)
+                           )
 
 # ==========================================================
 # CREATE TEACHER
@@ -170,7 +139,7 @@ def teacher_profile(teacher_id):
 # ==========================================================
 # EDIT TEACHER
 # ==========================================================
-
+#@login_required
 @teachers_bp.route(
     "/<int:teacher_id>/edit",
     endpoint="teacher_edit",
@@ -257,7 +226,7 @@ def teacher_delete(teacher_id):
     try:
 
         teacher.is_active = False
-        teacher.deleted_at = datetime.utcnow()
+        teacher.deactivate_at = datetime.utcnow()
 
         db.session.commit()
 
@@ -276,8 +245,48 @@ def teacher_delete(teacher_id):
         )
 
     return redirect(
-        url_for("teachers.teachers")
+        url_for("teachers.teachers_home")
     )
     
 
-from . import routes
+# ==========================================================
+# DEACTIVATE TEACHER
+# ==========================================================
+
+@teachers_bp.route(
+    "/<int:teacher_id>/deactivate",
+    endpoint="teacher_deactivate",
+    methods=["POST"]
+)
+@login_required
+def teacher_deactivate(teacher_id):
+
+    teacher = Teacher.query.get_or_404(teacher_id)
+
+    try:
+
+        # Deactivate teacher profile
+        teacher.status = "Suspended"
+        teacher.is_active = False
+
+        # Deactivate linked login account
+        if teacher.user:
+            teacher.user.is_active = False
+
+        db.session.commit()
+
+        flash(
+            f"{teacher.full_name} has been deactivated successfully.",
+            "warning"
+        )
+
+    except Exception as e:
+
+        db.session.rollback()
+
+        flash(
+            f"Error deactivating teacher: {str(e)}",
+            "danger"
+        )
+
+    return redirect(url_for("teachers.teachers_home"))

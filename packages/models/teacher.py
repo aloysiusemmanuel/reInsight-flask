@@ -142,7 +142,8 @@ class Teacher(BaseModel, db.Model):
 
     status = db.Column(
         db.String(20),
-        default="Active"
+        default="Active",
+        nullable="False"
     )
 
     # =====================================================

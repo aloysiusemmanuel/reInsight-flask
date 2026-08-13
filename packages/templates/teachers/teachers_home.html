@@ -13,11 +13,12 @@
     {% with
         page_title="Teacher Management",
         page_description="Manage teacher profiles, assignments and activities",
-        page_icon="bi bi-person-plus-fill",
-        button={
-            "text":"Add Teacher",
-            "url":url_for("teachers.teacher_create")
+        primary_button={
+            "text": "Add Teacher",
+            "icon": "bi bi-plus-circle",
+            "url": url_for("teachers.teacher_create")
         }
+       
     %}
         {% include "components/header.html" %}
     {% endwith %}
@@ -167,8 +168,7 @@
                 <thead class="table-light">
 
                     <tr>
-
-                        <th>Teacher ID</th>
+                        <th>S/N</th>
                         <th>Staff ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -186,23 +186,34 @@
                     {% for teacher in teachers %}
 
                     <tr>
-                        <td>{{ teacher.id }}</td>
+                        <td>{{ loop.index }}</td>
                         <td>{{ teacher.staff_id }}</td>
                         <td>{{ teacher.first_name }}</td>
                         <td>{{ teacher.last_name }}</td>
                         <td>{{ teacher.phone }}</td>
                         <td>{{ teacher.gender }}</td>
                         <td>{{ teacher.email }}</td>
-                        <td>
-                            <a 
-                                href="{{ url_for('teachers.teacher_profile', teacher_id=teacher.id) }}"
-                                class="btn btn-sm btn-outline-primary">View
+
+                        <td class="text-end">
+
+                            <a href="{{ url_for('teachers.teacher_profile', teacher_id=teacher.id) }}"
+                            class="btn btn-sm btn-outline-primary me-1">
+                                View
                             </a>
-                            <a 
-                                href="{{ url_for('teachers.teacher_delete', teacher_id=teacher.id) }}"
-                                class="btn btn-sm btn-outline-danger">delete
-                            </a>
+                            <form method="POST"
+                                action="{{ url_for('teachers.teacher_deactivate', teacher_id=teacher.id) }}"
+                                class="d-inline"
+                                onsubmit="return confirm('Deactivate this teacher? The teacher will lose access, but all student records will remain intact.');">
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger">
+                                    Deactivate
+                                </button>
+
+                            </form>
+
                         </td>
+
                     </tr>
 
                     {% else %}

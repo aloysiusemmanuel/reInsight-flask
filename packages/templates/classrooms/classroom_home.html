@@ -216,155 +216,71 @@ Classroom Management | reInsight
 
                 <tbody>
 
-                {% for classroom in classrooms %}
+                            {% for classroom in classrooms %}
 
-                    <tr>
+                            <tr>
 
-                        <td>
+                                <td>{{ classroom.id }}</td>
 
-                            <strong>
+                                <td>{{ classroom.name }}</td>
 
-                                {{ classroom.name }}
+                                <td>{{ classroom.section or "-" }}</td>
 
-                            </strong>
+                                <td>
+                                    {{ classroom.class_teacher.full_name if classroom.class_teacher else "-" }}
+                                </td>
 
-                            <br>
+                                <td>{{ classroom.students|length }}</td>
 
-                            <small class="text-muted">
+                                <td>{{ classroom.capacity }}</td>
 
-                                {{ classroom.description }}
+                                <td>
+                                    {% if classroom.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Inactive</span>
+                                    {% endif %}
+                                </td>
 
-                            </small>
+                                <td class="text-end">
 
-                        </td>
+                                    <a href="{{ url_for('classrooms.classroom_profile', classroom_id=classroom.id) }}"
+                                    class="btn btn-sm btn-outline-primary me-1">
+                                        View
+                                    </a>
 
-                        <td>
+                                    <a href="{{ url_for('classrooms.classroom_edit', classroom_id=classroom.id) }}"
+                                    class="btn btn-sm btn-outline-warning me-1">
+                                        Edit
+                                    </a>
 
-                            {{ classroom.level }}
+                                    <form method="POST"
+                                        action="{{ url_for('classrooms.classroom_deactivate', classroom_id=classroom.id) }}"
+                                        class="d-inline"
+                                        onsubmit="return confirm('Deactivate this classroom?');">
 
-                        </td>
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger">
+                                            Deactivate
+                                        </button>
 
-                        <td>
+                                    </form>
 
-                            {% if classroom.class_teacher %}
+                                </td>
 
-                                {{ classroom.class_teacher.full_name }}
-
-                            {% else %}
-
-                                <span class="text-muted">
-
-                                    Not Assigned
-
-                                </span>
-
-                            {% endif %}
-
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-primary">
-
-                                {{ classroom.students|length }}
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            {{ classroom.capacity }}
-
-                        </td>
-
-                        <td>
-
-                            {{ classroom.academic_session }}
-
-                        </td>
-
-                        <td>
-
-                            {% if classroom.status == "Active" %}
-
-                                <span class="badge bg-success">
-
-                                    Active
-
-                                </span>
+                            </tr>
 
                             {% else %}
 
-                                <span class="badge bg-danger">
+                            <tr>
+                                <td colspan="8" class="text-center py-5">
+                                    No classrooms found.
+                                </td>
+                            </tr>
 
-                                    Inactive
+                            {% endfor %}
 
-                                </span>
-
-                            {% endif %}
-
-                        </td>
-
-                        <td class="text-end">
-
-                            <a
-                                href="{{ url_for('classrooms.classroom_profile', classroom_id=classroom.id) }}"
-                                class="btn btn-sm btn-outline-primary">
-
-                                <i class="bi bi-eye"></i>
-
-                            </a>
-
-                            <a
-                                href="{{ url_for('classrooms.classroom_edit', classroom_id=classroom.id) }}"
-                                class="btn btn-sm btn-outline-warning">
-
-                                <i class="bi bi-pencil"></i>
-
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                {% else %}
-
-                    <tr>
-
-                        <td colspan="8" class="text-center py-5">
-
-                            <i class="bi bi-building display-3 text-muted"></i>
-
-                            <h5 class="mt-3">
-
-                                No Classrooms Available
-
-                            </h5>
-
-                            <p class="text-muted">
-
-                                Create your first classroom to begin organizing students and teachers.
-
-                            </p>
-
-                            <a
-                                href="{{ url_for('classrooms.classroom_create') }}"
-                                class="btn btn-primary">
-
-                                <i class="bi bi-plus-circle me-2"></i>
-
-                                Create Classroom
-
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                {% endfor %}
-
-                </tbody>
+                    </tbody>
 
             </table>
 

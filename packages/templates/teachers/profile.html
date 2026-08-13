@@ -16,7 +16,7 @@ Teacher Profile | reInsight
         page_title="Teacher Profile",
         page_subtitle="View teacher information, assignments and activities.",
         button_text="Edit Teacher",
-        button_url=url_for('teacher_edit', teacher_id=teacher.id),
+        button_url=url_for('teachers.teacher_edit', teacher_id=teacher.id),
         button_icon="bi bi-pencil-square"
     %}
         {% include "components/header.html" %}
@@ -106,7 +106,7 @@ Teacher Profile | reInsight
 
                 <div class="col-md-3 text-end">
 
-                    <a href="{{ url_for('teacher_subjects', teacher_id=teacher.id) }}"
+                    <a href="{{ url_for('tecahers.teacher_subjects', teacher_id=teacher.id) }}"
                        class="btn btn-outline-primary mb-2 w-100">
 
                         Subjects
