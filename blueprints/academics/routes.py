@@ -8,8 +8,8 @@ from . import academics_bp
 # ACADEMICS
 # ==========================================================
 
-@academics_bp.route("/", endpoint="academics")
-def academics():
+@academics_bp.route("/", endpoint="academics_home")
+def academics_home():
     return render_template("academics/academics_home.html")
 
 

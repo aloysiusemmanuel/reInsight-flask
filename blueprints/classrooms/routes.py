@@ -3,6 +3,7 @@ from flask_login import login_required
 from packages.extensions import db
 from packages.models.classroom import Classroom
 from packages.models.teacher import Teacher
+from packages.models.academic_session import AcademicSession
 
 
 
@@ -10,17 +11,12 @@ from packages.models.teacher import Teacher
 from . import classrooms_bp
 
 
-
-# ==========================================================
-# CLASSROOM
-# ==========================================================
-
 # ==========================================================
 # CLASSROOMS HOME
 # ==========================================================
 
 @classrooms_bp.route("/", endpoint="classroom")
-@login_required
+# @login_required
 def classroom():
 
     classrooms = (
@@ -66,12 +62,19 @@ def classroom():
     endpoint="classroom_create",
     methods=["GET", "POST"]
 )
-@login_required
+# @login_required
 def classroom_create():
 
     teachers = Teacher.query.filter_by(
         is_active=True
     ).all()
+    
+    academic_sessions = (
+    AcademicSession.query
+    .filter_by(is_active=True)
+    .order_by(AcademicSession.id.asc())
+    .all()
+)
 
     if request.method == "POST":
 
@@ -83,9 +86,9 @@ def classroom_create():
 
                 section=request.form.get("section"),
 
-                capacity=int(request.form.get("capacity", 40)),
+                capacity=int(request.form.get("capacity")),
 
-                academic_session=request.form.get("academic_session"),
+                academic_session=request.form.get("academic_sessions"),
 
                 class_teacher_id=request.form.get("class_teacher_id") or None
             )
@@ -113,8 +116,9 @@ def classroom_create():
             )
 
     return render_template(
-        "classrooms/create.html",
-        teachers=teachers
+        "classrooms/classroom_create.html",
+        teachers=teachers,
+        academic_sessions=academic_sessions
     )
 
 # ==========================================================
@@ -126,7 +130,7 @@ def classroom_create():
     endpoint="classroom_deactivate",
     methods=["POST"]
 )
-@login_required
+# @login_required
 def classroom_deactivate(classroom_id):
 
     classroom = Classroom.query.get_or_404(classroom_id)
@@ -153,13 +157,21 @@ def classroom_deactivate(classroom_id):
 
     return redirect(url_for("classrooms.classroom"))
 
-@classrooms_bp.route("/edit", endpoint="classroom_edit")
-def classroom_edit():
-    return render_template("classrooms/classroom_edit.html")
+@classrooms_bp.route("/edit<int:classroom_id>", endpoint="classroom_edit")
+#@login_required
+def classroom_edit(classroom_id):
+    
+    classroom = Classroom.query.get_or_404(classroom_id)
+    return render_template("classrooms/classroom_edit.html",
+                           classroom=classroom)
 
-@classrooms_bp.route("/profile", endpoint="classroom_profile")
-def classroom_profile():
-    return render_template("classrooms/classroom_profile.html")
+@classrooms_bp.route("/<int:classroom_id>/profile", endpoint="classroom_profile")
+#@login_required
+def classroom_profile(classroom_id):
+    
+    classroom = Classroom.query.get_or_404(classroom_id)
+    return render_template("classrooms/classroom_profile.html",
+                        classroom=classroom)
 
 @classrooms_bp.route("/subjects", endpoint="classroom_subjects")
 def classroom_subjects():

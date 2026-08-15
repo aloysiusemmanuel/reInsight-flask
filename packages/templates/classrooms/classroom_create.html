@@ -15,9 +15,10 @@ Create Classroom | reInsight
     {% with
         page_title="Create Classroom",
         page_subtitle="Create a new classroom and assign a class teacher.",
-        button_text="Back to Classrooms",
-        button_url=url_for('classroom_home'),
-        button_icon="bi bi-arrow-left"
+        primary_button={
+            "text":"Back to Classrooms",
+            "url":url_for('classrooms.classroom'),
+            "icon":"bi bi-arrow-left"}
     %}
         {% include "components/header.html" %}
     {% endwith %}
@@ -193,7 +194,6 @@ Create Classroom | reInsight
                             Academic Session
 
                         </label>
-
                         <select
                             class="form-select"
                             name="academic_session"
@@ -201,9 +201,9 @@ Create Classroom | reInsight
 
                             <option value="">Select Session</option>
 
-                            {% for session in sessions %}
+                            {% for academic_session in academic_sessions %}
 
-                                <option value="{{ session.id }}">
+                                <option value="{{ academic_session.id }}">
 
                                     {{ session.name }}
 
@@ -330,7 +330,7 @@ Create Classroom | reInsight
         <div class="text-end mb-5">
 
             <a
-                href="{{ url_for('classroom_home') }}"
+                href="{{ url_for('classrooms.classroom') }}"
                 class="btn btn-light">
 
                 Cancel

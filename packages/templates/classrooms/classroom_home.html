@@ -15,9 +15,11 @@ Classroom Management | reInsight
     {% with
         page_title="Classroom Management",
         page_subtitle="Manage classrooms, class teachers and student allocations.",
-        button_text="Create Classroom",
-        button_url=url_for('classrooms.classroom_create'),
-        button_icon="bi bi-plus-circle-fill"
+        primary_button={
+            "text": "Create Classroom",
+            "url": url_for('classrooms.classroom_create'),
+            "icon": "bi bi-plus-circle-fill"
+        }
     %}
         {% include "components/header.html" %}
     {% endwith %}
@@ -200,11 +202,11 @@ Classroom Management | reInsight
                 <thead class="table-light">
 
                     <tr>
-
-                        <th>Classroom</th>
-                        <th>Level</th>
+                        <th>S/N</th>
+                        <th>Classroom Name</th>
+                        <th>Term</th>
                         <th>Class Teacher</th>
-                        <th>Students</th>
+                        <th>Number of Students</th>
                         <th>Capacity</th>
                         <th>Academic Session</th>
                         <th>Status</th>
@@ -219,20 +221,20 @@ Classroom Management | reInsight
                             {% for classroom in classrooms %}
 
                             <tr>
-
-                                <td>{{ classroom.id }}</td>
+                                <td>{{ loop.index }}</td>
 
                                 <td>{{ classroom.name }}</td>
-
-                                <td>{{ classroom.section or "-" }}</td>
+                                <td>{{ section }}</td>
 
                                 <td>
-                                    {{ classroom.class_teacher.full_name if classroom.class_teacher else "-" }}
+                                    {{ classroom.class_teacher.full_name if classroom.class_teacher_id else "-" }}
                                 </td>
 
                                 <td>{{ classroom.students|length }}</td>
 
                                 <td>{{ classroom.capacity }}</td>
+
+                                <td>{{ classroom.academic_session or "-" }}</td>
 
                                 <td>
                                     {% if classroom.is_active %}

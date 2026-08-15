@@ -8,8 +8,8 @@ from . import attendance_bp
 # ATTENDANCE
 # ==========================================================
 
-@attendance_bp.route("/", endpoint="attendance")
-def attendance():
+@attendance_bp.route("/", endpoint="attendance_home")
+def attendance_home():
     return render_template("attendance/attendance_home.html")
 
 

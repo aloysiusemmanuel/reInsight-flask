@@ -15,9 +15,10 @@ Classroom Profile | reInsight
     {% with
         page_title=classroom.name,
         page_subtitle="Classroom profile and summary",
-        button_text="Edit Classroom",
-        button_url=url_for('classroom_edit', classroom_id=classroom.id),
-        button_icon="bi bi-pencil-square"
+        primary_button={
+            "text":"Edit Classroom",
+            "url":url_for('classrooms.classroom_edit', classroom_id=classroom.id),
+            "icon":"bi bi-pencil-square"}
     %}
         {% include "components/header.html" %}
     {% endwith %}
@@ -303,7 +304,7 @@ Classroom Profile | reInsight
                 <div class="card-body d-grid gap-2">
 
                     <a
-                        href="{{ url_for('student_home', classroom_id=classroom.id) }}"
+                        href="{{ url_for('students.students', classroom_id=classroom.id) }}"
                         class="btn btn-outline-primary">
 
                         <i class="bi bi-people-fill me-2"></i>
@@ -313,7 +314,7 @@ Classroom Profile | reInsight
                     </a>
 
                     <a
-                        href="{{ url_for('subject_home', classroom_id=classroom.id) }}"
+                        href="{{ url_for('classrooms.classroom_subjects', classroom_id=classroom.id) }}"
                         class="btn btn-outline-success">
 
                         <i class="bi bi-book-fill me-2"></i>
@@ -323,7 +324,7 @@ Classroom Profile | reInsight
                     </a>
 
                     <a
-                        href="{{ url_for('attendance_home', classroom_id=classroom.id) }}"
+                        href="{{ url_for('attendance.attendance_home', classroom_id=classroom.id) }}"
                         class="btn btn-outline-warning">
 
                         <i class="bi bi-calendar-check-fill me-2"></i>
@@ -333,7 +334,7 @@ Classroom Profile | reInsight
                     </a>
 
                     <a
-                        href="{{ url_for('behaviour_home', classroom_id=classroom.id) }}"
+                        href="{{ url_for('behaviour.behaviour_home', classroom_id=classroom.id) }}"
                         class="btn btn-outline-info">
 
                         <i class="bi bi-clipboard-check-fill me-2"></i>
@@ -343,7 +344,7 @@ Classroom Profile | reInsight
                     </a>
 
                     <a
-                        href="{{ url_for('academic_record_home', classroom_id=classroom.id) }}"
+                        href="{{ url_for('academics.academics_home', classroom_id=classroom.id) }}"
                         class="btn btn-outline-secondary">
 
                         <i class="bi bi-bar-chart-fill me-2"></i>

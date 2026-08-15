@@ -16,7 +16,7 @@ Edit Classroom | reInsight
         page_title="Edit Classroom",
         page_subtitle="Update classroom information and assignments.",
         button_text="Back to Classrooms",
-        button_url=url_for('classroom_home'),
+        button_url=url_for('classrooms.classroom'),
         button_icon="bi bi-arrow-left"
     %}
         {% include "components/header.html" %}
@@ -338,7 +338,7 @@ Edit Classroom | reInsight
             <div>
 
                 <a
-                    href="{{ url_for('classroom_home') }}"
+                    href="{{ url_for('classrooms.classroom') }}"
                     class="btn btn-light">
 
                     Cancel
