@@ -50,7 +50,7 @@ def authenticate_user(login, password):
     if not user:
         return { "success": False,
                 "user": user,
-                "message": "User not Found"}
+                "message": "Invalid username/email or password."}
 
     # Account inactive
     if not user.is_active:
@@ -73,7 +73,7 @@ def authenticate_user(login, password):
 
         return {"success": False,
                 "user": user,
-                "message":"Incorrect Password"}
+                "message":"Invalid username/email or password."}
 
     # Successful login
 

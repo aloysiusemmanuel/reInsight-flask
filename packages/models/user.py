@@ -3,12 +3,6 @@
 User Model
 =========================================================
 
-Central authentication model for the reInsight SaaS
-platform.
-
-Every person who can log into the system has one User
-account.
-
 Roles include:
     - SUPER_ADMIN
     - SCHOOL_ADMIN

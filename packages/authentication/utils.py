@@ -8,10 +8,10 @@ def get_dashboard_url(user):
     """
 
     if user.is_super_admin:
-        return url_for("super_admin.dashboard")
+        return url_for("superadmin.dashboard")
 
     elif user.is_school_admin:
-        return url_for("school_admin.dashboard")
+        return url_for("dashboard.dashboard")
 
     elif user.is_teacher:
         return url_for("teacher.dashboard")

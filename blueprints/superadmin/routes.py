@@ -13,26 +13,88 @@ from flask import (
     redirect,
     url_for,
     flash,
-    request,
+    request
+  
     
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, login_user, logout_user
 
 from blueprints.superadmin import superadmin_bp
 from .decorators import superadmin_required
 from packages import db
 from packages.models.school_admin import SchoolAdmin
+from packages.models import User
+from packages.authentication.services import authenticate_user
 
 
+
+
+
+@superadmin_bp.route("/login", methods=["GET", "POST"])
+def login():
+
+    if current_user.is_authenticated:
+
+        if current_user.is_super_admin:
+            return redirect(
+                url_for("superadmin.dashboard")
+            )
+
+        logout_user()
+
+    if request.method == "POST":
+
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+
+        result = authenticate_user(
+            username,
+            password
+        )
+
+        if result["success"]:
+
+            user = result["user"]
+
+            # -----------------------------------------
+            # SUPER ADMIN ONLY
+            # -----------------------------------------
+
+            if not user.is_super_admin:
+
+                flash(
+                    "You do not have permission to access the Super Admin portal.",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for("superadmin.login")
+                )
+
+            login_user(user)
+
+            return redirect(
+                url_for("superadmin.dashboard")
+            )
+
+        flash(
+            result["message"],
+            "danger"
+        )
+
+    return render_template(
+        "auth/superadmin_login.html"
+    )
+    
+    
 # ==========================================================
 # DASHBOARD
 # ==========================================================
 
-@superadmin_bp.route("/")
-# @login_required
-# @superadmin_required
+@superadmin_bp.route("/dashboard")
+@superadmin_required
 def dashboard():
 
     return render_template(
@@ -45,8 +107,7 @@ def dashboard():
 # ==========================================================
 
 @superadmin_bp.route("/profile")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def account_profile():
 
     return render_template(
@@ -59,8 +120,7 @@ def account_profile():
 # ==========================================================
 
 @superadmin_bp.route("/profile/edit", methods=["GET", "POST"])
-# @login_required
-# @superadmin_required
+@superadmin_required
 def account_edit_profile():
 
     if request.method == "POST":
@@ -78,7 +138,6 @@ def account_edit_profile():
 # ==========================================================
 
 @superadmin_bp.route("/change-password", methods=["GET", "POST"])
-# @login_required
 # @superadmin_required
 def change_password():
 
@@ -130,7 +189,6 @@ def change_password():
 # ACCOUNT SETTINGS
 # ==========================================================
 @superadmin_bp.route("/account/settings")
-# @login_required
 # @superadmin_required
 def account_settings():
     return render_template(
@@ -144,7 +202,6 @@ def account_settings():
 # ==========================================================
 
 @superadmin_bp.route("/security")
-# @login_required
 # @superadmin_required
 def account_security():
 
@@ -158,7 +215,6 @@ def account_security():
 # ==========================================================
 
 @superadmin_bp.route("/notifications")
-# @login_required
 # @superadmin_required
 def account_notifications():
 
@@ -172,8 +228,7 @@ def account_notifications():
 # ==========================================================
 
 @superadmin_bp.route("/schools")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def schools():
 
    return render_template("superadmin_dash/schools/home.html")
@@ -184,8 +239,7 @@ def schools():
 # ==========================================================
 
 @superadmin_bp.route("/schools/create", methods=["GET", "POST"])
-# @login_required
-# @superadmin_required
+@superadmin_required
 def create_school():
 
     if request.method == "POST":
@@ -201,8 +255,7 @@ def create_school():
 # ==========================================================
 
 @superadmin_bp.route("/schools-admins/create", methods=["GET", "POST"])
-# @login_required
-# @superadmin_required
+@superadmin_required
 def create_school_admin():
 
     if request.method == "POST":
@@ -219,8 +272,7 @@ def create_school_admin():
 # ==========================================================
 
 @superadmin_bp.route("/schools/<int:id>")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def school_details(id):
 
     school = {
@@ -258,7 +310,6 @@ def school_details(id):
 # ==========================================================
 
 @superadmin_bp.route("/schools/<int:id>/edit", methods=["GET", "POST"])
-# @login_required
 # @superadmin_required
 def edit_school(id):
 

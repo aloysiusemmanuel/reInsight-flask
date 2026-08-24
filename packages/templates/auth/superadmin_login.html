@@ -1,0 +1,218 @@
+{% extends "superadmin/superadmin_base.html" %}
+
+{% block title %}Super Admin Login | reInsight{% endblock %}
+
+{% block content %}
+
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light py-5">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
+
+                <!-- Login Card -->
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                    <!-- Header -->
+                    <div class="card-body p-4 p-md-5">
+
+                        <!-- Brand -->
+                        <div class="text-center mb-4">
+
+                            <div
+                                class="d-inline-flex align-items-center justify-content-center
+                                       bg-primary text-white rounded-5 mb-1"
+                                style="width: 64px; height: 64px;"
+                            >
+                                <span class="fs-2 fw-bold">R</span>
+                            </div>
+
+                            <h4 class="fw-bold mb-1">
+                                reInsight
+                            </h4>
+
+                            <p class="text-muted mb-0">
+                                Super Admin Portal
+                            </p>
+
+                        </div>
+
+
+                        <!-- Heading -->
+                        <div class="text-center mb-4">
+
+                            <h4 class="fw-bold mb-2">
+                                Welcome Back
+                            </h4>
+
+                            <p class="text-muted mb-0">
+                                Sign in to manage the reInsight platform.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Flash Messages -->
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+
+                            {% if messages %}
+
+                                {% for category, message in messages %}
+
+                                    <div
+                                        class="alert alert-{{ category }}
+                                               alert-dismissible fade show"
+                                        role="alert"
+                                    >
+
+                                        {{ message }}
+
+                                        <button
+                                            type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="alert"
+                                            aria-label="Close"
+                                        ></button>
+
+                                    </div>
+
+                                {% endfor %}
+
+                            {% endif %}
+
+                        {% endwith %}
+
+
+                        <!-- Login Form -->
+                        <form
+                            method="POST"
+                            action="{{ url_for('superadmin.login') }}"
+                        >
+
+                            <!-- Username -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="username"
+                                    class="form-label fw-semibold"
+                                >
+                                    Username
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control form-control-lg"
+                                    id="username"
+                                    name="username"
+                                    placeholder="Enter your username"
+                                    autocomplete="username"
+                                    required
+                                    autofocus
+                                >
+
+                            </div>
+
+
+                            <!-- Password -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="password"
+                                    class="form-label fw-semibold"
+                                >
+                                    Password
+                                </label>
+
+                                <input
+                                    type="password"
+                                    class="form-control form-control-lg"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    autocomplete="current-password"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- Remember Me -->
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                                <div class="form-check">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        id="remember"
+                                        name="remember"
+                                    >
+
+                                    <label
+                                        class="form-check-label text-muted"
+                                        for="remember"
+                                    >
+                                        Remember me
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Login Button -->
+                            <div class="d-grid">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary btn-lg fw-semibold"
+                                >
+                                    <i class="bi bi-shield-lock me-2"></i>
+                                    Sign In
+                                </button>
+
+                            </div>
+
+                        </form>
+
+
+                        <!-- Security Notice -->
+                        <div class="text-center mt-4">
+
+                            <div class="small text-muted">
+
+                                <i class="bi bi-shield-check me-1"></i>
+
+                                Restricted access for authorized
+                                reInsight administrators only.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Footer -->
+                <div class="text-center mt-4">
+
+                    <small class="text-muted">
+                        &copy; {{ current_year }} reInsight.
+                        All rights reserved.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

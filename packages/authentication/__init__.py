@@ -3,9 +3,6 @@
 Authentication Blueprint
 =========================================================
 
-This package contains all authentication-related
-components for the reInsight SaaS platform.
-
 Blueprint:
     auth_bp
 

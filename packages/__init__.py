@@ -5,6 +5,7 @@ from packages.extensions import db, migrate, login_manager
 from packages.authentication import auth_bp
 from datetime import datetime
 
+from packages.commands import seed_superadmin, seed_roles
 from blueprints.public import public_bp
 from blueprints.dashboard import dashboard_bp
 from blueprints.students import students_bp
@@ -28,6 +29,9 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    
+    app.cli.add_command(seed_roles)
+    app.cli.add_command(seed_superadmin)
 
     app.register_blueprint(public_bp)
     app.register_blueprint(auth_bp)
