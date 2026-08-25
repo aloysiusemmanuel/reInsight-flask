@@ -138,7 +138,7 @@ def account_edit_profile():
 # ==========================================================
 
 @superadmin_bp.route("/change-password", methods=["GET", "POST"])
-# @superadmin_required
+@superadmin_required
 def change_password():
 
     if request.method == "POST":
@@ -189,7 +189,7 @@ def change_password():
 # ACCOUNT SETTINGS
 # ==========================================================
 @superadmin_bp.route("/account/settings")
-# @superadmin_required
+@superadmin_required
 def account_settings():
     return render_template(
         "superadmin_dash/account/settings.html"
@@ -202,7 +202,7 @@ def account_settings():
 # ==========================================================
 
 @superadmin_bp.route("/security")
-# @superadmin_required
+@superadmin_required
 def account_security():
 
     return render_template(
@@ -215,7 +215,7 @@ def account_security():
 # ==========================================================
 
 @superadmin_bp.route("/notifications")
-# @superadmin_required
+@superadmin_required
 def account_notifications():
 
     return render_template(
@@ -310,7 +310,7 @@ def school_details(id):
 # ==========================================================
 
 @superadmin_bp.route("/schools/<int:id>/edit", methods=["GET", "POST"])
-# @superadmin_required
+@superadmin_required
 def edit_school(id):
 
     school = {
@@ -348,8 +348,7 @@ def edit_school(id):
 # ==========================================================
 
 @superadmin_bp.route("/users")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def users():
 
     return render_template(
@@ -362,8 +361,7 @@ def users():
 # ==========================================================
 
 @superadmin_bp.route("/users/create", methods=["GET", "POST"])
-# @login_required
-# @superadmin_required
+@superadmin_required
 def create_user():
 
     if request.method == "POST":
@@ -380,8 +378,7 @@ def create_user():
 # ==========================================================
 
 @superadmin_bp.route("/users/<int:id>")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def user_details(id):
 
     user = {
@@ -413,8 +410,7 @@ def user_details(id):
 # ==========================================================
 
 @superadmin_bp.route("/users/<int:id>/edit", methods=["GET", "POST"])
-# @login_required
-# @superadmin_required
+@superadmin_required
 def edit_user(id):
 
     user = {
@@ -446,8 +442,7 @@ def edit_user(id):
 # ==========================================================
 
 @superadmin_bp.route("/roles")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def roles():
 
     return render_template(
@@ -460,8 +455,7 @@ def roles():
 # ==========================================================
 
 @superadmin_bp.route("/roles/create", methods=["GET", "POST"])
-# @login_required
-# @superadmin_required
+@superadmin_required
 def create_role():
 
     if request.method == "POST":
@@ -479,8 +473,7 @@ def create_role():
 # ==========================================================
 
 @superadmin_bp.route("/permissions")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def permissions():
     return render_template("superadmin_dash/users/permissions.html")
 
@@ -490,8 +483,7 @@ def permissions():
 # ==========================================================
 
 @superadmin_bp.route("/subscriptions")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def subscriptions():
 
     return render_template(
@@ -503,8 +495,7 @@ def subscriptions():
 # ==========================================================
 
 @superadmin_bp.route("/subscriptions/create", methods=["GET", "POST"])
-# @login_required
-# @superadmin_required
+@superadmin_required
 def subscription_create():
 
     if request.method == "POST":
@@ -520,8 +511,7 @@ def subscription_create():
 # ==========================================================
 
 @superadmin_bp.route("/payments")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def payments():
 
     return render_template(
@@ -533,8 +523,7 @@ def payments():
 # ==========================================================
 
 @superadmin_bp.route("/reports")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def reports():
 
     return render_template(
@@ -548,8 +537,7 @@ def reports():
 # ==========================================================
 
 @superadmin_bp.route("/audit-logs")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def audit_logs():
 
     return render_template(
@@ -562,8 +550,7 @@ def audit_logs():
 # ==========================================================
 
 @superadmin_bp.route("/system")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def system():
 
     return render_template(
@@ -576,8 +563,7 @@ def system():
 # ==========================================================
 
 @superadmin_bp.route("/backups")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def backups():
 
     return render_template(
@@ -591,8 +577,7 @@ def backups():
 # ==========================================================
 
 @superadmin_bp.route("/platform", endpoint="platform-settings")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def platform_settings():
 
     return render_template(
@@ -604,8 +589,7 @@ def platform_settings():
 # ==========================================================
 
 @superadmin_bp.route("/help-center")
-# @login_required
-# @superadmin_required
+@superadmin_required
 def help_center():
 
     return render_template(
