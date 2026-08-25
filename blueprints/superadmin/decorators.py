@@ -32,7 +32,6 @@ def superadmin_required(view):
     """
 
     @wraps(view)
-    @login_required
     def wrapped_view(*args, **kwargs):
 
         # User must exist
@@ -44,7 +43,7 @@ def superadmin_required(view):
             )
 
             return redirect(
-                url_for("auth.login")
+                url_for("superadmin.login")
             )
 
         # Account must be active
@@ -56,7 +55,7 @@ def superadmin_required(view):
             )
 
             return redirect(
-                url_for("auth.login")
+                url_for("superadmin.login")
             )
 
         # Account must not be locked
@@ -68,7 +67,7 @@ def superadmin_required(view):
             )
 
             return redirect(
-                url_for("auth.login")
+                url_for("superadmin.login")
             )
 
         # Must be Super Admin

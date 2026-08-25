@@ -11,7 +11,8 @@ from functools import wraps
 
 from flask import (
     flash,
-    redirect
+    redirect,
+    url_for, abort
 )
 
 from flask_login import (
@@ -26,21 +27,18 @@ from .utils import get_dashboard_url
 # SUPER ADMIN REQUIRED
 # ==========================================================
 
-def super_admin_required(view):
-    """
-    Allows access only to Super Administrators.
-    """
+def superadmin_required(view):
 
     @wraps(view)
-    @login_required
     def wrapped_view(*args, **kwargs):
 
-        if not current_user.is_super_admin:
-            flash(
-                "You do not have permission to access this page.",
-                "danger"
+        if not current_user.is_authenticated:
+            return redirect(
+                url_for("superadmin.login")
             )
-            return redirect(get_dashboard_url(current_user))
+
+        if not current_user.is_super_admin:
+            abort(403)
 
         return view(*args, **kwargs)
 
