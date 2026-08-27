@@ -2,7 +2,12 @@
 
 {% block title %}All Schools | reInsight Super Admin{% endblock %}
 
+
+
+
+
 {% block content %}
+
 
 <!-- =========================================================
 PAGE HEADER
@@ -53,9 +58,9 @@ SUMMARY CARDS
 
                 </div>
 
-                <div class="fw-bold fs-3 text-primary">128</div>
+                <div class="fw-bold fs-3 text-primary">{{ schools | length}}</div>
 
-                <div class="text-muted">Total Schools</div>
+                <div class="text-muted">Total Registered Schools</div>
 
             </div>
 
@@ -76,9 +81,9 @@ SUMMARY CARDS
 
                 </div>
 
-                <div class="fw-bold fs-3 text-success">112</div>
+                <div class="fw-bold fs-3 text-success">{{ active_schools }}</div>
 
-                <div class="text-muted">Active</div>
+                <div class="text-muted">Schools are Active</div>
 
             </div>
 
@@ -99,9 +104,9 @@ SUMMARY CARDS
 
                 </div>
 
-                <div class="fw-bold fs-3 text-warning">9</div>
+                <div class="fw-bold fs-3 text-warning">{{ pending_schools }}</div>
 
-                <div class="text-muted">Trial</div>
+                <div class="text-muted">Schools are on pending </div>
 
             </div>
 
@@ -122,9 +127,9 @@ SUMMARY CARDS
 
                 </div>
 
-                <div class="fw-bold fs-3 text-danger">7</div>
+                <div class="fw-bold fs-3 text-danger">{{ suspended_schools }}</div>
 
-                <div class="text-muted">Suspended</div>
+                <div class="text-muted">Schools are on Suspended</div>
 
             </div>
 
@@ -184,9 +189,9 @@ FILTERS
                 <select class="form-select">
 
                     <option>All Status</option>
-                    <option>Active</option>
-                    <option>Trial</option>
-                    <option>Suspended</option>
+                    <option >Active</option>
+                    <option >Trial</option>
+                    <option >Suspended</option>
 
                 </select>
 
@@ -220,7 +225,7 @@ SCHOOLS TABLE
 
             <h5 class="mb-0 fw-semibold">Registered Schools</h5>
 
-            <small class="text-muted">128 schools found</small>
+            <small class="text-muted">{{ schools | length}} schools found</small>
 
         </div>
 
@@ -261,6 +266,8 @@ SCHOOLS TABLE
 
                 <tbody>
 
+                    {% for school in schools %}
+
                     <tr>
 
                         <td>
@@ -276,9 +283,9 @@ SCHOOLS TABLE
 
                                 <div>
 
-                                    <div class="fw-semibold">Greenfield College</div>
+                                    <div class="fw-semibold">{{ school.name }}</div>
 
-                                    <div class="small text-muted">Lagos · SCH-001</div>
+                                    <div class="small text-muted">{{ school.city or "N/A" }}·{{ school.code }}</div>
 
                                 </div>
 
@@ -289,37 +296,45 @@ SCHOOLS TABLE
                         <td>
 
                             <span class="badge bg-primary-subtle text-primary px-3 py-2">
-                                Premium
+                                {{ school.subscription_plan }}
                             </span>
 
                         </td>
 
-                        <td>1,240</td>
+                        <td> {{ school.students|length }}</td>
 
-                        <td>68</td>
+                        <td> {{ school.teachers|length }}</td>
 
                         <td>
 
                             <span class="badge bg-success-subtle text-success px-3 py-2">
-                                Active
+                                {{ school.subscription_status }}
                             </span>
 
                         </td>
 
-                        <td>31 Dec 2026</td>
+                        <td>
+                            {% if school.subscription_expiry_date %}
+                                {{ school.subscription_expiry_date.strftime('%d %b %Y') }}
+                            {% elif school.demo_expires_at %}
+                                {{ school.demo_expires_at.strftime("%d %b %Y") }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
 
                         <td class="text-end">
 
                             <div class="btn-group">
 
-                                <a href="{{ url_for('superadmin.school_details', id=1) }}"
+                                <a href="{{ url_for('superadmin.school_details', id=school.id) }}"
                                    class="btn btn-sm btn-outline-primary">
 
                                     <i class="bi bi-eye"></i>
 
                                 </a>
 
-                                <a href="{{ url_for('superadmin.edit_school', id=1) }}"
+                                <a href="{{ url_for('superadmin.edit_school', id=school.id) }}"
                                    class="btn btn-sm btn-outline-secondary">
 
                                     <i class="bi bi-pencil-square"></i>
@@ -331,148 +346,13 @@ SCHOOLS TABLE
                         </td>
 
                     </tr>
-
+                    {% else %}
                     <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            No schools have been registered yet.
+                    </td>
 
-                        <td>
-
-                            <div class="d-flex align-items-center gap-3">
-
-                                <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
-                                     style="width:44px;height:44px;">
-
-                                    <i class="bi bi-building"></i>
-
-                                </div>
-
-                                <div>
-
-                                    <div class="fw-semibold">Sunrise Academy</div>
-
-                                    <div class="small text-muted">Abuja · SCH-014</div>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-info-subtle text-info px-3 py-2">
-                                Standard
-                            </span>
-
-                        </td>
-
-                        <td>860</td>
-
-                        <td>41</td>
-
-                        <td>
-
-                            <span class="badge bg-warning-subtle text-warning px-3 py-2">
-                                Trial
-                            </span>
-
-                        </td>
-
-                        <td>18 Aug 2026</td>
-
-                        <td class="text-end">
-
-                            <div class="btn-group">
-
-                                <a href="{{ url_for('superadmin.school_details', id=2) }}"
-                                   class="btn btn-sm btn-outline-primary">
-
-                                    <i class="bi bi-eye"></i>
-
-                                </a>
-
-                                <a href="{{ url_for('superadmin.edit_school', id=2) }}"
-                                   class="btn btn-sm btn-outline-secondary">
-
-                                    <i class="bi bi-pencil-square"></i>
-
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>
-
-                            <div class="d-flex align-items-center gap-3">
-
-                                <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
-                                     style="width:44px;height:44px;">
-
-                                    <i class="bi bi-building"></i>
-
-                                </div>
-
-                                <div>
-
-                                    <div class="fw-semibold">Harmony High School</div>
-
-                                    <div class="small text-muted">Port Harcourt · SCH-032</div>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-secondary-subtle text-secondary px-3 py-2">
-                                Basic
-                            </span>
-
-                        </td>
-
-                        <td>420</td>
-
-                        <td>23</td>
-
-                        <td>
-
-                            <span class="badge bg-danger-subtle text-danger px-3 py-2">
-                                Suspended
-                            </span>
-
-                        </td>
-
-                        <td>Expired</td>
-
-                        <td class="text-end">
-
-                            <div class="btn-group">
-
-                                <a href="{{ url_for('superadmin.school_details', id=3) }}"
-                                   class="btn btn-sm btn-outline-primary">
-
-                                    <i class="bi bi-eye"></i>
-
-                                </a>
-
-                                <a href="{{ url_for('superadmin.edit_school', id=3) }}"
-                                   class="btn btn-sm btn-outline-secondary">
-
-                                    <i class="bi bi-pencil-square"></i>
-
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
+                    {% endfor %}
 
                 </tbody>
 

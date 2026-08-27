@@ -19,18 +19,28 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from datetime import datetime
+
 from flask_login import login_required, current_user, login_user, logout_user
 
 from blueprints.superadmin import superadmin_bp
 from .decorators import superadmin_required
 from packages import db
+from packages.models import School
 from packages.models.school_admin import SchoolAdmin
 from packages.models import User
 from packages.authentication.services import authenticate_user
 
+#==================================================================
+# ROUTE FOR SUPERADMIN WHEN I ENTER JUST SUPERADMIN AND SUPERADMIN/LOGIN
+#==================================================================
 
-
-
+@superadmin_bp.route("/")
+def superadmin():
+    
+    return redirect(
+        url_for("superadmin.login")
+    )
 
 @superadmin_bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -97,8 +107,36 @@ def login():
 @superadmin_required
 def dashboard():
 
+    total_schools = School.query.count()
+
+    active_schools = School.query.filter_by(
+        subscription_status="Active"
+    ).count()
+
+    trial_schools = School.query.filter_by(
+        subscription_status="Trial"
+    ).count()
+
+    suspended_schools = School.query.filter_by(
+        subscription_status="Suspended"
+    ).count()
+    
+    pending_schools = School.query.filter_by(
+            subscription_status="pending"
+        ).count()
+
     return render_template(
-        "superadmin/superadmin_dashboard.html"
+        "superadmin/superadmin_dashboard.html",
+
+        total_schools=total_schools,
+
+        active_schools=active_schools,
+
+        trial_schools=trial_schools,
+
+        suspended_schools=suspended_schools,
+        
+        pending_schools=pending_schools
     )
 
 
@@ -230,21 +268,261 @@ def account_notifications():
 @superadmin_bp.route("/schools")
 @superadmin_required
 def schools():
+    
+    schools = (
+        School.query
+        .order_by(School.id.desc())
+        .all()
+    )
+    
+    total_schools = School.query.count()
+    
+    active_schools = School.query.filter_by(
+            subscription_status="Active"
+        ).count()
+    
+    trial_schools = School.query.filter_by(
+            subscription_status="Trial"
+        ).count()
+    
+    suspended_schools = School.query.filter_by(
+            subscription_status="Suspended"
+        ).count()
+        
+    pending_schools = School.query.filter_by(
+                subscription_status="pending"
+            ).count()
 
-   return render_template("superadmin_dash/schools/home.html")
+    return render_template(
+    "superadmin_dash/schools/home.html",
+    schools=schools,
+    total_schools=total_schools,
+    active_schools=active_schools,
+    trial_schools=trial_schools,
+    suspended_schools=suspended_schools,
+    pending_schools=pending_schools 
+)
 
 
 # ==========================================================
 # REGISTER SCHOOL
 # ==========================================================
 
+
 @superadmin_bp.route("/schools/create", methods=["GET", "POST"])
 @superadmin_required
 def create_school():
 
     if request.method == "POST":
-        flash("School registered successfully.", "success")
-        return redirect(url_for("superadmin.schools"))
+
+        try:
+
+            # =====================================================
+            # Collect FORM DATA FROM Superadmin Create School page
+            # =====================================================
+
+            name = request.form.get("name", "").strip()
+            email = request.form.get("email", "").strip()
+            phone = request.form.get("phone", "").strip()
+            code = request.form.get("code", "").strip()
+            website = request.form.get("website", "").strip()
+            address = request.form.get("address", "").strip()
+            city = request.form.get("city", "").strip()
+            state = request.form.get("state", "").strip()
+            country = request.form.get("country","Nigeria").strip()
+            postal_code = request.form.get("postal_code","").strip()
+            school_type = request.form.get("school_type","Secondary").strip()
+            ownership = request.form.get("ownership","").strip()
+            motto = request.form.get("motto","").strip()
+            established_year = request.form.get("established_year", "").strip()
+
+            # =====================================================
+            # VALIDATION OF THE INPUT FORMS
+            # =====================================================
+
+            if not name:
+                flash(
+                    "School name is required.",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for("superadmin.create_school")
+                )
+
+            if not email:
+                flash(
+                    "School email is required.",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for("superadmin.create_school")
+                )
+
+            if not phone:
+                flash(
+                    "School phone number is required.",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for("superadmin.create_school")
+                )
+
+            if not address:
+                flash(
+                    "School address is required.",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for("superadmin.create_school")
+                )
+
+            # =====================================================
+            # CHECK DUPLICATES
+            # =====================================================
+
+            existing_email = School.query.filter_by(
+                email=email
+            ).first()
+
+            if existing_email:
+
+                flash(
+                    "A school with this email already exists.",
+                    "danger"
+                )
+
+                return render_template(
+                    "superadmin_dash/schools/create.html"
+                )
+
+            # =====================================================
+            # GENERATE SLUG
+            # =====================================================
+
+            slug = name.lower().strip()
+
+            slug = slug.replace(" ", "-")
+
+            # =====================================================
+            # CHECK SLUG
+            # =====================================================
+
+            existing_slug = School.query.filter_by(
+                slug=slug
+            ).first()
+
+            if existing_slug:
+
+                flash(
+                    "A school with this name already exists.",
+                    "danger"
+                )
+
+                return render_template(
+                    "superadmin_dash/schools/create.html"
+                )
+
+            # =====================================================
+            # ESTABLISHED YEAR
+            # =====================================================
+
+            if established_year:
+
+                established_year = int(
+                    established_year
+                )
+
+            else:
+
+                established_year = None
+
+            # =====================================================
+            # CREATE SCHOOL
+            # =====================================================
+
+            school = School(
+
+                name=name,
+
+                slug=slug,
+                
+                code=code,
+
+                email=email,
+
+                phone=phone,
+
+                website=website or None,
+
+                address=address,
+
+                city=city or None,
+
+                state=state or None,
+
+                country=country,
+
+                postal_code=postal_code or None,
+
+                school_type=school_type,
+
+                ownership=ownership or None,
+
+                motto=motto or None,
+
+                established_year=established_year,
+
+                subscription_plan="Demo",
+
+                subscription_status="Pending"
+
+            )
+
+            # =====================================================
+            # SAVE
+            # =====================================================
+
+            db.session.add(school)
+            
+            db.session.flush()
+            
+            school.code = f"SCH-{datetime.now()}-{school.id:03d}"
+            
+            db.session.commit()
+
+            flash(
+                f"{school.name} was registered successfully "
+                f"with school code {school.code}.",
+                "success"
+            )
+
+            return redirect(
+                url_for("superadmin.schools")
+            )
+
+        except ValueError:
+
+            db.session.rollback()
+
+            flash(
+                "Established year must be a valid number.",
+                "danger"
+            )
+
+        except Exception as e:
+
+            db.session.rollback()
+            
+            print("ERROR CREATING SCHOOL:", e)
+
+            flash(
+                f"Error registering school: {str(e)}",
+                "danger"
+            )
 
     return render_template(
         "superadmin_dash/schools/create.html"
@@ -257,13 +535,20 @@ def create_school():
 @superadmin_bp.route("/schools-admins/create", methods=["GET", "POST"])
 @superadmin_required
 def create_school_admin():
+    
+    
+    schools = (
+            School.query
+            .order_by(School.id.desc())
+            .all()
+        )
 
     if request.method == "POST":
         flash("School administrator created successfully.", "success")
-        return redirect(url_for("superadmin.schools"))
+        return redirect(url_for("superadmin.userss"))
 
     return render_template(
-        "superadmin_dash/schools/create_school_admin.html"
+        "superadmin_dash/schools/create_school_admin.html", schools=schools
     )
 
 
@@ -274,34 +559,41 @@ def create_school_admin():
 @superadmin_bp.route("/schools/<int:id>")
 @superadmin_required
 def school_details(id):
+    
+    school = (
+        School.query
+        .order_by(School.id.desc())
+        .all()
+    )
 
-    school = {
-        "id": id,
-        "name": "Greenfield College",
-        "code": "SCH-001",
-        "status": "Active",
-        "plan": "Premium",
-        "email": "info@greenfield.edu.ng",
-        "phone": "+234 801 234 5678",
-        "school_type": "Primary & Secondary",
-        "ownership": "Private",
-        "address": "12 Allen Avenue, Ikeja, Lagos",
-        "country": "Nigeria",
-        "state": "Lagos",
-        "city": "Ikeja",
-        "students": 1240,
-        "teachers": 68,
-        "revenue": "₦450,000",
-        "billing": "Yearly",
-        "start_date": "01 Jan 2026",
-        "expiry_display": "31 Dec 2026",
-        "admin_name": "Mrs. Sarah Johnson",
-        "admin_email": "admin@greenfield.edu.ng"
-    }
+    # school = {
+    #     "id": id,
+    #     "name": "Greenfield College",
+    #     "code": "SCH-001",
+    #     "status": "Active",
+    #     "plan": "Premium",
+    #     "email": "info@greenfield.edu.ng",
+    #     "phone": "+234 801 234 5678",
+    #     "school_type": "Primary & Secondary",
+    #     "ownership": "Private",
+    #     "address": "12 Allen Avenue, Ikeja, Lagos",
+    #     "country": "Nigeria",
+    #     "state": "Lagos",
+    #     "city": "Ikeja",
+    #     "students": 1240,
+    #     "teachers": 68,
+    #     "revenue": "₦450,000",
+    #     "billing": "Yearly",
+    #     "start_date": "01 Jan 2026",
+    #     "expiry_display": "31 Dec 2026",
+    #     "admin_name": "Mrs. Sarah Johnson",
+    #     "admin_email": "admin@greenfield.edu.ng"
+    # }
 
     return render_template(
         "superadmin_dash/schools/school_details.html",
-        school=school
+        school=school,
+        id=id
     )
 
 
@@ -313,33 +605,39 @@ def school_details(id):
 @superadmin_required
 def edit_school(id):
 
-    school = {
-        "id": id,
-        "name": "Greenfield College",
-        "code": "SCH-001",
-        "email": "info@greenfield.edu.ng",
-        "phone": "+234 801 234 5678",
-        "school_type": "Primary & Secondary",
-        "ownership": "Private",
-        "address": "12 Allen Avenue, Ikeja, Lagos",
-        "country": "Nigeria",
-        "state": "Lagos",
-        "city": "Ikeja",
-        "plan": "Premium",
-        "status": "Active",
-        "expiry_date": "2026-12-31",
-        "students": 1240,
-        "teachers": 68,
-        "created": "15 Jan 2025"
-    }
+    school = School.query.get_or_404(id)
 
     if request.method == "POST":
-        flash("School updated successfully.", "success")
-        return redirect(url_for("superadmin.school_details", id=id))
+
+        school.name = request.form.get("name", "").strip()
+        school.email = request.form.get("email", "").strip()
+        school.phone = request.form.get("phone", "").strip()
+        school.website = request.form.get("website", "").strip()
+
+        school.address = request.form.get("address", "").strip()
+        school.city = request.form.get("city", "").strip()
+        school.state = request.form.get("state", "").strip()
+        school.country = request.form.get("country", "").strip()
+
+        school.school_type = request.form.get("school_type", "").strip()
+        school.ownership = request.form.get("ownership", "").strip()
+        school.motto = request.form.get("motto", "").strip()
+
+        db.session.commit()
+
+        flash(
+            "School updated successfully.",
+            "success"
+        )
+
+        return redirect(
+            url_for("superadmin.schools")
+        )
 
     return render_template(
         "superadmin_dash/schools/edit.html",
-        school=school
+        school=school,
+        id=id
     )
 
 
@@ -380,28 +678,14 @@ def create_user():
 @superadmin_bp.route("/users/<int:id>")
 @superadmin_required
 def user_details(id):
+    
 
-    user = {
-        "id": id,
-        "name": "David James",
-        "username": "davidjames",
-        "email": "david.james@school.com",
-        "phone": "+234 801 234 5678",
-        "gender": "Male",
-        "role": "School Admin",
-        "status": "Active",
-        "school": "Greenfield College",
-        "school_code": "SCH-001",
-        "joined": "15 Jan 2025",
-        "last_login": "Today · 08:15 AM",
-        "activity": "24 actions",
-        "security": "2FA Enabled",
-        "two_factor": "Enabled"
-    }
+    user = (User.query.order_by(User.id.all()))
 
     return render_template(
         "superadmin_dash/users/user_details.html",
-        user=user
+        user=user,
+        id=id
     )
 
 
@@ -594,4 +878,23 @@ def help_center():
 
     return render_template(
         "superadmin_dash/help/help_center.html"
+    )
+
+#===================================================
+# LOGOUT ROUTE
+# ==================================================
+
+@superadmin_bp.route("/logout")
+@superadmin_required
+def logout():
+
+    logout_user()
+
+    flash(
+        "You have been logged out.",
+        "info"
+    )
+
+    return redirect(
+        url_for("superadmin.login")
     )

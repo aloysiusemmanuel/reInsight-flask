@@ -30,6 +30,13 @@ class School(BaseModel, db.Model):
         nullable=False,
         index=True
     )
+    
+    code = db.Column(
+        db.String(20),
+        unique=True,
+        nullable=False,
+        index=True
+    )
 
     email = db.Column(
         db.String(120),

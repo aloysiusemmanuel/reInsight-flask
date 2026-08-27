@@ -117,13 +117,16 @@
 
                             <select class="form-select" name="school_id">
 
-                                <option selected disabled>Select a school</option>
-                                <option value="1">Greenfield College</option>
-                                <option value="2">Sunrise Academy</option>
-                                <option value="3">Harmony High School</option>
+                            <option selected disabled>Select a school</option>
+
+                             {% for school in schools  %}
+
+                                <option value="{{ school.id }}">{{ school.name }}</option>
+                                
+                            {% endfor %}
 
                             </select>
-
+                            
                         </div>
 
                         <div class="col-md-6">
