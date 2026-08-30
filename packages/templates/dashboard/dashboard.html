@@ -19,10 +19,9 @@
                 Dashboard
 
             </h2>
-            {# when i configure the auth for users, i will uncomment this part #}
             <p class="text-muted mb-0">
                 Welcome back,
-          {# <strong>{{ current_user.full_name }}</strong>. #}
+           <strong>{{ current_user.username }}</strong>. 
 
              {#   {% if current_user.role == "School Administrator" %}
                     Here's what's happening across your school today.
@@ -67,13 +66,13 @@
 
             {% with
             title="Students",
-            value="1,245",
+            value=total_students,
             counter_id="studentsCounter",
             icon="bi bi-mortarboard-fill",
             subtitle="Registered Students",
-            progress=85,
+            progress=100,
             trend="up",
-            trend_value="+6%"
+            trend_value=""
             %}
 
             {% include "components/stat_card.html" %}
@@ -86,13 +85,13 @@
 
             {% with
             title="Teachers",
-            value="82",
+            value=total_teachers,
             counter_id="teachersCounter",
             icon="bi bi-person-workspace",
             subtitle="Academic Staff",
-            progress=72,
+            progress=100,
             trend="up",
-            trend_value="+2%"
+            trend_value=""
             %}
 
             {% include "components/stat_card.html" %}
@@ -105,13 +104,13 @@
 
             {% with
             title="Attendance",
-            value="96%",
+            value=class_attendance_percentage ~ "%",
             counter_id="attendanceCounter",
             icon="bi bi-calendar-check-fill",
             subtitle="Today's Attendance",
-            progress=96,
+            progress=class_attendance_percentage,
             trend="up",
-            trend_value="+1.5%"
+            trend_value=""
             %}
 
             {% include "components/stat_card.html" %}
@@ -124,13 +123,13 @@
 
             {% with
             title="Behaviour",
-            value="8",
+            value="behaviour_cases",
             counter_id="behaviourCounter",
             icon="bi bi-emoji-smile-fill",
             subtitle="Open Cases",
-            progress=65,
+            progress=0,
             trend="down",
-            trend_value="-12%"
+            trend_value=""
             %}
 
             {% include "components/stat_card.html" %}
@@ -143,13 +142,13 @@
 
             {% with
             title="Parents",
-            value="1,032",
+            value="total_parents",
             counter_id="parentsCounter",
             icon="bi bi-people-fill",
             subtitle="Connected Parents",
-            progress=90,
+            progress=0,
             trend="up",
-            trend_value="+4%"
+            trend_value=""
             %}
 
             {% include "components/stat_card.html" %}
@@ -162,13 +161,13 @@
 
             {% with
             title="Average Score",
-            value="78%",
+            value=average_score ~ "%",
             counter_id="averageCounter",
             icon="bi bi-bar-chart-fill",
             subtitle="School Performance",
-            progress=78,
+            progress=average_score,
             trend="up",
-            trend_value="+5%"
+            trend_value=""
             %}
 
             {% include "components/stat_card.html" %}
@@ -480,5 +479,15 @@
     </div>
 
 </div>
+
+<script>
+    window.dashboardData = {
+        attendanceLabels: {{ attendance_chart_labels | tojson }},
+        attendanceData: {{ attendance_chart_data | tojson }},
+        excellentBehaviours: {{ excellent_behaviours }},
+        goodBehaviours: {{ good_behaviours }},
+        needsAttentionBehaviours: {{ needs_attention_behaviours }}
+    };
+</script>
 
 {% endblock %}

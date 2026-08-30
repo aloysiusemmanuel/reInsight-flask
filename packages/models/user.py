@@ -193,19 +193,19 @@ class User(UserMixin, BaseModel, db.Model):
 
     @property
     def is_super_admin(self):
-        return self.role_name == "SUPER_ADMIN"
+        return self.role_name == "Super Admin"
 
     @property
     def is_school_admin(self):
-        return self.role_name == "SCHOOL_ADMIN"
+        return self.role_name == "School Admin"
 
     @property
     def is_teacher(self):
-        return self.role_name == "TEACHER"
+        return self.role_name == "Teacher"
 
     @property
     def is_parent(self):
-        return self.role_name == "PARENT"
+        return self.role_name == "Parent"
 
     # =====================================================
     # REPRESENTATION

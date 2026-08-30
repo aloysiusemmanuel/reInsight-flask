@@ -285,19 +285,7 @@ const Dashboard = {
 
             data: {
 
-                labels: [
-
-                    "Mon",
-
-                    "Tue",
-
-                    "Wed",
-
-                    "Thu",
-
-                    "Fri"
-
-                ],
+                labels: window.dashboardData.attendanceLabels,
 
                 datasets: [
 
@@ -305,19 +293,7 @@ const Dashboard = {
 
                         label: "Attendance",
 
-                        data: [
-
-                            96,
-
-                            94,
-
-                            97,
-
-                            95,
-
-                            98
-
-                        ],
+                        data: window.dashboardData.attendanceData,
 
                         tension: 0.4,
 
@@ -333,7 +309,27 @@ const Dashboard = {
 
                 responsive: true,
 
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        max: 100,
+
+                        ticks: {
+
+                            callback: function(value) {
+                                return value + "%";
+                            }
+
+                        }
+
+                    }
+
+                }
 
             }
 
@@ -356,9 +352,7 @@ const Dashboard = {
                 labels: [
 
                     "Excellent",
-
                     "Good",
-
                     "Needs Attention"
 
                 ],
@@ -369,11 +363,9 @@ const Dashboard = {
 
                         data: [
 
-                            72,
-
-                            20,
-
-                            8
+                            '{{ excellent_behaviours }}',
+                            '{{ good_behaviours }}',
+                            '{{ needs_attention_behaviours }}'
 
                         ]
 

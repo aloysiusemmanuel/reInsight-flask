@@ -15,7 +15,7 @@ PAGE HEADER
         <h2 class="fw-bold mb-1">Users</h2>
 
         <p class="text-muted mb-0">
-            Manage platform users, roles, school assignments, and account status.
+            Manage platform users, roles, schools, and account status.
         </p>
 
     </div>
@@ -53,7 +53,7 @@ SUMMARY CARDS
 
                 </div>
 
-                <div class="fw-bold fs-3 text-primary">4,286</div>
+                <div class="fw-bold fs-3 text-primary">{{ total_users }}</div>
 
                 <div class="text-muted">Total Users</div>
 
@@ -76,7 +76,7 @@ SUMMARY CARDS
 
                 </div>
 
-                <div class="fw-bold fs-3 text-success">4,012</div>
+                <div class="fw-bold fs-3 text-success">{{ active_users }}</div>
 
                 <div class="text-muted">Active</div>
 
@@ -99,7 +99,7 @@ SUMMARY CARDS
 
                 </div>
 
-                <div class="fw-bold fs-3 text-warning">128</div>
+                <div class="fw-bold fs-3 text-warning">{{ school_admins }}</div>
 
                 <div class="text-muted">School Admins</div>
 
@@ -122,7 +122,7 @@ SUMMARY CARDS
 
                 </div>
 
-                <div class="fw-bold fs-3 text-info">1,246</div>
+                <div class="fw-bold fs-3 text-info">{{ teachers }}</div>
 
                 <div class="text-muted">Teachers</div>
 
@@ -166,13 +166,22 @@ FILTERS
 
                 <label class="form-label fw-medium">Role</label>
 
-                <select class="form-select">
+                <select
+                    class="form-select"
+                    name="role_id"
+                    required>
 
-                    <option>All Roles</option>
-                    <option>Super Admin</option>
-                    <option>School Admin</option>
-                    <option>Teacher</option>
-                    <option>Parent</option>
+                    <option value="">
+                        Select Role
+                    </option>
+
+                    {% for role in roles %}
+
+                        <option value="{{ role.id }}">
+                            {{ role.name }}
+                        </option>
+
+                    {% endfor %}
 
                 </select>
 
@@ -221,7 +230,10 @@ USERS TABLE
 
             <h5 class="mb-0 fw-semibold">Platform Users</h5>
 
-            <small class="text-muted">4,286 users found</small>
+            <small class="text-muted">{{ users|length }}
+                {{ "user" if users|length == 1 else "users" }}
+                found
+            </small>
 
         </div>
 
@@ -261,22 +273,25 @@ USERS TABLE
 
                 <tbody>
 
+                    {% for user in users %}
+
                     <tr>
 
                         <td>
 
                             <div class="d-flex align-items-center gap-3">
 
-                                <img src="https://ui-avatars.com/api/?name=David+James&background=2563EB&color=fff&size=64"
+                                <img src="https://ui-avatars.com/api/?name={{ user.username | urlencode }}&background=2563EB&color=fff&size=64"
                                      width="40"
                                      height="40"
-                                     class="rounded-circle">
+                                     class="rounded-circle"
+                                     alt="{{ user.username }}">
 
                                 <div>
 
-                                    <div class="fw-semibold">David James</div>
+                                    <div class="fw-semibold">{{ user.username }}</div>
 
-                                    <div class="small text-muted">david.james@school.com</div>
+                                    <div class="small text-muted">{{ user.email}}</div>
 
                                 </div>
 
@@ -285,37 +300,66 @@ USERS TABLE
                         </td>
 
                         <td>
-
+                            {% if user.role %}
                             <span class="badge bg-primary-subtle text-primary px-3 py-2">
-                                School Admin
+                                
+                                    {{ user.role.display_name }}
                             </span>
+                            {% else %}
+                                    —
+                            {% endif %}
 
                         </td>
 
-                        <td>Greenfield College</td>
+                        <td>
+                            {% if user.school %}
+                                {{ user.school.name }}
+                            {% else %}
+                                Platform
+                            {% endif %}
+                        </td>
 
                         <td>
 
-                            <span class="badge bg-success-subtle text-success px-3 py-2">
-                                Active
-                            </span>
+                             {% if user.is_active %}
+
+                                <span class="badge bg-success-subtle text-success">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger-subtle text-danger">
+                                    Inactive
+                                </span>
+
+                            {% endif %}
 
                         </td>
 
-                        <td>Today · 08:15 AM</td>
+                        <td>{% if user.last_login %}
+
+                                {{ user.last_login.strftime("%d %b %Y · %I:%M %p") }}
+
+                            {% else %}
+
+                                Never
+
+                            {% endif %}
+                         </td>
 
                         <td class="text-end">
 
                             <div class="btn-group">
 
-                                <a href="{{ url_for('superadmin.user_details', id=1) }}"
+                                <a href="{{ url_for('superadmin.user_details', id=user.id) }}"
                                    class="btn btn-sm btn-outline-primary">
 
                                     <i class="bi bi-eye"></i>
 
                                 </a>
 
-                                <a href="{{ url_for('superadmin.edit_user', id=1) }}"
+                                <a href="{{ url_for('superadmin.edit_user', id=user.id) }}"
                                    class="btn btn-sm btn-outline-secondary">
 
                                     <i class="bi bi-pencil-square"></i>
@@ -327,141 +371,21 @@ USERS TABLE
                         </td>
 
                     </tr>
+                    
+                    {% else %}
+                        <tr>
 
-                    <tr>
+                            <td
+                                colspan="6"
+                                class="text-center py-5">
 
-                        <td>
+                                No users found.
 
-                            <div class="d-flex align-items-center gap-3">
+                            </td>
 
-                                <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=059669&color=fff&size=64"
-                                     width="40"
-                                     height="40"
-                                     class="rounded-circle">
+                        </tr>
 
-                                <div>
-
-                                    <div class="fw-semibold">Sarah Johnson</div>
-
-                                    <div class="small text-muted">sarah.johnson@school.com</div>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-info-subtle text-info px-3 py-2">
-                                Teacher
-                            </span>
-
-                        </td>
-
-                        <td>Sunrise Academy</td>
-
-                        <td>
-
-                            <span class="badge bg-success-subtle text-success px-3 py-2">
-                                Active
-                            </span>
-
-                        </td>
-
-                        <td>Yesterday · 07:42 PM</td>
-
-                        <td class="text-end">
-
-                            <div class="btn-group">
-
-                                <a href="{{ url_for('superadmin.user_details', id=2) }}"
-                                   class="btn btn-sm btn-outline-primary">
-
-                                    <i class="bi bi-eye"></i>
-
-                                </a>
-
-                                <a href="{{ url_for('superadmin.edit_user', id=2) }}"
-                                   class="btn btn-sm btn-outline-secondary">
-
-                                    <i class="bi bi-pencil-square"></i>
-
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>
-
-                            <div class="d-flex align-items-center gap-3">
-
-                                <img src="https://ui-avatars.com/api/?name=Michael+Brown&background=EA580C&color=fff&size=64"
-                                     width="40"
-                                     height="40"
-                                     class="rounded-circle">
-
-                                <div>
-
-                                    <div class="fw-semibold">Michael Brown</div>
-
-                                    <div class="small text-muted">michael.brown@reinsight.com</div>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-danger-subtle text-danger px-3 py-2">
-                                Super Admin
-                            </span>
-
-                        </td>
-
-                        <td>Platform</td>
-
-                        <td>
-
-                            <span class="badge bg-success-subtle text-success px-3 py-2">
-                                Active
-                            </span>
-
-                        </td>
-
-                        <td>Today · 10:05 AM</td>
-
-                        <td class="text-end">
-
-                            <div class="btn-group">
-
-                                <a href="{{ url_for('superadmin.user_details', id=3) }}"
-                                   class="btn btn-sm btn-outline-primary">
-
-                                    <i class="bi bi-eye"></i>
-
-                                </a>
-
-                                <a href="{{ url_for('superadmin.edit_user', id=3) }}"
-                                   class="btn btn-sm btn-outline-secondary">
-
-                                    <i class="bi bi-pencil-square"></i>
-
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
+                    {% endfor %}
                 </tbody>
 
             </table>

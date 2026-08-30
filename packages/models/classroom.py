@@ -122,6 +122,12 @@ class Classroom(BaseModel, db.Model):
         lazy=True,
         cascade="all, delete-orphan"
     )
+    
+    status = db.Column(
+    db.String(20),
+    default="Active",
+    nullable=False  
+    )
 
     # =====================================================
     # REPRESENTATION

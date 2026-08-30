@@ -19,6 +19,8 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from sqlalchemy import or_
+
 from datetime import datetime
 
 from flask_login import login_required, current_user, login_user, logout_user
@@ -29,6 +31,7 @@ from packages import db
 from packages.models import School
 from packages.models.school_admin import SchoolAdmin
 from packages.models import User
+from packages.models import Role
 from packages.authentication.services import authenticate_user
 
 #==================================================================
@@ -490,7 +493,7 @@ def create_school():
             
             db.session.flush()
             
-            school.code = f"SCH-{datetime.now()}-{school.id:03d}"
+            school.code = f"SCH-{datetime.now():%y%m%d}{school.id:03d}"
             
             db.session.commit()
 
@@ -545,7 +548,7 @@ def create_school_admin():
 
     if request.method == "POST":
         flash("School administrator created successfully.", "success")
-        return redirect(url_for("superadmin.userss"))
+        return redirect(url_for("superadmin.users"))
 
     return render_template(
         "superadmin_dash/schools/create_school_admin.html", schools=schools
@@ -565,30 +568,6 @@ def school_details(id):
         .order_by(School.id.desc())
         .all()
     )
-
-    # school = {
-    #     "id": id,
-    #     "name": "Greenfield College",
-    #     "code": "SCH-001",
-    #     "status": "Active",
-    #     "plan": "Premium",
-    #     "email": "info@greenfield.edu.ng",
-    #     "phone": "+234 801 234 5678",
-    #     "school_type": "Primary & Secondary",
-    #     "ownership": "Private",
-    #     "address": "12 Allen Avenue, Ikeja, Lagos",
-    #     "country": "Nigeria",
-    #     "state": "Lagos",
-    #     "city": "Ikeja",
-    #     "students": 1240,
-    #     "teachers": 68,
-    #     "revenue": "₦450,000",
-    #     "billing": "Yearly",
-    #     "start_date": "01 Jan 2026",
-    #     "expiry_display": "31 Dec 2026",
-    #     "admin_name": "Mrs. Sarah Johnson",
-    #     "admin_email": "admin@greenfield.edu.ng"
-    # }
 
     return render_template(
         "superadmin_dash/schools/school_details.html",
@@ -649,8 +628,44 @@ def edit_school(id):
 @superadmin_required
 def users():
 
+    users = (
+        User.query
+        .order_by(User.id.desc())
+        .all()
+    )
+
+    total_users = User.query.count()
+
+    active_users = User.query.filter_by(
+        is_active=True
+    ).count()
+
+    school_admins = (
+        User.query
+        .join(Role)
+        .filter(Role.name == "School Admin")
+        .count()
+    )
+
+    teachers = (
+        User.query
+        .join(Role)
+        .filter(Role.name == "Teacher")
+        .count()
+    )
+
     return render_template(
-        "superadmin_dash/users/home.html"
+        "superadmin_dash/users/home.html",
+
+        users=users,
+
+        total_users=total_users,
+
+        active_users=active_users,
+
+        school_admins=school_admins,
+
+        teachers=teachers
     )
 
 
@@ -662,12 +677,167 @@ def users():
 @superadmin_required
 def create_user():
 
+    schools = School.query.order_by(School.name).all()
+    roles = Role.query.order_by(Role.name).all()
+    users = User.query.order_by(User.id).all()
+
     if request.method == "POST":
-        flash("User created successfully.", "success")
-        return redirect(url_for("superadmin.users"))
+
+        try:
+            username = request.form.get("username", "").strip()
+            email = request.form.get("email", "").strip()
+            password = request.form.get("password", "")
+            school_id = request.form.get("school_id")
+            role_id = request.form.get("role_id")
+
+            # ---------------------------------------------
+            # VALIDATION
+            # ---------------------------------------------
+
+            if not username or not email or not password:
+                flash(
+                    "Username, email and password are required.",
+                    "danger"
+                )
+                return redirect(
+                    url_for("superadmin.create_user")
+                )
+
+            if not school_id:
+                flash(
+                    "Please select a school.",
+                    "danger"
+                )
+                return redirect(
+                    url_for("superadmin.create_user")
+                )
+
+            if not role_id:
+                flash(
+                    "Please select a role.",
+                    "danger"
+                )
+                return redirect(
+                    url_for("superadmin.create_user")
+                )
+
+            # ---------------------------------------------
+            # CHECK EXISTING USER
+            # ---------------------------------------------
+
+            existing_user = User.query.filter(
+                or_(
+                    User.username == username,
+                    User.email == email
+                )
+            ).first()
+
+            if existing_user:
+
+                flash(
+                    "Username or email already exists.",
+                    "warning"
+                )
+
+                return redirect(
+                    url_for("superadmin.create_user")
+                )
+
+            # ---------------------------------------------
+            # VERIFY SCHOOL
+            # ---------------------------------------------
+
+            school = db.session.get(
+                School,
+                int(school_id)
+            )
+
+            if not school:
+
+                flash(
+                    "Selected school does not exist.",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for("superadmin.create_user")
+                )
+
+            # ---------------------------------------------
+            # VERIFY ROLE
+            # ---------------------------------------------
+
+            role = db.session.get(
+                Role,
+                int(role_id)
+            )
+
+            if not role:
+
+                flash(
+                    "Selected role does not exist.",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for("superadmin.create_user")
+                )
+
+            # ---------------------------------------------
+            # CREATE USER
+            # ---------------------------------------------
+
+            user = User(
+                username=username,
+                email=email,
+                school_id=school.id,
+                role_id=role.id,
+                email_verified=True,
+                is_active=True,
+                is_locked=False,
+                failed_login_attempts=0
+            )
+
+            user.set_password(password)
+
+            # ---------------------------------------------
+            # SAVE
+            # ---------------------------------------------
+
+            db.session.add(user)
+
+            db.session.commit()
+
+            # ---------------------------------------------
+            # SUCCESS
+            # ---------------------------------------------
+
+            flash(
+                f"School administrator '{username}' "
+                f"created successfully.",
+                "success"
+            )
+
+            return redirect(
+                url_for("superadmin.users")
+            )
+
+        except Exception as e:
+
+            db.session.rollback()
+
+            print("CREATE USER ERROR:", e)
+
+            flash(
+                f"Error creating user: {str(e)}",
+                "danger"
+            )
 
     return render_template(
-        "superadmin_dash/users/create_user.html"
+        "superadmin_dash/users/create_user.html",
+        schools=schools,
+        roles=roles,
+        users=users
     )
 
 
@@ -675,7 +845,7 @@ def create_user():
 # USER DETAILS
 # ==========================================================
 
-@superadmin_bp.route("/users/<int:id>")
+@superadmin_bp.route("/users/details<int:id>")
 @superadmin_required
 def user_details(id):
     
@@ -693,31 +863,20 @@ def user_details(id):
 # EDIT USER
 # ==========================================================
 
-@superadmin_bp.route("/users/<int:id>/edit", methods=["GET", "POST"])
+@superadmin_bp.route("/users/edit<int:id>", methods=["GET", "POST"])
 @superadmin_required
 def edit_user(id):
 
-    user = {
-        "id": id,
-        "first_name": "David",
-        "last_name": "James",
-        "username": "davidjames",
-        "email": "david.james@school.com",
-        "phone": "+234 801 234 5678",
-        "gender": "Male",
-        "role": "School Admin",
-        "status": "Active",
-        "school": "Greenfield College",
-        "two_factor": "Enabled"
-    }
+    user = (User.query.order_by(User.id.all()))
 
     if request.method == "POST":
         flash("User updated successfully.", "success")
-        return redirect(url_for("superadmin.user_details", id=id))
+        return redirect(url_for("superadmin.user_details", id=user.id))
 
     return render_template(
         "superadmin_dash/users/edit_user.html",
-        user=user
+        user=user,
+        id=id
     )
 
 

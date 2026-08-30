@@ -138,13 +138,12 @@
 
                             <label class="form-label fw-medium">Role</label>
 
-                            <select class="form-select" name="role">
+                            <select class="form-select" name="role_id" required>
 
                                 <option selected disabled>Select role</option>
-                                <option>Super Admin</option>
-                                <option>School Admin</option>
-                                <option>Teacher</option>
-                                <option>Parent</option>
+                               {% for role in roles %}
+                                <option value="{{role.id}}">{{ role.name }}</option>
+                               {% endfor %}
 
                             </select>
 
@@ -154,12 +153,12 @@
 
                             <label class="form-label fw-medium">Assign School</label>
 
-                            <select class="form-select" name="school_id">
+                            <select class="form-select" name="school_id" required>
 
                                 <option selected disabled>Select school</option>
-                                <option>Greenfield College</option>
-                                <option>Sunrise Academy</option>
-                                <option>Harmony High School</option>
+                                {% for school in schools %}
+                                    <option value="{{school.id}}">{{ school.name }}</option>
+                                {% endfor %}
 
                             </select>
 

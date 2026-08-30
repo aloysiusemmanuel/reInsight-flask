@@ -65,10 +65,7 @@ def classroom():
 )
 @login_required
 def classroom_create():
-    
-    
-
-    
+   
     academic_sessions = (
         AcademicSession.query
         .filter_by(
