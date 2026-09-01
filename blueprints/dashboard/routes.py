@@ -12,6 +12,7 @@ from packages.models.classroom import Classroom
 from packages.models import Attendance
 from packages.models import Behaviour
 from packages.models import AcademicRecord
+from packages.models.activity import Activity
 
 from . import dashboard_bp
 
@@ -25,9 +26,9 @@ from . import dashboard_bp
 def dashboard():
     
     
-    # =====================================================
-    # SCHOOL ACCESS
-    # =====================================================
+# =====================================================
+# SCHOOL ACCESS
+# =====================================================
     
     if not current_user.is_school_admin:
             abort(403)
@@ -36,6 +37,128 @@ def dashboard():
             abort(403)
             
     school_id = current_user.school_id
+    
+    recent_activities = []
+
+# ---------------------------------------------------------
+# RECENT STUDENTS
+# ---------------------------------------------------------
+
+    students = (
+        Student.query
+        .filter_by(school_id=school_id)
+        .order_by(Student.created_at.desc())
+        .limit(5)
+        .all()
+    )
+
+    for student in students:
+
+        recent_activities.append({
+            "message": f"{student.full_name} was registered as a student.",
+            "date": student.created_at,
+            "icon": "bi bi-person-plus-fill"
+        })
+
+
+# ---------------------------------------------------------
+# RECENT TEACHERS
+# ---------------------------------------------------------
+
+    teachers = (
+        Teacher.query
+        .filter_by(school_id=school_id)
+        .order_by(Teacher.created_at.desc())
+        .limit(5)
+        .all()
+    )
+
+    for teacher in teachers:
+
+        recent_activities.append({
+            "message": f"{teacher.full_name} was added as a teacher.",
+            "date": teacher.created_at,
+            "icon": "bi bi-person-workspace"
+        })
+
+
+# ---------------------------------------------------------
+# RECENT ATTENDANCE
+# ---------------------------------------------------------
+
+    attendance_records = (
+        Attendance.query
+        .filter_by(school_id=school_id)
+        .order_by(Attendance.created_at.desc())
+        .limit(5)
+        .all()
+    )
+
+    for attendance in attendance_records:
+
+        recent_activities.append({
+            "message": "Student attendance was recorded.",
+            "date": attendance.created_at,
+            "icon": "bi bi-calendar-check-fill"
+        })
+
+
+# ---------------------------------------------------------
+# RECENT ACADEMIC RECORDS
+# ---------------------------------------------------------
+
+    academic_records = (
+        AcademicRecord.query
+        .filter_by(school_id=school_id)
+        .order_by(AcademicRecord.created_at.desc())
+        .limit(5)
+        .all()
+    )
+
+    for record in academic_records:
+
+        recent_activities.append({
+            "message": "Academic scores were uploaded.",
+            "date": record.created_at,
+            "icon": "bi bi-bar-chart-fill"
+        })
+
+
+# ---------------------------------------------------------
+# RECENT BEHAVIOUR RECORDS
+# ---------------------------------------------------------
+
+    behaviour_records = (
+        Behaviour.query
+        .filter_by(school_id=school_id)
+        .order_by(Behaviour.created_at.desc())
+        .limit(5)
+        .all()
+    )
+
+    for behaviour in behaviour_records:
+
+        recent_activities.append({
+            "message": "A behaviour report was submitted.",
+            "date": behaviour.created_at,
+            "icon": "bi bi-emoji-smile-fill"
+        })
+
+
+# ---------------------------------------------------------
+# SORT EVERYTHING BY DATE
+# ---------------------------------------------------------
+
+    recent_activities = (
+        Activity.query
+        .filter_by(school_id=school_id)
+        .order_by(Activity.created_at.desc())
+        .limit(5)
+        .all()
+    )
+
+# Keep only the five most recent activities
+    recent_activities = recent_activities[:5]
     
 # =====================================================
 # ATTENDANCE CHART
@@ -128,6 +251,12 @@ def dashboard():
         )
         .count()
     )
+    
+    classrooms = (
+    Classroom.query
+    .filter_by(school_id=school_id)
+    .all()
+    )
 
     # =====================================================
     # TODAY'S ATTENDANCE
@@ -205,8 +334,8 @@ def dashboard():
     )
     
     # =====================================================
-# BEHAVIOUR SUMMARY
-# =====================================================
+    # BEHAVIOUR SUMMARY
+    # =====================================================
 
     behaviour_records = (
         Behaviour.query
@@ -280,15 +409,15 @@ def dashboard():
             for student in students
         ]
 
-        # ---------------------------------------------
-        # STUDENT COUNT
-        # ---------------------------------------------
+    # ---------------------------------------------
+    # STUDENT COUNT
+    # ---------------------------------------------
 
         student_count = len(students)
 
-        # ---------------------------------------------
-        # ACADEMIC AVERAGE
-        # ---------------------------------------------
+    # ---------------------------------------------
+    # ACADEMIC AVERAGE
+    # ---------------------------------------------
 
         class_average = 0
 
@@ -312,9 +441,9 @@ def dashboard():
                 1
             )
 
-        # ---------------------------------------------
-        # ATTENDANCE
-        # ---------------------------------------------
+    # ---------------------------------------------
+    # ATTENDANCE
+    # ---------------------------------------------
 
         class_attendance = [
             record
@@ -360,8 +489,8 @@ def dashboard():
     
     
     # =====================================================
-# ATTENDANCE CHART
-# =====================================================
+    # ATTENDANCE CHART
+    # =====================================================
 
     attendance_chart_labels = []
     attendance_chart_data = []
@@ -424,6 +553,8 @@ def dashboard():
         positive_behaviours=positive_behaviours,
         negative_behaviours=negative_behaviours,
         behaviour_cases=behaviour_cases,
+        
+        classrooms=classrooms,
 
         academic_average_score=academic_average_score,
 
@@ -433,7 +564,8 @@ def dashboard():
         attendance_chart_data=attendance_chart_data,
         excellent_behaviours=excellent_behaviours,
         good_behaviours=good_behaviours,
-        needs_attention_behaviours=needs_attention_behaviours
+        needs_attention_behaviours=needs_attention_behaviours,
+        recent_activities=recent_activities
     )
 
 @dashboard_bp.route("/dasboard_base", endpoint="dashboard_base")
@@ -500,7 +632,7 @@ def reports():
         primary_button={
             "text":"Generate Report",
             "icon":"bi bi-plus-circle",
-            "url":"#"
+            "url":"url_for(dashboard.reports)"
         }
 
     )

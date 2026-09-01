@@ -1,5 +1,6 @@
 from flask import render_template, redirect, request, flash, url_for
 from datetime import datetime
+from flask_login import current_user
 
 from packages.extensions import db
 
@@ -28,6 +29,7 @@ def students():
     ]
 
     students = (
+
         Student.query
         .order_by(
             Student.first_name.asc(),

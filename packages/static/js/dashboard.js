@@ -363,9 +363,11 @@ const Dashboard = {
 
                         data: [
 
-                            '{{ excellent_behaviours }}',
-                            '{{ good_behaviours }}',
-                            '{{ needs_attention_behaviours }}'
+                            window.dashboardData.excellentBehaviours,
+
+                            window.dashboardData.goodBehaviours,
+
+                            window.dashboardData.needsAttentionBehaviours
 
                         ]
 

@@ -226,6 +226,13 @@ class School(BaseModel, db.Model):
         lazy=True,
         cascade="all, delete-orphan"
     )
+    
+    activities = db.relationship(
+    "Activity",
+    back_populates="school",
+    lazy=True,
+    cascade="all, delete-orphan"
+    )
 
     # =====================================================
     # REPRESENTATION

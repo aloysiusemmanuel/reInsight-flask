@@ -314,43 +314,90 @@
 
                 </div>
 
-                <div class="card-body">
+                    <div class="card-body">
 
-                    <ul class="list-group list-group-flush">
+                            <ul class="list-group list-group-flush">
 
-                        <li class="list-group-item">
+                                    {% for activity in recent_activities %}
 
-                            Student attendance recorded successfully.
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
 
-                        </li>
+                                                <div>
 
-                        <li class="list-group-item">
+                                                    <strong>{{ activity.user.username }}</strong>
 
-                            Mathematics scores uploaded.
+                                                    {{ activity.action }} 
 
-                        </li>
+                                                    <span class="text-muted">{{ activity.target }}</span>
 
-                        <li class="list-group-item">
+                                                </div>
 
-                            Parent meeting scheduled.
+                                                <small class="text-muted">
 
-                        </li>
+                                                    {{ activity.created_at.strftime('%Y-%m-%d %H:%M') }}
 
-                        <li class="list-group-item">
+                                                </small>
 
-                            Behaviour report submitted.
+                                            </li>
 
-                        </li>
+                                    {% else %}
 
-                        <li class="list-group-item">
+                                            <li class="list-group-item text-center text-muted">
 
-                            Weekly analytics generated.
+                                                No recent activities.
 
-                        </li>
+                                            </li>
 
-                    </ul>
+                                    {% endfor %}
 
-                </div>
+                            </ul>
+                        <div class="card-body">
+
+                        <ul class="list-group list-group-flush">
+
+                            {% for activity in recent_activities %}
+
+                            <li class="list-group-item d-flex align-items-center">
+
+                                <div class="me-3">
+
+                                    <i class="{{ activity.icon }}"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <div class="fw-medium">
+
+                                        {{ activity.message }}
+
+                                    </div>
+
+                                    <small class="text-muted">
+
+                                        {{ activity.created_at.strftime("%d %b %Y, %I:%M %p") }}
+
+                                    </small>
+
+                                </div>
+
+                            </li>
+
+                            {% else %}
+
+                            <li class="list-group-item text-center text-muted py-4">
+
+                                <i class="bi bi-clock-history fs-4 d-block mb-2"></i>
+
+                                No recent activities.
+
+                            </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
 
             </div>
 
@@ -372,7 +419,7 @@
 
             </h5>
 
-            <a href="#" class="btn btn-sm btn-outline-primary">
+            <a href="{{ url_for('dashboard.reports') }}" class="btn btn-sm btn-outline-primary">
 
                 View Report
 
@@ -402,75 +449,106 @@
 
                 </thead>
 
-                <tbody>
+                    <tbody>
 
-                    <tr>
+                        {% for classroom in classrooms %}
 
-                        <td>JSS 1A</td>
+                        <tr>
 
-                        <td>35</td>
+                            <!-- CLASS -->
+                            <td>
 
-                        <td>98%</td>
+                                <div class="fw-semibold">
 
-                        <td>82%</td>
+                                    {{ classroom.name }}
 
-                        <td>
+                                    {% if classroom.section %}
+                                        <span class="text-muted">
+                                            {{ classroom.section }}
+                                        </span>
+                                    {% endif %}
 
-                            <span class="badge bg-success">
+                                </div>
 
-                                Excellent
+                            </td>
 
-                            </span>
 
-                        </td>
+                            <!-- STUDENTS -->
+                            <td>
 
-                    </tr>
+                                {{ classroom.students|length }}
 
-                    <tr>
+                            </td>
 
-                        <td>JSS 2B</td>
 
-                        <td>38</td>
+                            <!-- ATTENDANCE -->
+                            <td>
 
-                        <td>95%</td>
+                                <span class="text-muted">
+                                    --
+                                </span>
 
-                        <td>79%</td>
+                            </td>
 
-                        <td>
 
-                            <span class="badge bg-primary">
+                            <!-- AVERAGE SCORE -->
+                            <td>
 
-                                Very Good
+                                <span class="text-muted">
+                                    --
+                                </span>
 
-                            </span>
+                            </td>
 
-                        </td>
 
-                    </tr>
+                            <!-- STATUS -->
+                            <td>
 
-                    <tr>
+                                {% if classroom.status == "Active" %}
 
-                        <td>SS 1A</td>
+                                    <span class="badge bg-success-subtle text-success">
+                                        Active
+                                    </span>
 
-                        <td>42</td>
+                                {% elif classroom.status == "Inactive" %}
 
-                        <td>94%</td>
+                                    <span class="badge bg-secondary-subtle text-secondary">
+                                        Inactive
+                                    </span>
 
-                        <td>77%</td>
+                                {% else %}
 
-                        <td>
+                                    <span class="badge bg-warning-subtle text-warning">
+                                        {{ classroom.status }}
+                                    </span>
 
-                            <span class="badge bg-warning text-dark">
+                                {% endif %}
 
-                                Good
+                            </td>
 
-                            </span>
+                        </tr>
 
-                        </td>
+                        {% else %}
 
-                    </tr>
+                        <tr>
 
-                </tbody>
+                            <td colspan="5" class="text-center py-4">
+
+                                <div class="text-muted">
+
+                                    <i class="bi bi-building fs-3 d-block mb-2"></i>
+
+                                    No classrooms have been created yet.
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
 
             </table>
 

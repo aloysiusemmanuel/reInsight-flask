@@ -8,21 +8,16 @@
          LOGO
     ======================================= -->
 
-    <div class="sidebar-header">
+    <div class="sidebar-header d-flex align-items-center">
 
         <a href="{{ url_for('dashboard.dashboard') }}"
            class="sidebar-brand">
 
-            <img
-                src="{{ url_for('static', filename='images/logo.svg') }}"
-                alt="reInsight Logo"
-                class="sidebar-logo">
-
-            <span class="sidebar-title">
-
-                reInsight
-
-            </span>
+            <div class="d-inline-flex align-items-center justify-content-center
+                        bg-primary text-white rounded-5"
+                        style="width: 64px; height: 64px;">
+                                <span class="fs-2 fw-bold">Re.</span>
+            </div><h4 class="fw-bold mb-2">Insight</h4>
 
         </a>
 

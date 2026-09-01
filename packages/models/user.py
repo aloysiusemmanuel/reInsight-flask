@@ -141,6 +141,12 @@ class User(UserMixin, BaseModel, db.Model):
         back_populates="user",
         uselist=False
     )
+    
+    activities = db.relationship(
+    "Activity",
+    back_populates="user",
+    lazy=True
+    )
 
     # =====================================================
     # PASSWORD METHODS

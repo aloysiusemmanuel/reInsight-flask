@@ -15,6 +15,7 @@ from .school_admin import SchoolAdmin
 from .teacher import Teacher
 from .parent import Parent
 from .student import Student
+from .activity import Activity
 
 # Auth Models
 from .role import Role
@@ -55,5 +56,6 @@ __all__ = [
     "Term",
     "Role",
     "User",
-    "LessonNote"
+    "LessonNote",
+    "Activity"
 ]
