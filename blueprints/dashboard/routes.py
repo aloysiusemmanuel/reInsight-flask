@@ -1,4 +1,4 @@
-from flask import render_template, url_for, abort
+from flask import render_template, url_for, abort, redirect, flash, request
 from flask_login import login_required, current_user
 from datetime import date, datetime, timedelta
 from sqlalchemy import func
@@ -13,6 +13,9 @@ from packages.models import Attendance
 from packages.models import Behaviour
 from packages.models import AcademicRecord
 from packages.models.activity import Activity
+from packages.models import AcademicSession
+from packages.models import Term
+from packages.utils.activity import log_activity
 
 from . import dashboard_bp
 
@@ -37,6 +40,7 @@ def dashboard():
             abort(403)
             
     school_id = current_user.school_id
+    
     
     recent_activities = []
 
@@ -686,4 +690,354 @@ def settings():
         ]
 
     )
+
+
+@dashboard_bp.route("/academic-sessions",methods=["GET", "POST"])
+@login_required
+def academic_sessions():
+
+    # -----------------------------------------------------
+    # SCHOOL
+    # -----------------------------------------------------
+
+    school_id = current_user.school_id
+    terms = ["First Term", "Second Term", "Third Term"]
+
+    # -----------------------------------------------------
+    # CREATE SESSION
+    # -----------------------------------------------------
+
+    if request.method == "POST":
+
+        session_name = request.form.get(
+            "session_name",
+            ""
+        ).strip()
+        
+        term_name = request.form.get(
+            "term_name",
+            ""
+            ).strip()
+
+        start_date = request.form.get(
+            "start_date"
+        )
+
+        end_date = request.form.get(
+            "end_date"
+        )
+
+        # -------------------------------------------------
+        # VALIDATION
+        # -------------------------------------------------
+
+        if not session_name:
+
+            flash(
+                "Academic session name is required.",
+                "danger"
+            )
+            return redirect(
+                            url_for("dashboard.academic_sessions")
+                        )
+        if term_name not in terms:
+            
+            flash(
+               "Please select a valid Academic term.", "danger" 
+            )
+            return redirect(
+                url_for("dashboard.academic_sessions")
+            )
+
+        if not start_date or not end_date:
+
+            flash(
+                "Start date and end date are required.",
+                "danger"
+            )
+
+            return redirect(
+                url_for("dashboard.academic_sessions")
+            )
+
+        # -------------------------------------------------
+        # CHECK DUPLICATE SESSION
+        # -------------------------------------------------
+
+        existing_session = (
+            AcademicSession.query
+            .filter_by(
+                school_id=school_id,
+                session_name=session_name
+            )
+            .first()
+        )
+
+        if existing_session:
+
+            flash(
+                "This academic session already exists.",
+                "warning"
+            )
+
+            return redirect(
+                url_for("dashboard.academic_sessions")
+            )
+
+        # -------------------------------------------------
+        # CONVERT DATES
+        # -------------------------------------------------
+
+        try:
+
+            start_date = datetime.strptime(
+                start_date,
+                "%Y-%m-%d"
+            ).date()
+
+            end_date = datetime.strptime(
+                end_date,
+                "%Y-%m-%d"
+            ).date()
+
+        except ValueError:
+
+            flash(
+                "Invalid date format.",
+                "danger"
+            )
+
+            return redirect(
+                url_for("dashboard.academic_sessions")
+            )
+
+        # -------------------------------------------------
+        # VALIDATE DATE ORDER
+        # -------------------------------------------------
+
+        if end_date <= start_date:
+
+            flash(
+                "End date must be after start date.",
+                "danger"
+            )
+
+            return redirect(
+                url_for("dashboard.academic_sessions")
+            )
+
+        # -------------------------------------------------
+        # CREATE SESSION
+        # -------------------------------------------------
+
+        try:
+
+            academic_session = AcademicSession(
+                school_id=school_id,
+                session_name=session_name,
+                start_date=start_date,
+                end_date=end_date,
+                is_active=False
+            )
+
+            db.session.add(academic_session)
+
+            db.session.flush()
+
+            term = Term(
+                academic_session_id=academic_session.id,
+                term_name=term_name,
+                start_date=start_date,
+                end_date=end_date
+            )
+            
+
+            db.session.add(term)
+            # -------------------------------------------------
+            # ACTIVITY
+            # -------------------------------------------------
+
+            log_activity(
+                action="ACADEMIC_SESSION_CREATED",
+                description=(
+                    f"Academic session "
+                    f"{academic_session.session_name} was created."
+                ),
+                entity_type="AcademicSession",
+                entity_id=academic_session.id,
+                icon="bi bi-calendar-event"
+            )
+
+            db.session.commit()
+
+            flash(
+                "Academic session created successfully.",
+                "success"
+            )
+
+        except Exception as e:
+
+            db.session.rollback()
+
+            flash(
+                f"Error creating academic session: {str(e)}",
+                "danger"
+            )
+
+        return redirect(
+            url_for("dashboard.academic_sessions")
+        )
+
+    # -----------------------------------------------------
+    # GET SESSIONS
+    # -----------------------------------------------------
+
+    session_name = (
+        AcademicSession.query
+        .filter_by(
+            school_id=school_id
+        )
+        .order_by(
+            AcademicSession.start_date.desc()
+        )
+        .all()
+    )
+
+    return render_template(
+        "dashboard/academic_session.html",
+        session_name=session_name,
+        terms=terms
+    )
+  
+  
+# -----------------------------------------------------
+# EDITING SESSIONS
+# -----------------------------------------------------  
+@dashboard_bp.route("/academic-session/<int:id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_academic_session(id):
     
+        
+    school_id = current_user.school_id
+
+    # Only find a session belonging to the logged-in admin's school
+    academic_session = AcademicSession.query.filter_by(
+            id=id,
+            school_id=school_id
+        ).first_or_404()
+
+   
+    terms = ["First Term", "Second Term", "Third Term"]
+    if request.method == "POST":
+
+        term_name = request.form.get("term_name", "").strip()
+        session_name = request.form.get("session_name", "").strip()
+        start_date = request.form.get("start_date")
+        end_date = request.form.get("end_date")
+
+            # Validation
+        terms = ["First Term", "Second Term", "Third Term"]
+        if term_name not in terms:
+            flash("Please select a valid academic term.", "danger")
+            return redirect(
+                    url_for(
+                    "dashboard.edit_academic_session",
+                    id=academic_session.id
+                )
+            )
+        if not session_name:
+            
+            flash("Session name is required.", "danger")
+            return redirect(
+                    url_for(
+                        "dashboard.edit_academic_session",
+                        id=academic_session.id
+                    )
+                )
+
+        if not start_date or not end_date:
+            
+            flash("Start date and end date are required.", "danger")
+            return redirect(
+                    url_for(
+                        "dashboard.edit_academic_session",
+                        id=academic_session.id
+                    )
+                )
+
+        try:
+            
+            terms = Term(
+                            academic_session_id=academic_session.id,
+                            term_name=term_name,
+                            start_date=start_date,
+                            end_date=end_date
+                        )
+                        
+            
+            db.session.add(terms)
+            start_date_obj = datetime.strptime(
+                    start_date, "%Y-%m-%d"
+                ).date()
+
+            end_date_obj = datetime.strptime(
+                    end_date, "%Y-%m-%d"
+                ).date()
+
+        except ValueError:
+                flash("Invalid date format.", "danger")
+                return redirect(
+                    url_for(
+                        "dashboard.edit_academic_session",
+                        id=academic_session.id
+                    )
+                )
+
+        if start_date_obj > end_date_obj:
+                flash("Start date cannot be after end date.", "danger")
+                return redirect(
+                    url_for(
+                        "dashboard.edit_academic_session",
+                        id=academic_session.id
+                    )
+                )
+
+            # Update the session
+        academic_session.session_name = session_name
+        academic_session.term_name = term_name
+        academic_session.start_date = start_date_obj
+        academic_session.end_date = end_date_obj
+
+        try:
+            db.session.commit()
+
+            flash(
+                    "Academic session updated successfully.",
+                    "success"
+                )
+
+            return redirect(
+                    url_for("dashboard.academic_session")
+                )
+
+        except Exception:
+                db.session.rollback()
+
+                flash(
+                    "An error occurred while updating the academic session.",
+                    "damger"
+                )
+                
+                return redirect(
+                    url_for(
+                        "dashboard.edit_academic_session",
+                        id=academic_session.id
+                        )
+                )
+
+    return render_template(
+            "dashboard/academic_session_edit.html",
+            academic_session=academic_session,
+            terms=terms
+            
+        )

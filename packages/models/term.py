@@ -75,10 +75,7 @@ class Term(BaseModel, db.Model):
         db.Text,
         nullable=True
     )
-    order = db.Column(
-    db.Integer,
-    nullable=False
-    )
+   
 
     # =====================================================
     # RELATIONSHIPS

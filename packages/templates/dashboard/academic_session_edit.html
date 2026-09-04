@@ -1,0 +1,147 @@
+{% extends "dashboard/dashboard_base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h3 class="mb-1">Edit Academic Session</h3>
+            <p class="text-muted mb-0">
+                Correct the session information if necessary.
+            </p>
+        </div>
+
+        <a href="{{ url_for('dashboard.academic_sessions') }}"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Back
+        </a>
+
+    </div>
+
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="row">
+
+                    <!-- Session Name -->
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Academic Session
+                        </label>
+
+                        <input
+                            type="text"
+                            name="session_name"
+                            class="form-control"
+                            value="{{ academic_session.session_name }}"
+                            placeholder="e.g. 2025/2026"
+                            required
+                        >
+
+                    </div>
+
+                    <!-- Session Term -->
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+                            Academic Session Term
+                        </label>
+
+                        <select
+                            name="term_name"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="" disabled {% if not academic_session.terms %}selected{% endif %}>
+                                Select Academic Term
+                            </option>
+   
+                            {% for term in terms %}
+
+                                <option
+                                    value="{{ term }}"
+                                    {% if academic_session.terms and academic_session.terms[0].term_name == term %}selected{% endif %}
+                                >
+                                    {{ term }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+                    <!-- Start Date -->
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+                            Start Date
+                        </label>
+
+                        <input
+                            type="date"
+                            name="start_date"
+                            class="form-control"
+                            value="{{ academic_session.start_date.strftime('%Y-%m-%d') }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- End Date -->
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label">
+                            End Date
+                        </label>
+
+                        <input
+                            type="date"
+                            name="end_date"
+                            class="form-control"
+                            value="{{ academic_session.end_date.strftime('%Y-%m-%d') }}"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex justify-content-end gap-2 mt-3">
+
+                    <a
+                        href="{{ url_for('dashboard.academic_sessions') }}"
+                        class="btn btn-light">
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        <i class="bi bi-check-circle"></i>
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
